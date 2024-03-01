@@ -1,0 +1,7 @@
+---
+title: "About"
+---
+
+![](images/logo-CESAB.png){width=60%}
+
+This blog is a wrap-up of tips and tricks shared during the CESAB Geek meetings. To contribute, read [this page](contribute.html).

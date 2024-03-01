@@ -1,0 +1,43 @@
+project:
+  type: website
+
+website:
+
+  title: "Tips & tricks for Data Science with R"
+  site-url: https://frbcesab.github.io/tips-and-tricks
+  description: "Tips & tricks for Data Science with R"
+  
+  favicon: images/favicon.png
+  
+  navbar:
+  
+    logo: "images/favicon.png"
+    
+    right:
+      - text: "Posts"
+        href: index.qmd
+      - contribute.qmd
+      - about.qmd
+      - icon: github
+        href: https://github.com/frbcesab/tips-and-tricks
+      - icon: rss
+        href: index.xml
+        
+  page-footer: 
+  
+    left: "&copy; CC-By [FRB-CESAB](https://www.fondationbiodiversite.fr/en/about-the-foundation/le-cesab/)"
+    center: "Code source available on [{{< fa brands github >}}](https://github.com/frbcesab/tips-and-tricks/)"
+    right: "Built with [Quarto](https://quarto.org/)"
+    border: true
+      
+format:
+  html:
+  
+    theme: litera
+    # css: styles.css
+    
+    code-copy: true
+    code-overflow: wrap
+    code-line-numbers: true
+    code-block-border-left: true
+    highlight-style: zenburn
