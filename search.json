@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "posts/2024-01-01-template/index.html",
+    "href": "posts/2024-01-01-template/index.html",
+    "title": "Lorem ipsum",
+    "section": "",
+    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam et elit efficitur, posuere purus at, interdum eros. Fusce imperdiet dolor ac ultrices elementum. Donec vel cursus quam. Donec cursus pellentesque sapien et consequat. Vivamus sodales tristique dictum. Mauris nec euismod ipsum. Maecenas vel diam nec est venenatis feugiat. Mauris eget nisl enim.\n\n## Code chunk ----\n1 + 1\n\n[1] 2\n\n\nCurabitur sagittis lorem mattis urna lacinia vulputate. Nullam volutpat rutrum ex. Donec eget ipsum posuere, porttitor est a, auctor dui. Nam ac lectus augue. Maecenas eget nulla vel neque accumsan eleifend. Cras vitae mollis velit. Vivamus laoreet erat sed dui laoreet facilisis. Cras pharetra, felis vel aliquam efficitur, mauris mauris malesuada quam, vel rhoncus quam magna in lacus. Proin accumsan hendrerit ipsum, placerat porttitor diam posuere id. Nam non mi sit amet lacus aliquam facilisis. Quisque vehicula lacinia tellus, nec pellentesque tellus accumsan id. Ut ultrices interdum elit, a dapibus mi convallis quis. Duis tempus a nibh efficitur ultrices. Sed feugiat ac lacus et malesuada. Etiam a mauris venenatis, lacinia dolor in, sagittis mauris."
+  },
+  {
+    "objectID": "contribute.html",
+    "href": "contribute.html",
+    "title": "Contribute",
+    "section": "",
+    "text": "Coming soon…"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "This blog is a wrap-up of tips and tricks shared during the CESAB Geek meetings. To contribute, read this page."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Tips & tricks for Data Science with R",
+    "section": "",
+    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nLorem ipsum\n\n\n\n\n\n\ntemplate\n\n\nquarto\n\n\n\n\n\n\n\n\n\nJan 1, 2024\n\n\nNicolas Casajus\n\n\n\n\n\n\nNo matching items"
+  }
+]

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Tips &amp; tricks for Data Science with R</title>
+<link>https://frbcesab.github.io/tips-and-tricks/</link>
+<atom:link href="https://frbcesab.github.io/tips-and-tricks/index.xml" rel="self" type="application/rss+xml"/>
+<description>Tips &amp; tricks for Data Science with R</description>
+<generator>quarto-1.4.550</generator>
+<lastBuildDate>Sun, 31 Dec 2023 23:00:00 GMT</lastBuildDate>
+<item>
+  <title>Lorem ipsum</title>
+  <dc:creator>Nicolas Casajus</dc:creator>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-01-01-template/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam et elit efficitur, posuere purus at, interdum eros. Fusce imperdiet dolor ac ultrices elementum. Donec vel cursus quam. Donec cursus pellentesque sapien et consequat. Vivamus sodales tristique dictum. Mauris nec euismod ipsum. Maecenas vel diam nec est venenatis feugiat. Mauris eget nisl enim.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="do" style="color: #5E5E5E;
+background-color: null;
+font-style: italic;">## Code chunk ----</span></span>
+<span id="cb1-2"><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+<p>Curabitur sagittis lorem mattis urna lacinia vulputate. Nullam volutpat rutrum ex. Donec eget ipsum posuere, porttitor est a, auctor dui. Nam ac lectus augue. Maecenas eget nulla vel neque accumsan eleifend. Cras vitae mollis velit. Vivamus laoreet erat sed dui laoreet facilisis. Cras pharetra, felis vel aliquam efficitur, mauris mauris malesuada quam, vel rhoncus quam magna in lacus. Proin accumsan hendrerit ipsum, placerat porttitor diam posuere id. Nam non mi sit amet lacus aliquam facilisis. Quisque vehicula lacinia tellus, nec pellentesque tellus accumsan id. Ut ultrices interdum elit, a dapibus mi convallis quis. Duis tempus a nibh efficitur ultrices. Sed feugiat ac lacus et malesuada. Etiam a mauris venenatis, lacinia dolor in, sagittis mauris.</p>
+
+
+
+ ]]></description>
+  <category>template</category>
+  <category>quarto</category>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-01-01-template/</guid>
+  <pubDate>Sun, 31 Dec 2023 23:00:00 GMT</pubDate>
+  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-01-01-template/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
+</item>
+</channel>
+</rss>
