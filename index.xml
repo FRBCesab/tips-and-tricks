@@ -10,7 +10,7 @@
 <atom:link href="https://frbcesab.github.io/tips-and-tricks/index.xml" rel="self" type="application/rss+xml"/>
 <description>Tips &amp; tricks for Data Science with R</description>
 <generator>quarto-1.4.550</generator>
-<lastBuildDate>Sun, 31 Dec 2023 23:00:00 GMT</lastBuildDate>
+<lastBuildDate>Mon, 01 Jan 2024 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Lorem ipsum</title>
   <dc:creator>Nicolas Casajus</dc:creator>
@@ -45,7 +45,7 @@ font-style: inherit;">1</span></span></code></pre></div>
   <category>template</category>
   <category>quarto</category>
   <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-01-01-template/</guid>
-  <pubDate>Sun, 31 Dec 2023 23:00:00 GMT</pubDate>
+  <pubDate>Mon, 01 Jan 2024 00:00:00 GMT</pubDate>
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-01-01-template/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
 </item>
 </channel>
