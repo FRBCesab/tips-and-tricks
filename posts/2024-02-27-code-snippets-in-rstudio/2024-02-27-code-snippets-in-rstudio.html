@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Nicolas Casajus">
-<meta name="dcterms.date" content="2024-01-01">
+<meta name="dcterms.date" content="2024-02-27">
 
-<title>Tips &amp; tricks for Data Science with R - Lorem ipsum</title>
+<title>Tips &amp; tricks for Data Science with R - Code snippets in RStudio</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -162,10 +162,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Lorem ipsum</h1>
+      <h1 class="title">Code snippets in RStudio</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">template</div>
-                <div class="quarto-category">quarto</div>
+                <div class="quarto-category">editor</div>
+                <div class="quarto-category">shortcut</div>
+                <div class="quarto-category">rstudio</div>
               </div>
                   </div>
   </div>
@@ -183,7 +184,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 1, 2024</p>
+        <p class="date">February 27, 2024</p>
       </div>
     </div>
     
@@ -202,17 +203,68 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam et elit efficitur, posuere purus at, interdum eros. Fusce imperdiet dolor ac ultrices elementum. Donec vel cursus quam. Donec cursus pellentesque sapien et consequat. Vivamus sodales tristique dictum. Mauris nec euismod ipsum. Maecenas vel diam nec est venenatis feugiat. Mauris eget nisl enim.</p>
+<section id="using-snippets" class="level2">
+<h2 class="anchored" data-anchor-id="using-snippets">Using snippets</h2>
+<p>A code snippet is a text shortcut that is used to insert a predefined chunk of code. It’s like <em>super-completion</em>. The <a href="https://posit.co/products/open-source/rstudio/">RStudio IDE</a> contains a lot of predefined code snippets. For instance:</p>
+<ul>
+<li><code>src</code> can be used to insert <code>source("file.R")</code></li>
+<li><code>lib</code> can be used to insert <code>library(package)</code></li>
+<li><code>tapply</code> can be used to insert <code>tapply(vector, index, function)</code></li>
+</ul>
+<p>To use a snippet, enter the shortcut of the snippet (for example <code>src</code>) and press <strong><code>SHIFT</code></strong> <strong><code>+</code></strong> <strong><code>TAB</code></strong> to insert the corresponding chunk of code (for example <code>source("file.R")</code>).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Code snippets are <strong>language-specific</strong> meaning that they will work only with the appropriate language. For instance, in Markdown documents (<code>.md</code>, <code>.Rmd</code> and <code>.qmd</code> files), by using the snippet <code>![</code> (and <strong><code>SHIFT</code></strong> <strong><code>+</code></strong> <strong><code>TAB</code></strong>) you will write the markdown syntax to insert an image: <code>![label](location)</code>. This snippet won’t work inside <code>.R</code> files.</p>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="demo-fun.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+<figcaption>Figure 1. How to use a snippet</figcaption>
+</figure>
+</div>
+<p>Use the key <strong><code>TAB</code></strong> to navigate inside the code snippet. In the snippet <code>![label](location)</code>, <code>label</code> and <code>location</code> are two variables. Once the snippet is created the cursor is in <code>label</code>. Use <strong><code>TAB</code></strong> to go to <code>location</code>.</p>
+<p>You will find a list of predefined snippets in <code>Tools &gt; Edit Code Snippets...</code></p>
+</section>
+<section id="customizing-snippets" class="level2">
+<h2 class="anchored" data-anchor-id="customizing-snippets">Customizing snippets</h2>
+<p>You can easily add your own code snippets by editing the code snippets editor in <code>Tools &gt; Edit Code Snippets...</code></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="rstudio-snippets.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+<figcaption>Figure 2. RStudio code snippets</figcaption>
+</figure>
+</div>
+<p>Let’s add a new snippet:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="do">## Code chunk ----</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>snippet ld</span>
+<span id="cb1-2"><a href="#cb1-2"></a>  devtools<span class="sc">::</span><span class="fu">load_all</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Make sure to select the <i class="fa-brands fa-r-project" aria-label="r-project"></i> language (Figure 2). Now we can write <code>ld</code> and press <strong><code>SHIFT</code></strong> <strong><code>+</code></strong> <strong><code>TAB</code></strong> to write <code>devtools::load_all()</code>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
 </div>
 </div>
-<p>Curabitur sagittis lorem mattis urna lacinia vulputate. Nullam volutpat rutrum ex. Donec eget ipsum posuere, porttitor est a, auctor dui. Nam ac lectus augue. Maecenas eget nulla vel neque accumsan eleifend. Cras vitae mollis velit. Vivamus laoreet erat sed dui laoreet facilisis. Cras pharetra, felis vel aliquam efficitur, mauris mauris malesuada quam, vel rhoncus quam magna in lacus. Proin accumsan hendrerit ipsum, placerat porttitor diam posuere id. Nam non mi sit amet lacus aliquam facilisis. Quisque vehicula lacinia tellus, nec pellentesque tellus accumsan id. Ut ultrices interdum elit, a dapibus mi convallis quis. Duis tempus a nibh efficitur ultrices. Sed feugiat ac lacus et malesuada. Etiam a mauris venenatis, lacinia dolor in, sagittis mauris.</p>
+<div class="callout-body-container callout-body">
+<p><i class="fa-solid fa-hand-point-right" aria-label="hand-point-right"></i>&nbsp; For further information visit this <a href="https://support.posit.co/hc/en-us/articles/204463668-Code-Snippets-in-the-RStudio-IDE">article</a>.</p>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
