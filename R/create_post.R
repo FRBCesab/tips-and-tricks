@@ -29,6 +29,9 @@ create_post <- function(title) {
   ## Create slug for folder & file name ----
   
   slug <- tolower(title)
+  slug <- gsub("[[:punct:]]", "", slug)
+  slug <- gsub("\\s+", " ", slug)
+  slug <- trimws(slug)
   slug <- gsub("\\s", "-", slug)
   
   slug <- paste(Sys.Date(), slug, sep = "-")
