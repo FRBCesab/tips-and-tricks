@@ -20,5 +20,5 @@
 README.html
 inst/doc
 _site/
-
+.Rbuildignore
 /.quarto/

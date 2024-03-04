@@ -1,0 +1,21 @@
+Package: tips-and-tricks
+Type: Package
+Title: Tips and Tricks for Data Science with R
+Version: 0.0.1
+Authors@R: c(
+    person(given   = "Nicolas",
+           family  = "Casajus",
+           role    = c("aut", "cre", "cph"),
+           email   = "nicolas.casajus@fondationbiodiversite.fr",
+           comment = c(ORCID = "0000-0002-5537-5294")))
+Description: Blog presenting tips and tricks shared during the FRB-CESAB Geek 
+    meetings and developed under the 'Quarto' software.
+URL: https://github.com/frbcesab/tips-and-tricks
+BugReports: https://github.com/frbcesab/tips-and-tricks/issues
+License: CC BY 4.0
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+SystemRequirements: Quarto CLI
+Suggests:
+    devtools
