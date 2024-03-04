@@ -1,0 +1,74 @@
+---
+title: "RStudio shortcuts: a selection"
+author: "Nicolas Casajus"
+date: "2024-02-27"
+categories: [editor, shortcut, rstudio]
+image: "logo-r.png"
+---
+
+This post lists useful shortcuts that will increase your productivity in using RStudio IDE. This subset is a subjective selection. For more shortcuts, press the combination `Alt + Shift + K`.
+
+
++--------------------+-------------------------------------------+--------------------------------+
+| **Category**       | **Action**                                | **Key combination**            |
++:===================+:==========================================+:===============================+
+| **Navigation**     | Go to next tab                            | `Ctrl + Tab`                   |
+|                    |                                           |                                |
+|                    | Go to previous tab                        | `Ctrl + Shift + Tab`           |
++--------------------+-------------------------------------------+--------------------------------+
+| **Panels**         | Move cursor to Editor                     | `Ctrl + 1`                     |
+|                    |                                           |                                |
+|                    | Move cursor to Console                    | `Ctrl + 2`                     |
+|                    |                                           |                                |
+|                    | Move cursor to Terminal                   | `Alt + Shift + M`              |
+|                    |                                           |                                |
+|                    | Expand Editor panel                       | `Ctrl + Shift + 1`             |
+|                    |                                           |                                |
+|                    | Expand Console panel                      | `Ctrl + Shift + 2`             |
++--------------------+-------------------------------------------+--------------------------------+
+| **Files**          | Create a new `.R` file                    | `Ctrl + Shift + N`             |
+|                    |                                           |                                |
+|                    | Save file                                 | `Ctrl + S`                     |
+|                    |                                           |                                |
+|                    | Close file                                | `Ctrl + W`                     |
++--------------------+-------------------------------------------+--------------------------------+
+| **Editor**         | Comment/uncomment current line/selection  | `Ctrl + Shift + C`             |
+|                    |                                           |                                |
+|                    | Send current line/selection to Console    | `Ctrl + Return`                |
+|                    |                                           |                                |
+|                    | Send current line/selection to Terminal   | `Ctrl + Shift + Return`        |
+|                    |                                           |                                |
+|                    | Insert assignment operator (`<-`)         | `Ctrl + Shift + +`             |
+|                    |                                           |                                |
+|                    | Insert pipe operator (`%>%` or `|>`)      | `Ctrl + Shift + Return`        |
+|                    |                                           |                                |
+|                    | Move current line up                      | `Alt + Up`                     |
+|                    |                                           |                                |
+|                    | Move current line down                    | `Alt + Down`                   |
+|                    |                                           |                                |
+|                    | Delete current line                       | `Ctrl + D`                     |
+|                    |                                           |                                |
+|                    | Duplicate current line (below)            | `Ctrl + Shift + D`             |
+|                    |                                           |                                |
+|                    | Yank (cut) line up to cursor              | `Ctrl + U`                     |
+|                    |                                           |                                |
+|                    | Yank (cut) line after cursor              | `Ctrl + K`                     |
+|                    |                                           |                                |
+|                    | Add a cursor above current cursor         | `Ctrl + Alt + Up`              |
+|                    |                                           |                                |
+|                    | Add a cursor below current cursor         | `Ctrl + Alt + Down`            |
+|                    |                                           |                                |
+|                    | Add a cursor on the click                 | `Ctrl + Alt + Click`           |
++--------------------+-------------------------------------------+--------------------------------+
+| **Build**          | Load project (`devtools::load_all()`)     | `Ctrl + Shift + L`             |
+|                    |                                           |                                |
+|                    | Check package (`devtools::check()`)       | `Ctrl + Shift + E`             |
+|                    |                                           |                                |
+|                    | Knit/Render/Preview `.(R|q)md` files      | `Ctrl + Shift + K`             |
+|                    |                                           |                                |
+|                    | Insert code chunk in `.(R|q)md` files     | `Ctrl + Alt + I`               |
+|                    |                                           |                                |
++--------------------+-------------------------------------------+--------------------------------+
+
+: Table 1. A subjective selection of RStudio shortcuts
+
