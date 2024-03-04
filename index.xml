@@ -96,5 +96,115 @@ Tip
   <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
 </item>
+<item>
+  <title>RStudio shortcuts: a selection</title>
+  <dc:creator>Nicolas Casajus</dc:creator>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/2024-02-27-rstudio-shortcuts-a-selection.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>This post lists useful shortcuts that will increase your productivity in using RStudio IDE. This subset is a subjective selection. For more shortcuts, press the combination <code>Alt + Shift + K</code>.</p>
+<table class="table">
+<caption>Table 1. A subjective selection of RStudio shortcuts</caption>
+<colgroup>
+<col style="width: 21%">
+<col style="width: 44%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Category</strong></th>
+<th style="text-align: left;"><strong>Action</strong></th>
+<th style="text-align: left;"><strong>Key combination</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Navigation</strong></td>
+<td style="text-align: left;"><p>Go to next tab</p>
+<p>Go to previous tab</p></td>
+<td style="text-align: left;"><p><code>Ctrl + Tab</code></p>
+<p><code>Ctrl + Shift + Tab</code></p></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Panels</strong></td>
+<td style="text-align: left;"><p>Move cursor to Editor</p>
+<p>Move cursor to Console</p>
+<p>Move cursor to Terminal</p>
+<p>Expand Editor panel</p>
+<p>Expand Console panel</p></td>
+<td style="text-align: left;"><p><code>Ctrl + 1</code></p>
+<p><code>Ctrl + 2</code></p>
+<p><code>Alt + Shift + M</code></p>
+<p><code>Ctrl + Shift + 1</code></p>
+<p><code>Ctrl + Shift + 2</code></p></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Files</strong></td>
+<td style="text-align: left;"><p>Create a new <code>.R</code> file</p>
+<p>Save file</p>
+<p>Close file</p></td>
+<td style="text-align: left;"><p><code>Ctrl + Shift + N</code></p>
+<p><code>Ctrl + S</code></p>
+<p><code>Ctrl + W</code></p></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Editor</strong></td>
+<td style="text-align: left;"><p>Comment/uncomment current line/selection</p>
+<p>Send current line/selection to Console</p>
+<p>Send current line/selection to Terminal</p>
+<p>Insert assignment operator (<code>&lt;-</code>)</p>
+<p>Insert pipe operator (<code>%&gt;%</code> or <code>|&gt;</code>)</p>
+<p>Move current line up</p>
+<p>Move current line down</p>
+<p>Delete current line</p>
+<p>Duplicate current line (below)</p>
+<p>Yank (cut) line up to cursor</p>
+<p>Yank (cut) line after cursor</p>
+<p>Add a cursor above current cursor</p>
+<p>Add a cursor below current cursor</p>
+<p>Add a cursor on the click</p></td>
+<td style="text-align: left;"><p><code>Ctrl + Shift + C</code></p>
+<p><code>Ctrl + Return</code></p>
+<p><code>Ctrl + Shift + Return</code></p>
+<p><code>Ctrl + Shift + +</code></p>
+<p><code>Ctrl + Shift + Return</code></p>
+<p><code>Alt + Up</code></p>
+<p><code>Alt + Down</code></p>
+<p><code>Ctrl + D</code></p>
+<p><code>Ctrl + Shift + D</code></p>
+<p><code>Ctrl + U</code></p>
+<p><code>Ctrl + K</code></p>
+<p><code>Ctrl + Alt + Up</code></p>
+<p><code>Ctrl + Alt + Down</code></p>
+<p><code>Ctrl + Alt + Click</code></p></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Build</strong></td>
+<td style="text-align: left;"><p>Load project (<code>devtools::load_all()</code>)</p>
+<p>Check package (<code>devtools::check()</code>)</p>
+<p>Knit/Render/Preview <code>.(R|q)md</code> files</p>
+<p>Insert code chunk in <code>.(R|q)md</code> files</p></td>
+<td style="text-align: left;"><p><code>Ctrl + Shift + L</code></p>
+<p><code>Ctrl + Shift + E</code></p>
+<p><code>Ctrl + Shift + K</code></p>
+<p><code>Ctrl + Alt + I</code></p></td>
+</tr>
+</tbody>
+</table>
+
+
+
+ ]]></description>
+  <category>editor</category>
+  <category>shortcut</category>
+  <category>rstudio</category>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/2024-02-27-rstudio-shortcuts-a-selection.html</guid>
+  <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
+  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
+</item>
 </channel>
 </rss>
