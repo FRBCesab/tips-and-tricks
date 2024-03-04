@@ -106,7 +106,7 @@ Tip
 
 
 
-<p>This post lists useful shortcuts that will increase your productivity in using RStudio IDE. This subset is a subjective selection. For more shortcuts, press the combination <code>Alt + Shift + K</code>.</p>
+<p>This post lists useful shortcuts that will increase your productivity in using RStudio IDE. This subset is a subjective selection: for more shortcuts, press the combination <code>Alt + Shift + K</code>.</p>
 <table class="table">
 <caption>Table 1. A subjective selection of RStudio shortcuts</caption>
 <colgroup>
@@ -192,6 +192,11 @@ Tip
 <p><code>Ctrl + Shift + E</code></p>
 <p><code>Ctrl + Shift + K</code></p>
 <p><code>Ctrl + Alt + I</code></p></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Other</strong></td>
+<td style="text-align: left;">Clear console/terminal</td>
+<td style="text-align: left;"><code>Ctrl + L</code></td>
 </tr>
 </tbody>
 </table>
