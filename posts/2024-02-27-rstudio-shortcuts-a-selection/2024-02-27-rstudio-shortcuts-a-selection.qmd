@@ -6,7 +6,7 @@ categories: [editor, shortcut, rstudio]
 image: "logo-r.png"
 ---
 
-This post lists useful shortcuts that will increase your productivity in using RStudio IDE. This subset is a subjective selection. For more shortcuts, press the combination `Alt + Shift + K`.
+This post lists useful shortcuts that will increase your productivity in using RStudio IDE. This subset is a subjective selection: for more shortcuts, press the combination `Alt + Shift + K`.
 
 
 +--------------------+-------------------------------------------+--------------------------------+
@@ -68,6 +68,8 @@ This post lists useful shortcuts that will increase your productivity in using R
 |                    |                                           |                                |
 |                    | Insert code chunk in `.(R|q)md` files     | `Ctrl + Alt + I`               |
 |                    |                                           |                                |
++--------------------+-------------------------------------------+--------------------------------+
+| **Other**          | Clear console/terminal                    | `Ctrl + L`                     |
 +--------------------+-------------------------------------------+--------------------------------+
 
 : Table 1. A subjective selection of RStudio shortcuts
