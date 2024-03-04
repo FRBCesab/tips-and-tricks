@@ -1,0 +1,56 @@
+---
+title: "Code snippets in RStudio"
+author: "Nicolas Casajus"
+date: "2024-02-27"
+categories: [editor, shortcut, rstudio]
+image: "logo-r.png"
+---
+
+## Using snippets
+
+A code snippet is a text shortcut that is used to insert a predefined chunk of code. It's like _super-completion_. The [RStudio IDE](https://posit.co/products/open-source/rstudio/) contains a lot of predefined code snippets. For instance:
+
+- `src` can be used to insert `source("file.R")`
+- `lib` can be used to insert `library(package)`
+- `tapply` can be used to insert `tapply(vector, index, function)`
+
+To use a snippet, enter the shortcut of the snippet (for example `src`) and press **`SHIFT`** **`+`** **`TAB`** to insert the corresponding chunk of code (for example `source("file.R")`).
+
+
+::: {.callout-note}
+Code snippets are **language-specific** meaning that they will work only with the appropriate language.
+For instance, in Markdown documents (`.md`, `.Rmd` and `.qmd` files), by using the snippet `![` (and **`SHIFT`** **`+`** **`TAB`**) you will write the markdown syntax to insert an image: `![label](location)`. This snippet won't work inside `.R` files.
+:::
+
+
+
+![Figure 1. How to use a snippet](demo-fun.gif){fig-align="center" width="90%"}
+
+
+Use the key **`TAB`** to navigate inside the code snippet. In the snippet `![label](location)`, `label` and `location` are two variables. Once the snippet is created the cursor is in `label`. Use **`TAB`** to go to `location`.
+
+
+You will find a list of predefined snippets in `Tools > Edit Code Snippets...`
+
+
+## Customizing snippets
+
+You can easily add your own code snippets by editing the code snippets editor in `Tools > Edit Code Snippets...`
+
+![Figure 2. RStudio code snippets](rstudio-snippets.png){fig-align="center" width="90%"}
+
+Let's add a new snippet:
+
+```{r}
+#| eval: false
+snippet ld
+  devtools::load_all()
+```
+
+Make sure to select the {{< fa brands r-project >}} language (Figure 2).
+Now we can write `ld` and press **`SHIFT`** **`+`** **`TAB`** to write `devtools::load_all()`.
+
+
+::: {.callout-tip}
+{{< fa hand-point-right >}}&nbsp; For further information visit this [article](https://support.posit.co/hc/en-us/articles/204463668-Code-Snippets-in-the-RStudio-IDE).
+:::
