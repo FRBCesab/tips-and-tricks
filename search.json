@@ -25,7 +25,7 @@
     "href": "posts/2024-02-27-code-snippets-in-rstudio/2024-02-27-code-snippets-in-rstudio.html#customizing-snippets",
     "title": "Code snippets in RStudio",
     "section": "Customizing snippets",
-    "text": "Customizing snippets\nYou can easily add your own code snippets by editing the code snippets editor in Tools &gt; Edit Code Snippets...\n\n\n\nFigure 2. RStudio code snippets\n\n\nLet’s add a new snippet:\n\nsnippet ld\n  devtools::load_all()\n\nMake sure to select the  language (Figure 2). Now we can write ld and press SHIFT + TAB to write devtools::load_all().\n\n\n\n\n\n\nTip\n\n\n\n  For further information visit this article."
+    "text": "Customizing snippets\nYou can easily add your own code snippets by editing the code snippets editor in Tools &gt; Edit Code Snippets...\n\n\n\nFigure 2. RStudio code snippets\n\n\nLet’s add a snippet that will create a new code section for us:\n\nsnippet sec\n    ## ${1:Title} ----\n    \n    ${0}\n\nThis snippet has two variables: ${1:Title} and ${0}.\nWhen we write sec and press SHIFT + TAB a new section will be created. The cursor will be on Title and after pressing TAB we go to the next line.\nWhen creating a new snippet, make sure to select the appropriate language (Figure 2).\n\n\n\n\n\n\nTip\n\n\n\n  For further information visit this article."
   },
   {
     "objectID": "index.html",

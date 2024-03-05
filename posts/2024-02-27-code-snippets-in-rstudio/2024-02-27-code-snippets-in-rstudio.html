@@ -243,12 +243,16 @@ Note
 <figcaption>Figure 2. RStudio code snippets</figcaption>
 </figure>
 </div>
-<p>Let’s add a new snippet:</p>
+<p>Let’s add a snippet that will create a new code section for us:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>snippet ld</span>
-<span id="cb1-2"><a href="#cb1-2"></a>  devtools<span class="sc">::</span><span class="fu">load_all</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>snippet sec</span>
+<span id="cb1-2"><a href="#cb1-2"></a>    <span class="do">## ${1:Title} ----</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>    </span>
+<span id="cb1-4"><a href="#cb1-4"></a>    <span class="sc">$</span>{<span class="dv">0</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Make sure to select the <i class="fa-brands fa-r-project" aria-label="r-project"></i> language (Figure 2). Now we can write <code>ld</code> and press <strong><code>SHIFT</code></strong> <strong><code>+</code></strong> <strong><code>TAB</code></strong> to write <code>devtools::load_all()</code>.</p>
+<p>This snippet has two variables: <code>${1:Title}</code> and <code>${0}</code>.</p>
+<p>When we write <code>sec</code> and press <strong><code>SHIFT</code></strong> <strong><code>+</code></strong> <strong><code>TAB</code></strong> a new section will be created. The cursor will be on <code>Title</code> and after pressing <strong><code>TAB</code></strong> we go to the next line.</p>
+<p>When creating a new snippet, make sure to select the appropriate language (Figure 2).</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
