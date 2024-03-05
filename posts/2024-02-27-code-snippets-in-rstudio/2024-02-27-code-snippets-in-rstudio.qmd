@@ -39,16 +39,22 @@ You can easily add your own code snippets by editing the code snippets editor in
 
 ![Figure 2. RStudio code snippets](rstudio-snippets.png){fig-align="center" width="90%"}
 
-Let's add a new snippet:
+Let's add a snippet that will create a new code section for us:
 
 ```{r}
 #| eval: false
-snippet ld
-  devtools::load_all()
+snippet sec
+	## ${1:Title} ----
+	
+	${0}
 ```
 
-Make sure to select the {{< fa brands r-project >}} language (Figure 2).
-Now we can write `ld` and press **`SHIFT`** **`+`** **`TAB`** to write `devtools::load_all()`.
+This snippet has two variables: `${1:Title}` and `${0}`.
+
+When we write `sec` and press **`SHIFT`** **`+`** **`TAB`** a new section will be created. The cursor will be on `Title` and after pressing **`TAB`** we go to the next line.
+
+
+When creating a new snippet, make sure to select the appropriate language (Figure 2).
 
 
 ::: {.callout-tip}
