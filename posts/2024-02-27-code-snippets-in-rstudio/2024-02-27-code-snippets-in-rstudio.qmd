@@ -53,6 +53,9 @@ This snippet has two variables: `${1:Title}` and `${0}`.
 
 When we write `sec` and press **`SHIFT`** **`+`** **`TAB`** a new section will be created. The cursor will be on `Title` and after pressing **`TAB`** we go to the next line.
 
+![Figure 3. Custom snippet in action](demo-sec.gif){fig-align="center" width="90%"}
+
+
 
 When creating a new snippet, make sure to select the appropriate language (Figure 2).
 
