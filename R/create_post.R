@@ -1,15 +1,19 @@
 #' Create a blog post file
 #'
 #' @param title a `character` of length 1. The title of the post.
+#' 
+#' @param date a `character` of length 1. The date of the post in the format
+#'   `YYYY/MM/DD`. If `NULL` the date of today will be used (default).
 #'
-#' @return No return value.
+#' @return No return value. A sub-folder and a `.qmd` file will be created in 
+#' `posts/` and the `.qmd` file will be opened in the editor.
 #' 
 #' @export
 #'
 #' @examples
 #' ## create_post(title = "Code snippets in RStudio")
 
-create_post <- function(title) {
+create_post <- function(title, date = NULL) {
   
   ## Check args ----
   
@@ -25,6 +29,36 @@ create_post <- function(title) {
     stop("Argument 'title' must be a character of length 1", call. = FALSE)
   }
   
+  if (!is.null(date)) {
+    
+    if (!is.character(date)) {
+      stop("Argument 'date' must be a character", call. = FALSE)
+    }
+    
+    if (length(date) != 1) {
+      stop("Argument 'date' must be a character of length 1", call. = FALSE)
+    }
+    
+    date_pattern <- "^\\d{4}(-|/)\\d{2}(-|/)\\d{2}$"
+    
+    if (length(grep(date_pattern, date)) == 0) {
+      stop("The argument 'date' must have the format 'YYYY/MM/DD'",
+           call. = FALSE)
+    }
+  }
+  
+  
+  ## Prepare post date ----
+  
+  if (is.null(date)) {
+    
+    date <- Sys.Date()
+    
+  } else {
+    
+    date <- as.Date(date)
+  }
+  
   
   ## Create slug for folder & file name ----
   
@@ -34,7 +68,7 @@ create_post <- function(title) {
   slug <- trimws(slug)
   slug <- gsub("\\s", "-", slug)
   
-  slug <- paste(Sys.Date(), slug, sep = "-")
+  slug <- paste(date, slug, sep = "-")
   
   
   ## Create YAML header ----
@@ -42,7 +76,7 @@ create_post <- function(title) {
   yaml <- "---"
   yaml <- c(yaml, paste0("title: \"", title, "\""))
   yaml <- c(yaml, paste0("author: \"\""))
-  yaml <- c(yaml, paste0("date: \"", Sys.Date(), "\""))
+  yaml <- c(yaml, paste0("date: \"", date, "\""))
   yaml <- c(yaml, paste0("categories: [tag1, tag2]"))
   yaml <- c(yaml, paste0("image: \"\""))
   yaml <- c(yaml, "---")
@@ -63,6 +97,7 @@ create_post <- function(title) {
   
   cat(yaml, file = file.path("posts", slug, paste0(slug, ".qmd")))
   
+  file.edit(file.path("posts", slug, paste0(slug, ".qmd")))
   
   invisible(NULL)
 }
