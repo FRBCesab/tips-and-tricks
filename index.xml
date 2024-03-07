@@ -9,105 +9,8 @@
 <link>https://frbcesab.github.io/tips-and-tricks/</link>
 <atom:link href="https://frbcesab.github.io/tips-and-tricks/index.xml" rel="self" type="application/rss+xml"/>
 <description>Tips &amp; tricks for Data Science with R</description>
-<generator>quarto-1.4.550</generator>
+<generator>quarto-1.4.551</generator>
 <lastBuildDate>Tue, 27 Feb 2024 00:00:00 GMT</lastBuildDate>
-<item>
-  <title>Code snippets in RStudio</title>
-  <dc:creator>Nicolas Casajus</dc:creator>
-  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/2024-02-27-code-snippets-in-rstudio.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<section id="using-snippets" class="level2">
-<h2 class="anchored" data-anchor-id="using-snippets">Using snippets</h2>
-<p>A code snippet is a text shortcut that is used to insert a predefined chunk of code. It’s like <em>super-completion</em>. The <a href="https://posit.co/products/open-source/rstudio/">RStudio IDE</a> contains a lot of predefined code snippets. For instance:</p>
-<ul>
-<li><code>src</code> can be used to insert <code>source("file.R")</code></li>
-<li><code>lib</code> can be used to insert <code>library(package)</code></li>
-<li><code>tapply</code> can be used to insert <code>tapply(vector, index, function)</code></li>
-</ul>
-<p>To use a snippet, enter the shortcut of the snippet (for example <code>src</code>) and press <strong><code>SHIFT</code></strong> <strong><code>+</code></strong> <strong><code>TAB</code></strong> to insert the corresponding chunk of code (for example <code>source("file.R")</code>).</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Code snippets are <strong>language-specific</strong> meaning that they will work only with the appropriate language. For instance, in Markdown documents (<code>.md</code>, <code>.Rmd</code> and <code>.qmd</code> files), by using the snippet <code>![</code> (and <strong><code>SHIFT</code></strong> <strong><code>+</code></strong> <strong><code>TAB</code></strong>) you will write the markdown syntax to insert an image: <code>![label](location)</code>. This snippet won’t work inside <code>.R</code> files.</p>
-</div>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/demo-fun.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
-<figcaption>Figure 1. How to use a snippet</figcaption>
-</figure>
-</div>
-<p>Use the key <strong><code>TAB</code></strong> to navigate inside the code snippet. In the snippet <code>![label](location)</code>, <code>label</code> and <code>location</code> are two variables. Once the snippet is created the cursor is in <code>label</code>. Use <strong><code>TAB</code></strong> to go to <code>location</code>.</p>
-<p>You will find a list of predefined snippets in <code>Tools &gt; Edit Code Snippets...</code></p>
-</section>
-<section id="customizing-snippets" class="level2">
-<h2 class="anchored" data-anchor-id="customizing-snippets">Customizing snippets</h2>
-<p>You can easily add your own code snippets by editing the code snippets editor in <code>Tools &gt; Edit Code Snippets...</code></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/rstudio-snippets.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
-<figcaption>Figure 2. RStudio code snippets</figcaption>
-</figure>
-</div>
-<p>Let’s add a snippet that will create a new code section for us:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">snippet sec</span>
-<span id="cb1-2">    <span class="do" style="color: #5E5E5E;
-background-color: null;
-font-style: italic;">## ${1:Title} ----</span></span>
-<span id="cb1-3">    </span>
-<span id="cb1-4">    <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">$</span>{<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>}</span></code></pre></div>
-</div>
-<p>This snippet has two variables: <code>${1:Title}</code> and <code>${0}</code>.</p>
-<p>When we write <code>sec</code> and press <strong><code>SHIFT</code></strong> <strong><code>+</code></strong> <strong><code>TAB</code></strong> a new section will be created. The cursor will be on <code>Title</code> and after pressing <strong><code>TAB</code></strong> we go to the next line.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/demo-sec.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
-<figcaption>Figure 3. Custom snippet in action</figcaption>
-</figure>
-</div>
-<p>When creating a new snippet, make sure to select the appropriate language (Figure 2).</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><i class="fa-solid fa-hand-point-right" aria-label="hand-point-right"></i>&nbsp; For further information visit this <a href="https://support.posit.co/hc/en-us/articles/204463668-Code-Snippets-in-the-RStudio-IDE">article</a>.</p>
-</div>
-</div>
-
-
-</section>
-
- ]]></description>
-  <category>editor</category>
-  <category>shortcut</category>
-  <category>rstudio</category>
-  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/2024-02-27-code-snippets-in-rstudio.html</guid>
-  <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
-  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
-</item>
 <item>
   <title>RStudio shortcuts: a selection</title>
   <dc:creator>Nicolas Casajus</dc:creator>
@@ -222,6 +125,103 @@ Tip
   <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/2024-02-27-rstudio-shortcuts-a-selection.html</guid>
   <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
+</item>
+<item>
+  <title>Code snippets in RStudio</title>
+  <dc:creator>Nicolas Casajus</dc:creator>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/2024-02-27-code-snippets-in-rstudio.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="using-snippets" class="level2">
+<h2 class="anchored" data-anchor-id="using-snippets">Using snippets</h2>
+<p>A code snippet is a text shortcut that is used to insert a predefined chunk of code. It’s like <em>super-completion</em>. The <a href="https://posit.co/products/open-source/rstudio/">RStudio IDE</a> contains a lot of predefined code snippets. For instance:</p>
+<ul>
+<li><code>src</code> can be used to insert <code>source("file.R")</code></li>
+<li><code>lib</code> can be used to insert <code>library(package)</code></li>
+<li><code>tapply</code> can be used to insert <code>tapply(vector, index, function)</code></li>
+</ul>
+<p>To use a snippet, enter the shortcut of the snippet (for example <code>src</code>) and press <strong><code>SHIFT</code></strong> <strong><code>+</code></strong> <strong><code>TAB</code></strong> to insert the corresponding chunk of code (for example <code>source("file.R")</code>).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Code snippets are <strong>language-specific</strong> meaning that they will work only with the appropriate language. For instance, in Markdown documents (<code>.md</code>, <code>.Rmd</code> and <code>.qmd</code> files), by using the snippet <code>![</code> (and <strong><code>SHIFT</code></strong> <strong><code>+</code></strong> <strong><code>TAB</code></strong>) you will write the markdown syntax to insert an image: <code>![label](location)</code>. This snippet won’t work inside <code>.R</code> files.</p>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/demo-fun.gif" class="img-fluid figure-img" style="width:90.0%"></p>
+<figcaption>Figure 1. How to use a snippet</figcaption>
+</figure>
+</div>
+<p>Use the key <strong><code>TAB</code></strong> to navigate inside the code snippet. In the snippet <code>![label](location)</code>, <code>label</code> and <code>location</code> are two variables. Once the snippet is created the cursor is in <code>label</code>. Use <strong><code>TAB</code></strong> to go to <code>location</code>.</p>
+<p>You will find a list of predefined snippets in <code>Tools &gt; Edit Code Snippets...</code></p>
+</section>
+<section id="customizing-snippets" class="level2">
+<h2 class="anchored" data-anchor-id="customizing-snippets">Customizing snippets</h2>
+<p>You can easily add your own code snippets by editing the code snippets editor in <code>Tools &gt; Edit Code Snippets...</code></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/rstudio-snippets.png" class="img-fluid figure-img" style="width:90.0%"></p>
+<figcaption>Figure 2. RStudio code snippets</figcaption>
+</figure>
+</div>
+<p>Let’s add a snippet that will create a new code section for us:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">snippet sec</span>
+<span id="cb1-2">    <span class="do" style="color: #5E5E5E;
+background-color: null;
+font-style: italic;">## ${1:Title} ----</span></span>
+<span id="cb1-3">    </span>
+<span id="cb1-4">    <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>{<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>}</span></code></pre></div>
+</div>
+<p>This snippet has two variables: <code>${1:Title}</code> and <code>${0}</code>.</p>
+<p>When we write <code>sec</code> and press <strong><code>SHIFT</code></strong> <strong><code>+</code></strong> <strong><code>TAB</code></strong> a new section will be created. The cursor will be on <code>Title</code> and after pressing <strong><code>TAB</code></strong> we go to the next line.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/demo-sec.gif" class="img-fluid figure-img" style="width:90.0%"></p>
+<figcaption>Figure 3. Custom snippet in action</figcaption>
+</figure>
+</div>
+<p>When creating a new snippet, make sure to select the appropriate language (Figure 2).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><i class="fa-solid fa-hand-point-right" aria-label="hand-point-right"></i>&nbsp; For further information visit this <a href="https://support.posit.co/hc/en-us/articles/204463668-Code-Snippets-in-the-RStudio-IDE">article</a>.</p>
+</div>
+</div>
+
+
+</section>
+
+ ]]></description>
+  <category>editor</category>
+  <category>shortcut</category>
+  <category>rstudio</category>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/2024-02-27-code-snippets-in-rstudio.html</guid>
+  <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
+  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
 </item>
 </channel>
 </rss>
