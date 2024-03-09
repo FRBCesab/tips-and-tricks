@@ -29,6 +29,13 @@ website:
     center: "Code source available on [{{< fa brands github >}}](https://github.com/frbcesab/tips-and-tricks/)"
     right: "Built with [Quarto](https://quarto.org/)"
     border: true
+    
+  comments: 
+    utterances:
+      repo: frbcesab/tips-and-tricks
+      label: blog
+      theme: github-light
+      issue-term: pathname
       
 format:
   html:

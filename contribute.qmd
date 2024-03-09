@@ -1,6 +1,7 @@
 ---
 title: "Contribute"
 toc: true
+comments: false
 ---
 
 First off, thanks for taking the time to contribute to `tips-and-tricks`! All types of contributions are encouraged and valued. 
