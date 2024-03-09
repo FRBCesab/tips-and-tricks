@@ -1,4 +1,4 @@
-# Tips and tricks for Data Science with R
+# Tips and tricks for Data Science with R <img src="https://raw.githubusercontent.com/FRBCesab/templates/main/logos/website-sticker.png" align="right" style="float:right; height:120px;"/>
 
 <!-- badges: start -->
 [![Quarto Render and Publish](https://github.com/FRBCesab/tips-and-tricks/actions/workflows/quarto-publish.yml/badge.svg)](https://github.com/FRBCesab/tips-and-tricks/actions/workflows/quarto-publish.yml)
