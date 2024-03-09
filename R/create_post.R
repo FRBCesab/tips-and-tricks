@@ -60,7 +60,7 @@ create_post <- function(title, date = NULL) {
   }
   
   
-  ## Create slug for folder & file name ----
+  ## Create slug for branch, folder & file name ----
   
   slug <- tolower(title)
   slug <- gsub("[[:punct:]]", "", slug)
@@ -69,6 +69,14 @@ create_post <- function(title, date = NULL) {
   slug <- gsub("\\s", "-", slug)
   
   slug <- paste(date, slug, sep = "-")
+  
+  
+  ## Create new git branch & checkout ----
+  
+  cli::cli_alert_success("Creating git branch {.val {slug}}")
+  cli::cli_alert_success("Switching to branch {.val {slug}}")
+  
+  gert::git_branch_create(slug, checkout = TRUE)
   
   
   ## Create YAML header ----
@@ -86,18 +94,32 @@ create_post <- function(title, date = NULL) {
   
   yaml <- paste0(yaml, collapse = "\n")
   
+  post_dir <- file.path("posts", slug)
+  post_qmd <- file.path("posts", slug, paste0(slug, ".qmd"))
   
-  ## Create folder and .qmd file ----
   
-  dir.create(file.path("posts", slug), showWarnings = FALSE)
+  ## Create post folder ----
   
-  if (file.exists(file.path("posts", slug, paste0(slug, ".qmd")))) {
+  dir.create(post_dir, showWarnings = FALSE)
+  
+  if (file.exists(post_qmd)) {
     stop("This post already exists.", call. = FALSE)
   }
   
-  cat(yaml, file = file.path("posts", slug, paste0(slug, ".qmd")))
+  cli::cli_alert_success("Creating {.val {post_dir}} directory")
   
+  
+  ## Creating .qmd file ----
+  
+  cli::cli_alert_success("Creating {.val {post_qmd}} file")
+  
+  cat(yaml, file = post_qmd)
+  
+  
+  ## Opening .qmd file ----
+
   file.edit(file.path("posts", slug, paste0(slug, ".qmd")))
+  
   
   invisible(NULL)
 }
