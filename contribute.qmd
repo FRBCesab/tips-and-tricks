@@ -1,5 +1,115 @@
 ---
 title: "Contribute"
+toc: true
 ---
 
-Coming soon...
+First off, thanks for taking the time to contribute to `tips-and-tricks`! All types of contributions are encouraged and valued. 
+
+If you want to contribute by **writing your own post**, this page is for you. Read the 
+[CONTRIBUTING.md](https://github.com/FRBCesab/tips-and-tricks/blob/main/CONTRIBUTING.md) guide for any other types of contribution (reporting bug, fixing typo, improving published post, etc.).
+
+::: {.callout-warning}
+## Code of conduct
+
+This blog is released with a [Contributor Code of Conduct](https://github.com/frbcesab/tips-and-tricks/blob/main/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
+:::
+
+
+## Workflow
+
+This blog is hosted on [GitHub](https://github.com/frbcesab/tips-and-tricks) and we use the [GitHub flow](https://docs.github.com/en/get-started/quickstart/github-flow) 
+to collaborate on this project.
+
+Proceed as follow to write and submit your own post:
+
+1. [**Fork**](https://docs.github.com/en/get-started/quickstart/contributing-to-projects) this [repository](https://github.com/frbcesab/tips-and-tricks) using the GitHub interface.
+1. [**Clone**](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) your fork by opening RStudio IDE and create a New Project from Version Control.
+1. **Set up** and **write** your post (see below [Writing a post](#writing-a-post)).
+1. **Stage** (`git add`) and **commit** (`git commit`) your changes as often as necessary.
+1. **Push** your changes to your GitHub account in a terminal with `git push origin yyyy-mm-dd-title-of-the-post`.
+1. Submit a [**Pull Request**](https://docs.github.com/en/get-started/quickstart/contributing-to-projects#making-a-pull-request) on the [original repo](https://github.com/frbcesab/tips-and-tricks/compare).
+
+We will then review your Pull Request as soon as possible.
+
+
+::: {.callout-important}
+## Branch naming rule
+
+For each post, a new `git` branch will be created **automatically** and named as follow (in lower case): `yyyy-mm-dd-title-of-the-post`. This will make easier the review process and the maintenance of this blog.<br/>
+For example: `2024-02-27-code-snippets-in-rstudio`. 
+:::
+
+
+
+## Requirements
+
+Here is a list of the software required to contribute to this blog:
+
+| Software        | Description                                     | Website                                                                    |
+| :-------------- | :---------------------------------------------- | :------------------------------------------------------------------------: |
+| R               | The R environment                               | [link](https://cran.r-project.org/)                                        |
+| RStudio Desktop | Integrated development environment (IDE) for R  | [link](https://posit.co/download/rstudio-desktop/)                         |
+| Quarto CLI      | Scientific publishing system used for this blog | [link](https://quarto.org/)                                                |
+| Git             | Version control software                        | [link](https://git-scm.com/)                                               |
+
+<br/>
+In addition: 
+
+- Install the {{< fa brands r-project >}} packages [`cli`](https://cli.r-lib.org/), [`devtools`](https://devtools.r-lib.org/), and [`gert`](https://docs.ropensci.org/gert/).
+- Check your `git` configuration by reading this [dedicated page](https://frbcesab.github.io/rsetup/chapters/git.html).
+
+
+## Authoring
+
+### Setup
+
+Run the {{< fa brands r-project >}} command `devtools::load_all()` to load and access [helper functions](https://github.com/FRBCesab/tips-and-tricks/tree/main/R) developed for this blog.
+
+Then create the file structure for your new post. The function [`create_post()`](https://github.com/FRBCesab/tips-and-tricks/blob/main/R/create_post.R) has been developed to make this task easier.
+
+For example,
+
+```{r}
+#| eval: false
+
+## Create a new post ----
+create_post(title = "Code snippets in RStudio", date = "2024-02-27")
+```
+
+
+**N.B.** You can omit the argument `date` if you want to use the today date.
+
+This function will:
+
+- create a new `git` branch named `2024-02-27-code-snippets-in-rstudio`
+- switch the repo to this new `git` branch
+- create a subfolder in `posts/` named `2024-02-27-code-snippets-in-rstudio`
+- create a Quarto file in this subfolder named `2024-02-27-code-snippets-in-rstudio.qmd`
+
+You will write the content of your post inside this `.qmd` file and add additional files (images, data, etc.) in the subfolder created in `posts/`.
+
+
+
+### Post metadata
+
+Before starting writing your post, please edit the post metadata (i.e. the [YAML section](https://quarto.org/docs/websites/website-blog.html#posts-directory)) in the post file (`.qmd` file) as follow:
+
+```yaml
+---
+title: "Code snippets in RStudio"
+author: "Nicolas Casajus"
+date: "2024-02-27"
+categories: [editor, shortcut, rstudio]
+image: "logo-r.png"
+---
+```
+
+- Add your author name.
+- Choose 3-5 categories (tags) that will used to feed to search engine.
+- Link to an image that will be displayed in the home page of the blog to describe your post.
+
+
+
+### Markdown syntax
+
+This blog uses the [Markdown syntax](https://quarto.org/docs/authoring/markdown-basics.html) (Pandoc flavor). By running in the terminal the Quarto command `quarto preview`, you will start a live server to preview your post as you type.
