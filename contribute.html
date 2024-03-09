@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -73,7 +107,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -126,7 +160,22 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#workflow" id="toc-workflow" class="nav-link active" data-scroll-target="#workflow">Workflow</a></li>
+  <li><a href="#requirements" id="toc-requirements" class="nav-link" data-scroll-target="#requirements">Requirements</a></li>
+  <li><a href="#authoring" id="toc-authoring" class="nav-link" data-scroll-target="#authoring">Authoring</a>
+  <ul class="collapse">
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#post-metadata" id="toc-post-metadata" class="nav-link" data-scroll-target="#post-metadata">Post metadata</a></li>
+  <li><a href="#markdown-syntax" id="toc-markdown-syntax" class="nav-link" data-scroll-target="#markdown-syntax">Markdown syntax</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -149,9 +198,132 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Coming soon…</p>
+<p>First off, thanks for taking the time to contribute to <code>tips-and-tricks</code>! All types of contributions are encouraged and valued.</p>
+<p>If you want to contribute by <strong>writing your own post</strong>, this page is for you. Read the <a href="https://github.com/FRBCesab/tips-and-tricks/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a> guide for any other types of contribution (reporting bug, fixing typo, improving published post, etc.).</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Code of conduct
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This blog is released with a <a href="https://github.com/frbcesab/tips-and-tricks/blob/main/CODE_OF_CONDUCT.md">Contributor Code of Conduct</a>. By participating, you are expected to uphold this code.</p>
+</div>
+</div>
+<section id="workflow" class="level2">
+<h2 class="anchored" data-anchor-id="workflow">Workflow</h2>
+<p>This blog is hosted on <a href="https://github.com/frbcesab/tips-and-tricks">GitHub</a> and we use the <a href="https://docs.github.com/en/get-started/quickstart/github-flow">GitHub flow</a> to collaborate on this project.</p>
+<p>Proceed as follow to write and submit your own post:</p>
+<ol type="1">
+<li><a href="https://docs.github.com/en/get-started/quickstart/contributing-to-projects"><strong>Fork</strong></a> this <a href="https://github.com/frbcesab/tips-and-tricks">repository</a> using the GitHub interface.</li>
+<li><a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository"><strong>Clone</strong></a> your fork by opening RStudio IDE and create a New Project from Version Control.</li>
+<li><strong>Set up</strong> and <strong>write</strong> your post (see below <a href="#writing-a-post">Writing a post</a>).</li>
+<li><strong>Stage</strong> (<code>git add</code>) and <strong>commit</strong> (<code>git commit</code>) your changes as often as necessary.</li>
+<li><strong>Push</strong> your changes to your GitHub account in a terminal with <code>git push origin yyyy-mm-dd-title-of-the-post</code>.</li>
+<li>Submit a <a href="https://docs.github.com/en/get-started/quickstart/contributing-to-projects#making-a-pull-request"><strong>Pull Request</strong></a> on the <a href="https://github.com/frbcesab/tips-and-tricks/compare">original repo</a>.</li>
+</ol>
+<p>We will then review your Pull Request as soon as possible.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Branch naming rule
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For each post, a new <code>git</code> branch will be created <strong>automatically</strong> and named as follow (in lower case): <code>yyyy-mm-dd-title-of-the-post</code>. This will make easier the review process and the maintenance of this blog.<br> For example: <code>2024-02-27-code-snippets-in-rstudio</code>.</p>
+</div>
+</div>
+</section>
+<section id="requirements" class="level2">
+<h2 class="anchored" data-anchor-id="requirements">Requirements</h2>
+<p>Here is a list of the software required to contribute to this blog:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Software</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: center;">Website</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">The R environment</td>
+<td style="text-align: center;"><a href="https://cran.r-project.org/">link</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RStudio Desktop</td>
+<td style="text-align: left;">Integrated development environment (IDE) for R</td>
+<td style="text-align: center;"><a href="https://posit.co/download/rstudio-desktop/">link</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Quarto CLI</td>
+<td style="text-align: left;">Scientific publishing system used for this blog</td>
+<td style="text-align: center;"><a href="https://quarto.org/">link</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Git</td>
+<td style="text-align: left;">Version control software</td>
+<td style="text-align: center;"><a href="https://git-scm.com/">link</a></td>
+</tr>
+</tbody>
+</table>
+<p><br> In addition:</p>
+<ul>
+<li>Install the <i class="fa-brands fa-r-project" aria-label="r-project"></i> packages <a href="https://cli.r-lib.org/"><code>cli</code></a>, <a href="https://devtools.r-lib.org/"><code>devtools</code></a>, and <a href="https://docs.ropensci.org/gert/"><code>gert</code></a>.</li>
+<li>Check your <code>git</code> configuration by reading this <a href="https://frbcesab.github.io/rsetup/chapters/git.html">dedicated page</a>.</li>
+</ul>
+</section>
+<section id="authoring" class="level2">
+<h2 class="anchored" data-anchor-id="authoring">Authoring</h2>
+<section id="setup" class="level3">
+<h3 class="anchored" data-anchor-id="setup">Setup</h3>
+<p>Run the <i class="fa-brands fa-r-project" aria-label="r-project"></i> command <code>devtools::load_all()</code> to load and access <a href="https://github.com/FRBCesab/tips-and-tricks/tree/main/R">helper functions</a> developed for this blog.</p>
+<p>Then create the file structure for your new post. The function <a href="https://github.com/FRBCesab/tips-and-tricks/blob/main/R/create_post.R"><code>create_post()</code></a> has been developed to make this task easier.</p>
+<p>For example,</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="do">## Create a new post ----</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">create_post</span>(<span class="at">title =</span> <span class="st">"Code snippets in RStudio"</span>, <span class="at">date =</span> <span class="st">"2024-02-27"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>N.B.</strong> You can omit the argument <code>date</code> if you want to use the today date.</p>
+<p>This function will:</p>
+<ul>
+<li>create a new <code>git</code> branch named <code>2024-02-27-code-snippets-in-rstudio</code></li>
+<li>switch the repo to this new <code>git</code> branch</li>
+<li>create a subfolder in <code>posts/</code> named <code>2024-02-27-code-snippets-in-rstudio</code></li>
+<li>create a Quarto file in this subfolder named <code>2024-02-27-code-snippets-in-rstudio.qmd</code></li>
+</ul>
+<p>You will write the content of your post inside this <code>.qmd</code> file and add additional files (images, data, etc.) in the subfolder created in <code>posts/</code>.</p>
+</section>
+<section id="post-metadata" class="level3">
+<h3 class="anchored" data-anchor-id="post-metadata">Post metadata</h3>
+<p>Before starting writing your post, please edit the post metadata (i.e.&nbsp;the <a href="https://quarto.org/docs/websites/website-blog.html#posts-directory">YAML section</a>) in the post file (<code>.qmd</code> file) as follow:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1"></a><span class="pp">---</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Code snippets in RStudio"</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Nicolas Casajus"</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> </span><span class="st">"2024-02-27"</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="fu">categories</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">editor</span><span class="kw">,</span><span class="at"> shortcut</span><span class="kw">,</span><span class="at"> rstudio</span><span class="kw">]</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="fu">image</span><span class="kw">:</span><span class="at"> </span><span class="st">"logo-r.png"</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Add your author name.</li>
+<li>Choose 3-5 categories (tags) that will used to feed to search engine.</li>
+<li>Link to an image that will be displayed in the home page of the blog to describe your post.</li>
+</ul>
+</section>
+<section id="markdown-syntax" class="level3">
+<h3 class="anchored" data-anchor-id="markdown-syntax">Markdown syntax</h3>
+<p>This blog uses the <a href="https://quarto.org/docs/authoring/markdown-basics.html">Markdown syntax</a> (Pandoc flavor). By running in the terminal the Quarto command <code>quarto preview</code>, you will start a live server to preview your post as you type.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

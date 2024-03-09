@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Nicolas Casajus">
-<meta name="dcterms.date" content="2024-02-27">
 
-<title>Tips &amp; tricks for Data Science with R - RStudio shortcuts: a selection</title>
+<title>Tips &amp; tricks for Data Science with R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,28 +20,62 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../images/favicon.png" rel="icon" type="image/png">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./images/favicon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -78,14 +110,14 @@ ul.task-list li input[type="checkbox"] {
 <body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+  <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../images/favicon.png" alt="" class="navbar-logo">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/favicon.png" alt="" class="navbar-logo">
     </a>
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Tips &amp; tricks for Data Science with R</span>
     </a>
   </div>
@@ -96,15 +128,15 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Posts</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../contribute.html"> 
+    <a class="nav-link" href="./contribute.html"> 
 <span class="menu-text">Contribute</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html"> 
+    <a class="nav-link" href="./about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
@@ -113,7 +145,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+    <a class="nav-link" href="./index.xml"> <i class="bi bi-rss" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -125,146 +157,153 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">RStudio shortcuts: a selection</h1>
-                                <div class="quarto-categories">
-                <div class="quarto-category">editor</div>
-                <div class="quarto-category">shortcut</div>
-                <div class="quarto-category">rstudio</div>
-              </div>
-                  </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta">
-
-      <div>
-      <div class="quarto-title-meta-heading">Author</div>
-      <div class="quarto-title-meta-contents">
-               <p>Nicolas Casajus </p>
-            </div>
-    </div>
-      
-      <div>
-      <div class="quarto-title-meta-heading">Published</div>
-      <div class="quarto-title-meta-contents">
-        <p class="date">February 27, 2024</p>
-      </div>
-    </div>
-    
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 
 
 
+<section id="contributing" class="level1">
+<h1>Contributing</h1>
+<p>First off, thanks for taking the time to contribute to <code>tips-and-tricks</code>!</p>
+<p>All types of contributions are encouraged and valued. See the <a href="#table-of-contents">Table of contents</a> for different ways to help and details about how this project handles them. Please make sure to read the relevant section before making your contribution. It will make it a lot easier for us maintainers and smooth out the experience for all involved.</p>
+<section id="table-of-contents" class="level2">
+<h2 class="anchored" data-anchor-id="table-of-contents">Table of contents</h2>
+<ul>
+<li><a href="#code-of-conduct">Code of conduct</a></li>
+<li><a href="#style-guide">Style guide</a></li>
+<li><a href="#commit-messages">Commit messages</a></li>
+<li><a href="#asking-questions">Asking questions</a></li>
+<li><a href="#reporting-bugs">Reporting bugs</a></li>
+<li><a href="#requesting-features">Requesting features</a></li>
+<li><a href="#contributing-code">Contributing code</a></li>
+</ul>
+</section>
+<section id="code-of-conduct" class="level2">
+<h2 class="anchored" data-anchor-id="code-of-conduct">Code of conduct</h2>
+<p>This project is released with a <a href="https://github.com/frbcesab/tips-and-tricks/blob/main/CODE_OF_CONDUCT.md">Contributor Code of Conduct</a>. By participating, you are expected to uphold this code. Please report unacceptable behavior to <a href="mailto:nicolas.casajus@fondationbiodiversite.fr" class="email">nicolas.casajus@fondationbiodiversite.fr</a>.</p>
+</section>
+<section id="style-guide" class="level2">
+<h2 class="anchored" data-anchor-id="style-guide">Style guide</h2>
+<p>We use the <a href="https://style.tidyverse.org/">Tidyverse style guide</a> for writing R code. Functions are documented with the <a href="https://roxygen2.r-lib.org/articles/roxygen2.html">roxygen2</a> syntax. <code>tips-and-tricks</code> uses the <code>lower_snake_case</code>.</p>
+</section>
+<section id="commit-messages" class="level2">
+<h2 class="anchored" data-anchor-id="commit-messages">Commit messages</h2>
+<p>If you want to contribute by commiting changes, please try to use the <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional commits</a> specification.</p>
+</section>
+<section id="asking-questions" class="level2">
+<h2 class="anchored" data-anchor-id="asking-questions">Asking questions</h2>
+<p>Before you ask a question, it is best to search for existing <a href="https://github.com/frbcesab/tips-and-tricks/issues">Issues</a> that might help you. In case you have found a suitable issue and still need clarification, you can write your question in this issue.</p>
+<p>If you then still feel the need to ask a question and need clarification, we recommend the following:</p>
+<ul>
+<li>Open a new <a href="https://github.com/frbcesab/tips-and-tricks/issues/new">Issue</a>.</li>
+<li>Use the template <a href="https://github.com/frbcesab/tips-and-tricks/blob/main/.github/ISSUE_TEMPLATE/other_issue.md">other_issue.md</a>.</li>
+<li>Provide as much context as you can about what you’re running into.</li>
+<li>Provide project and platform versions if relevant (paste the output of <code>sessionInfo()</code>).</li>
+</ul>
+<p>We will then take care of the issue as soon as possible.</p>
+</section>
+<section id="reporting-bugs" class="level2">
+<h2 class="anchored" data-anchor-id="reporting-bugs">Reporting bugs</h2>
+<section id="before-submitting-a-bug-report" class="level3">
+<h3 class="anchored" data-anchor-id="before-submitting-a-bug-report">Before submitting a bug report</h3>
+<p>A good bug report shouldn’t leave others needing to chase you up for more information. Therefore, we ask you to investigate carefully, collect information and describe the issue in detail in your report. Please complete the following steps in advance to help us fix any potential bug as fast as possible.</p>
+<ul>
+<li>Make sure that you are using the latest version of <code>tips-and-tricks</code>.</li>
+<li>Determine if your bug is really a bug and not an error on your side.</li>
+<li>To see if other users have experienced (and potentially already solved) the same issue you are having, check if there is not already a bug report existing for your bug or error in the <a href="https://github.com/frbcesab/tips-and-tricks/issues?q=label%3Abug">bug tracker</a>.</li>
+</ul>
+</section>
+<section id="how-do-i-submit-a-bug-report" class="level3">
+<h3 class="anchored" data-anchor-id="how-do-i-submit-a-bug-report">How do I submit a bug report?</h3>
+<p>We use <a href="https://github.com/frbcesab/tips-and-tricks/issues">GitHub Issues</a> to track bugs and errors. If you run into an issue with the project:</p>
+<ul>
+<li>Open a new <a href="https://github.com/frbcesab/tips-and-tricks/issues/new">Issue</a>.</li>
+<li>Use the template <a href="https://github.com/frbcesab/tips-and-tricks/blob/main/.github/ISSUE_TEMPLATE/bug_report.md">bug_report.md</a>.</li>
+<li>Explain the behavior you would expect and the actual behavior.</li>
+<li>Please provide as much context as possible and describe the <em>reproduction steps</em> that someone else can follow to recreate the issue on their own. This usually includes your code with a reproducible example.</li>
+</ul>
+<p>We will then take care of the issue as soon as possible.</p>
+</section>
+</section>
+<section id="requesting-features" class="level2">
+<h2 class="anchored" data-anchor-id="requesting-features">Requesting features</h2>
+<section id="before-requesting-a-feature" class="level3">
+<h3 class="anchored" data-anchor-id="before-requesting-a-feature">Before requesting a feature</h3>
+<ul>
+<li>Make sure that you are using the latest version of <code>tips-and-tricks</code>.</li>
+<li>Read the <a href="https://github.com/frbcesab/tips-and-tricks/">documentation</a> carefully and find out if the functionality is already covered.</li>
+<li>Perform a <a href="https://github.com/frbcesab/tips-and-tricks/issues">search</a> to see if this enhancement has already been suggested. If it has, add a comment to the existing issue instead of opening a new one.</li>
+</ul>
+</section>
+<section id="how-do-i-submit-a-feature-request" class="level3">
+<h3 class="anchored" data-anchor-id="how-do-i-submit-a-feature-request">How do I submit a feature request?</h3>
+<p>Feature requests are tracked as <a href="https://github.com/frbcesab/tips-and-tricks/issues">GitHub Issues</a>.</p>
+<ul>
+<li>Open a new <a href="https://github.com/frbcesab/tips-and-tricks/issues/new">Issue</a>.</li>
+<li>Use the template <a href="https://github.com/frbcesab/tips-and-tricks/blob/main/.github/ISSUE_TEMPLATE/feature_request.md">feature_request.md</a>.</li>
+<li>Provide a clear and descriptive title for the issue to identify the suggestion.</li>
+<li>Provide a step-by-step description of the suggested enhancement in as many details as possible.</li>
+<li>Explain why this enhancement would be useful to most <code>tips-and-tricks</code> users.</li>
+</ul>
+<p>We will then take care of the issue as soon as possible.</p>
+</section>
+</section>
+<section id="contributing-code" class="level2">
+<h2 class="anchored" data-anchor-id="contributing-code">Contributing code</h2>
+<section id="general-workflow" class="level3">
+<h3 class="anchored" data-anchor-id="general-workflow">General workflow</h3>
+<p>We use the <a href="https://docs.github.com/en/get-started/quickstart/github-flow">GitHub flow</a> to collaborate on this project:</p>
+<ol type="1">
+<li><a href="https://docs.github.com/en/get-started/quickstart/contributing-to-projects">Fork</a> this repository using the GitHub interface.</li>
+<li><a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository">Clone</a> your fork using <code>git clone fork-url</code> (replace <code>fork-url</code> by the URL of your fork). Alternatively, open RStudio IDE and create a New Project from Version Control.</li>
+<li>Create a new branch w/ <code>git checkout -b branch-name</code> (replace <code>branch-name</code> by the name of your new branch).</li>
+<li>Make your contribution (see below for examples).</li>
+<li>Stage (<code>git add</code>) and commit (<code>git commit</code>) your changes as often as necessary</li>
+<li>Push your changes to GitHub w/ <code>git push origin branch-name</code>.</li>
+<li>Submit a <a href="https://docs.github.com/en/get-started/quickstart/contributing-to-projects#making-a-pull-request">Pull Request</a> on the <a href="https://github.com/frbcesab/tips-and-tricks/compare">original repo</a>.</li>
+</ol>
+<p>We will then review the PR as soon as possible.</p>
+</section>
+<section id="improve-documentation" class="level3">
+<h3 class="anchored" data-anchor-id="improve-documentation">Improve documentation</h3>
+<section id="editing-the-readme" class="level4">
+<h4 class="anchored" data-anchor-id="editing-the-readme">Editing the README</h4>
+<p>If you want to contribute by improving the README, please edit the <code>README.Rmd</code> (not the <code>README.md</code>). Do not forget to update the <code>README.md</code> by running:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>rmarkdown<span class="sc">::</span><span class="fu">render</span>(<span class="st">"README.Rmd"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="editing-function-documentation" class="level4">
+<h4 class="anchored" data-anchor-id="editing-function-documentation">Editing function documentation</h4>
+<p>If you want to contribute by improving the documentation of a function, open the corresponding file in the <code>R/</code> folder and edit lines starting with <code>#'</code> (<a href="https://roxygen2.r-lib.org/articles/roxygen2.html">roxygen2</a> syntax).</p>
+<p>Update the documentation (<code>Rd</code> files in the <code>man/</code> folder) by running:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>devtools<span class="sc">::</span><span class="fu">document</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you use a new external dependency in the example section, do not forget to add it in the <code>DESCRIPTION</code> file under the section <code>Imports</code> (only if this package is not already listed).</p>
+<p>Check the integrity of the package with:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>devtools<span class="sc">::</span><span class="fu">check</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="fix-bug" class="level3">
+<h3 class="anchored" data-anchor-id="fix-bug">Fix bug</h3>
+<p>If you want to contribute by improving the code of a function, open and edit the corresponding file in the <code>R/</code> folder.</p>
+<p>Check the integrity of the package with:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>devtools<span class="sc">::</span><span class="fu">check</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Do not forget to adapt the <a href="https://r-pkgs.org/testing-basics.html#introducing-testthat">unit tests</a> for the function by editing the corresponding file stored in the <code>tests/testthat/</code> folder. We use the package <a href="https://testthat.r-lib.org/"><code>testthat</code></a> to implement unit tests.</p>
+<p>Check your tests by running:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>devtools<span class="sc">::</span><span class="fu">test</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="new-post" class="level3">
+<h3 class="anchored" data-anchor-id="new-post">New post</h3>
+<p>If you want to contribute by writing a new post, please this <a href="https://frbcesab.github.io/tips-and-tricks/contribute.html">page</a>.</p>
+<p><strong>Thanks for your contribution!</strong></p>
 
-<p>This post lists useful shortcuts that will increase your productivity in using RStudio IDE. This subset is a subjective selection: for more shortcuts, press the combination <code>Alt + Shift + K</code>.</p>
-<table class="table">
-<caption>Table 1. A subjective selection of RStudio shortcuts</caption>
-<colgroup>
-<col style="width: 21%">
-<col style="width: 44%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;"><strong>Category</strong></th>
-<th style="text-align: left;"><strong>Action</strong></th>
-<th style="text-align: left;"><strong>Key combination</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><strong>Navigation</strong></td>
-<td style="text-align: left;"><p>Go to next tab</p>
-<p>Go to previous tab</p></td>
-<td style="text-align: left;"><p><code>Ctrl + Tab</code></p>
-<p><code>Ctrl + Shift + Tab</code></p></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Panels</strong></td>
-<td style="text-align: left;"><p>Move cursor to Editor</p>
-<p>Move cursor to Console</p>
-<p>Move cursor to Terminal</p>
-<p>Expand Editor panel</p>
-<p>Expand Console panel</p></td>
-<td style="text-align: left;"><p><code>Ctrl + 1</code></p>
-<p><code>Ctrl + 2</code></p>
-<p><code>Alt + Shift + M</code></p>
-<p><code>Ctrl + Shift + 1</code></p>
-<p><code>Ctrl + Shift + 2</code></p></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Files</strong></td>
-<td style="text-align: left;"><p>Create a new <code>.R</code> file</p>
-<p>Save file</p>
-<p>Close file</p></td>
-<td style="text-align: left;"><p><code>Ctrl + Shift + N</code></p>
-<p><code>Ctrl + S</code></p>
-<p><code>Ctrl + W</code></p></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Editor</strong></td>
-<td style="text-align: left;"><p>Comment/uncomment current line/selection</p>
-<p>Send current line/selection to Console</p>
-<p>Send current line/selection to Terminal</p>
-<p>Insert assignment operator (<code>&lt;-</code>)</p>
-<p>Insert pipe operator (<code>%&gt;%</code> or <code>|&gt;</code>)</p>
-<p>Move current line up</p>
-<p>Move current line down</p>
-<p>Delete current line</p>
-<p>Duplicate current line (below)</p>
-<p>Yank (cut) line up to cursor</p>
-<p>Yank (cut) line after cursor</p>
-<p>Add a cursor above current cursor</p>
-<p>Add a cursor below current cursor</p>
-<p>Add a cursor on the click</p></td>
-<td style="text-align: left;"><p><code>Ctrl + Shift + C</code></p>
-<p><code>Ctrl + Return</code></p>
-<p><code>Ctrl + Shift + Return</code></p>
-<p><code>Ctrl + Shift + +</code></p>
-<p><code>Ctrl + Shift + Return</code></p>
-<p><code>Alt + Up</code></p>
-<p><code>Alt + Down</code></p>
-<p><code>Ctrl + D</code></p>
-<p><code>Ctrl + Shift + D</code></p>
-<p><code>Ctrl + U</code></p>
-<p><code>Ctrl + K</code></p>
-<p><code>Ctrl + Alt + Up</code></p>
-<p><code>Ctrl + Alt + Down</code></p>
-<p><code>Ctrl + Alt + Click</code></p></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Build</strong></td>
-<td style="text-align: left;"><p>Load project (<code>devtools::load_all()</code>)</p>
-<p>Check package (<code>devtools::check()</code>)</p>
-<p>Knit/Render/Preview <code>.(R|q)md</code> files</p>
-<p>Insert code chunk in <code>.(R|q)md</code> files</p></td>
-<td style="text-align: left;"><p><code>Ctrl + Shift + L</code></p>
-<p><code>Ctrl + Shift + E</code></p>
-<p><code>Ctrl + Shift + K</code></p>
-<p><code>Ctrl + Alt + I</code></p></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Other</strong></td>
-<td style="text-align: left;">Clear console/terminal</td>
-<td style="text-align: left;"><code>Ctrl + L</code></td>
-</tr>
-</tbody>
-</table>
 
-
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
