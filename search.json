@@ -4,7 +4,7 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "This blog contains tips and tricks shared during the CESAB Geek meetings. To contribute, please read this page."
+    "text": "The CESAB – Centre for the Synthesis and Analysis of Biodiversity – is a key program of the FRB (Foundation for Research on Biodiversity) and is an original, innovative and internationally recognized tool that offers researchers a place and time to synthesize and analyze already existing data and information in the field of biodiversity research.\n\n\n\n\n\n\nOpen science\n\n\n\nBy encouraging its groups of researchers to share the tools and databases developed as part of their work, the FRB-CESAB is supporting open science since the centre opened in 2010.\n    Databases       Softwares       Publications       Courses       Tutorials  \nVisit our GitHub organization here!"
   },
   {
     "objectID": "CODE_OF_CONDUCT.html",
@@ -191,8 +191,15 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Tips & tricks for Data Science with R",
+    "title": "Tips and tricks",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nRStudio shortcuts: a selection\n\n\n\n\n\n\neditor\n\n\nshortcut\n\n\nrstudio\n\n\n\n\n\n\n\n\n\nFeb 27, 2024\n\n\nNicolas Casajus\n\n\n\n\n\n\n\n\n\n\n\n\nCode snippets in RStudio\n\n\n\n\n\n\neditor\n\n\nshortcut\n\n\nrstudio\n\n\n\n\n\n\n\n\n\nFeb 27, 2024\n\n\nNicolas Casajus\n\n\n\n\n\n\nNo matching items"
+    "text": "This blog lists tips and tricks shared during the FRB-CESAB Geek meetings. We love to talk about R, RStudio, git, GitHub, OS, Website, etc. and we are delighted to share our experience with the community."
+  },
+  {
+    "objectID": "index.html#welcome",
+    "href": "index.html#welcome",
+    "title": "Tips and tricks",
+    "section": "",
+    "text": "This blog lists tips and tricks shared during the FRB-CESAB Geek meetings. We love to talk about R, RStudio, git, GitHub, OS, Website, etc. and we are delighted to share our experience with the community."
   }
 ]

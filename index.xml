@@ -5,10 +5,10 @@
       xmlns:dc="http://purl.org/dc/elements/1.1/" 
       version="2.0">
 <channel>
-<title>Tips &amp; tricks for Data Science with R</title>
+<title>Tips and tricks</title>
 <link>https://frbcesab.github.io/tips-and-tricks/</link>
 <atom:link href="https://frbcesab.github.io/tips-and-tricks/index.xml" rel="self" type="application/rss+xml"/>
-<description>Tips &amp; tricks for Data Science with R</description>
+<description>Tips and tricks</description>
 <generator>quarto-1.4.551</generator>
 <lastBuildDate>Tue, 27 Feb 2024 00:00:00 GMT</lastBuildDate>
 <item>
