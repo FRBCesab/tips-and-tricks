@@ -44,6 +44,8 @@ To install this repository:
 - [Fork](https://docs.github.com/en/get-started/quickstart/contributing-to-projects) this repository using the GitHub interface.
 - [Clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) your fork by opening [RStudio IDE](https://posit.co/products/open-source/rstudio/) and create a New Project from Version Control.
 
+If you want to **write a blog post**, please read this [page](https://frbcesab.github.io/tips-and-tricks/contribute.html).
+
 
 
 ## Contributing
@@ -55,8 +57,6 @@ Guidelines](https://github.com/frbcesab/iucn-rangemaps/blob/main/CONTRIBUTING.md
 Please note that this project is released with a [Contributor Code of
 Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
-
-If you want to contribute by **writing a post**, please read this [page](https://frbcesab.github.io/tips-and-tricks/contribute.html).
 
 
 
