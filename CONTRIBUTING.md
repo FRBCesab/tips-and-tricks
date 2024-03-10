@@ -224,6 +224,6 @@ devtools::test()
 
 ### New post
 
-If you want to contribute by writing a new post, please this [page](https://frbcesab.github.io/tips-and-tricks/contribute.html).
+If you want to contribute by writing a new post, please read this [page](https://frbcesab.github.io/tips-and-tricks/contribute.html).
 
 **Thanks for your contribution!**
