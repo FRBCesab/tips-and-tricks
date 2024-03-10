@@ -3,9 +3,9 @@ project:
 
 website:
 
-  title: "Tips & tricks for Data Science with R"
+  title: "Tips and tricks"
   site-url: https://frbcesab.github.io/tips-and-tricks
-  description: "Tips & tricks for Data Science with R"
+  description: "Tips and tricks"
   
   favicon: images/favicon.png
   
@@ -41,7 +41,7 @@ format:
   html:
   
     theme: litera
-    # css: styles.css
+    css: styles.css
     
     code-copy: true
     code-overflow: wrap

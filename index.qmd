@@ -3,7 +3,7 @@ title: ""
 listing:
   contents: posts
   sort: "date desc"
-  type: default
+  type: table
   categories: true
   feed:
     type: partial
@@ -13,3 +13,11 @@ page-layout: full
 title-block-banner: true
 comments: false
 ---
+
+<!-- ![](images/logo-CESAB.png){fig-align="right" width=30%} -->
+
+## Welcome!
+
+This blog lists tips and tricks shared during the [FRB-CESAB](https://www.fondationbiodiversite.fr/en/about-the-foundation/le-cesab/) Geek meetings. We love to talk about `R`, `RStudio`, `git`, `GitHub`, `OS`, `Website`, etc. and we are delighted to share our experience with the community.
+
+<br>

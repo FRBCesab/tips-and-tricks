@@ -5,4 +5,43 @@ comments: false
 
 ![](images/logo-CESAB.png){width=60%}
 
-This blog contains tips and tricks shared during the CESAB Geek meetings. To contribute, please read [this page](contribute.html).
+The [CESAB](https://www.fondationbiodiversite.fr/en/about-the-foundation/le-cesab/) – Centre for the Synthesis and Analysis of Biodiversity – is a key program of the [FRB](https://www.fondationbiodiversite.fr/en/) (Foundation for Research on Biodiversity) and is an original, innovative and internationally recognized tool that offers researchers a place and time to synthesize and analyze already existing data and information in the field of biodiversity research.
+
+::: {.callout-note}
+## Open science
+
+By encouraging its groups of researchers to share the tools and databases 
+developed as part of their work, the FRB-CESAB is supporting **open science** since 
+the centre opened in 2010.
+
+
+<a class="bouton" href="https://frbcesab.github.io/content/databases.html">
+  <button type="button" class="btn btn-primary">
+    {{< fa database >}} &nbsp;Databases
+  </button>
+</a>
+<a class="bouton" href="https://frbcesab.github.io/content/softwares.html">
+  <button type="button" class="btn btn-primary">
+    {{< fa code >}} &nbsp;Softwares
+  </button>
+</a>
+<a class="bouton" href="https://frbcesab.github.io/content/publications.html">
+  <button type="button" class="btn btn-primary">
+    {{< fa book >}} &nbsp;Publications
+  </button>
+</a>
+<a class="bouton" href="https://frbcesab.github.io/content/courses.html">
+  <button type="button" class="btn btn-primary">
+    {{< fa graduation-cap >}} &nbsp;Courses
+  </button>
+</a>
+<a class="bouton" href="https://frbcesab.github.io/content/tutorials.html">
+  <button type="button" class="btn btn-primary">
+    {{< fa laptop-code >}} &nbsp;Tutorials
+  </button>
+</a>
+
+Visit our **GitHub organization** [here](https://github.com/frbcesab)!
+:::
+
+
