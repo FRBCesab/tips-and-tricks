@@ -52,7 +52,7 @@ If you want to **write a blog post**, please read this [page](https://frbcesab.g
 
 All types of contributions are encouraged and valued. For more
 information, check out our [Contributor
-Guidelines](https://github.com/frbcesab/iucn-rangemaps/blob/main/CONTRIBUTING.md).
+Guidelines](https://github.com/frbcesab/tips-and-tricks/blob/main/CONTRIBUTING.md).
 
 Please note that this project is released with a [Contributor Code of
 Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
