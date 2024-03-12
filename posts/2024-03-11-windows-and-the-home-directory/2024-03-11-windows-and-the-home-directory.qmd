@@ -1,0 +1,88 @@
+---
+title: "Windows and the HOME directory"
+author: "Nicolas Casajus"
+date: "2024-03-11"
+categories: [r, configuration, home, windows]
+image: "logo-r.png"
+toc: true
+---
+
+::: {.callout-important}
+## Windows-only
+
+This post only concerns Windows users.
+:::
+
+
+
+## Context
+
+
+In common operating systems, there is an important directory: the `HOME` directory (also known as the _User's home directory_). This directory contains the user's main folders (`Desktop/`, `Documents/`, `Pictures/`, etc.) but it can also be used by software to store user's configuration files (`ssh`, `bash`, `zsh`, etc.). 
+
+::: {.callout-note}
+## Home vs. working directory
+
+The _working directory_ is the directory from which {{< fa brands r-project >}} was launched. The function `getwd()` can be run to find this directory. This directory changes between projects. The _home directory_ is user specific and the symbol `~` is often used to refer to this `HOME` directory.
+:::
+
+{{< fa brands r-project >}} also uses this `HOME` directory to store two configuration files: the `.Renviron` and `.Rprofile` files (run `?Startup` to learn more about these files).
+
+On Unix systems ({{< fa brands apple >}} and {{< fa brands ubuntu >}}), the `HOME` directory is `/home/username` (or `/Users/username` on Apple computers).
+
+On Windows {{< fa brands windows >}}, depending on whether you use RStudio IDE (and therefore `Rgui.exe`) or {{< fa brands r-project >}} in a terminal (and therefore `Rterm.exe`), the value of this `HOME` directory can be different:
+
+- `C:/Users/username` on a terminal
+- `C:/Users/username/Documents` on RStudio IDE
+
+
+## Changing HOME directory
+
+
+::: {.callout-important}
+## Danger
+
+**Do not follow this tip if you are several users on the same computer.**
+:::
+
+
+Here we will resolve the discrepancy between these two different directories by using `C:/Users/username` everywhere.
+
+As mentioned in the [R for Windows FAQ](https://cran.r-project.org/bin/windows/base/rw-FAQ.html#What-are-HOME-and-working-directories_003f) (section 2.13), we can modify this `HOME` directory at the system level by setting the environment variable `R_USER`.
+
+This environment variable can be modified by creating a `.Renviron.site` file in the directory `C:/Program Files/R/R-X.X.X/etc/` (where `R-X.X.X` is the version of {{< fa brands r-project >}}). This file is used to store environment variables at the system level (so for all users). You need to have permission to create this file.
+
+
+Proceed as follow if the `.Renviron.site` file does not exist in `C:/Program Files/R/R-X.X.X/etc/`:
+
+- In `C:/Users/username/Desktop/`, create an empty file `.Renviron.site`.
+- Open this file and add this line: `R_USER='C:/Users/username'` and save it.
+- Copy this `.Renviron.site` file in `C:/Program Files/R/R-X.X.X/etc/`.
+
+Proceed as follow if the `.Renviron.site` file already exists in `C:/Program Files/R/R-X.X.X/etc/`:
+
+- Open the `.Renviron.site` file in `C:/Program Files/R/R-X.X.X/etc/` and add this line: `R_USER='C:/Users/username'`.
+- Save the file.
+
+
+After restarting {{< fa brands r-project >}}, run these two lines:
+
+```{r}
+#| eval: false
+
+Sys.getenv("R_USER")
+## C:/Users/username
+
+path.expand("~")
+## C:/Users/username
+```
+
+From now you should have the same outputs on RStudio IDE and on a Terminal.
+
+
+::: {.callout-important}
+## This is a temporary fix
+
+You will need to repeat this tip each time you reinstall/upgrade {{< fa brands r-project >}}.
+:::
+
