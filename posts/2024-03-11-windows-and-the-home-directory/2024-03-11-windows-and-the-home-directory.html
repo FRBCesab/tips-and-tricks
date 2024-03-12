@@ -204,6 +204,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#context" id="toc-context" class="nav-link active" data-scroll-target="#context">Context</a></li>
   <li><a href="#changing-home-directory" id="toc-changing-home-directory" class="nav-link" data-scroll-target="#changing-home-directory">Changing HOME directory</a></li>
+  <li><a href="#edit-20240312" id="toc-edit-20240312" class="nav-link" data-scroll-target="#edit-20240312">Edit (2024/03/12)</a></li>
   </ul>
 </nav>
     </div>
@@ -250,6 +251,17 @@ Home vs.&nbsp;working directory
 <li><code>C:/Users/username</code> on a terminal</li>
 <li><code>C:/Users/username/Documents</code> on RStudio IDE</li>
 </ul>
+<p>And the behavior of various <i class="fa-brands fa-r-project" aria-label="r-project"></i> functions is inconsistent. For instance:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">path.expand</span>(<span class="st">"~"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="do">## C:/Users/username/Documents</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">normalizePath</span>(<span class="st">"~"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="do">## C:\\Users\\username\\Documents</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a>fs<span class="sc">::</span><span class="fu">path_home</span>()</span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="do">## C:/Users/username</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="changing-home-directory" class="level2">
 <h2 class="anchored" data-anchor-id="changing-home-directory">Changing HOME directory</h2>
@@ -266,27 +278,35 @@ Danger
 <p><strong>Do not follow this tip if you are several users on the same computer.</strong></p>
 </div>
 </div>
-<p>Here we will resolve the discrepancy between these two different directories by using <code>C:/Users/username</code> everywhere.</p>
+<p>Here we will resolve the discrepancy between these two different directories by using <code>C:/Users/username</code> everywhere (like in Unix systems).</p>
 <p>As mentioned in the <a href="https://cran.r-project.org/bin/windows/base/rw-FAQ.html#What-are-HOME-and-working-directories_003f">R for Windows FAQ</a> (section 2.13), we can modify this <code>HOME</code> directory at the system level by setting the environment variable <code>R_USER</code>.</p>
-<p>This environment variable can be modified by creating a <code>.Renviron.site</code> file in the directory <code>C:/Program Files/R/R-X.X.X/etc/</code> (where <code>R-X.X.X</code> is the version of <i class="fa-brands fa-r-project" aria-label="r-project"></i>). This file is used to store environment variables at the system level (so for all users). You need to have permission to create this file.</p>
+<p>This environment variable can be modified by creating a <code>.Renviron.site</code> file in the directory <code>C:/Program Files/R/R-X.X.X/etc/</code> (where <code>R-X.X.X</code> is the version of <i class="fa-brands fa-r-project" aria-label="r-project"></i>). This file is used to store environment variables at the system level (so for all users).</p>
+<p><strong>N.B.</strong> You need to have permission to create/edit this file.</p>
 <p>Proceed as follow if the <code>.Renviron.site</code> file does not exist in <code>C:/Program Files/R/R-X.X.X/etc/</code>:</p>
 <ul>
 <li>In <code>C:/Users/username/Desktop/</code>, create an empty file <code>.Renviron.site</code>.</li>
-<li>Open this file and add this line: <code>R_USER='C:/Users/username'</code> and save it.</li>
+<li>Open this file and add this line: <code>R_USER='C:/Users/username'</code> (replace <code>username</code> by your Windows user name).</li>
+<li>Save the file.</li>
 <li>Copy this <code>.Renviron.site</code> file in <code>C:/Program Files/R/R-X.X.X/etc/</code>.</li>
 </ul>
 <p>Proceed as follow if the <code>.Renviron.site</code> file already exists in <code>C:/Program Files/R/R-X.X.X/etc/</code>:</p>
 <ul>
-<li>Open the <code>.Renviron.site</code> file in <code>C:/Program Files/R/R-X.X.X/etc/</code> and add this line: <code>R_USER='C:/Users/username'</code>.</li>
+<li>Open the <code>.Renviron.site</code> file in <code>C:/Program Files/R/R-X.X.X/etc/</code> and add this line: <code>R_USER='C:/Users/username'</code> (replace <code>username</code> by your Windows user name).</li>
 <li>Save the file.</li>
 </ul>
-<p>After restarting <i class="fa-brands fa-r-project" aria-label="r-project"></i>, run these two lines:</p>
+<p>After restarting <i class="fa-brands fa-r-project" aria-label="r-project"></i>, run these lines:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">Sys.getenv</span>(<span class="st">"R_USER"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="do">## C:/Users/username</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">path.expand</span>(<span class="st">"~"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="do">## C:/Users/username</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">Sys.getenv</span>(<span class="st">"R_USER"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="do">## C:/Users/username</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="fu">path.expand</span>(<span class="st">"~"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="do">## C:/Users/username</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="fu">normalizePath</span>(<span class="st">"~"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="do">## C:\\Users\\username</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a></span>
+<span id="cb2-10"><a href="#cb2-10"></a>fs<span class="sc">::</span><span class="fu">path_home</span>()</span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="do">## C:/Users/username</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>From now you should have the same outputs on RStudio IDE and on a Terminal.</p>
 <div class="callout callout-style-default callout-important callout-titled">
@@ -302,6 +322,22 @@ This is a temporary fix
 <p>You will need to repeat this tip each time you reinstall/upgrade <i class="fa-brands fa-r-project" aria-label="r-project"></i>.</p>
 </div>
 </div>
+</section>
+<section id="edit-20240312" class="level2">
+<h2 class="anchored" data-anchor-id="edit-20240312">Edit (2024/03/12)</h2>
+<p>With some <i class="fa-brands fa-r-project" aria-label="r-project"></i> functions, this tip is not enough. For instance, the functions <code>utils::file.edit("~/.Renviron")</code>, <code>utils::file.edit("~/.Rprofile")</code>, <code>usethis::edit_r_environ()</code>, <code>usethis::edit_r_profile()</code> do not recognized the new <code>HOME</code> directory.</p>
+<p>To fix this issue, we need to define the <code>R_USER</code> environment variable at the Windows <i class="fa-brands fa-windows" aria-label="windows"></i> level.</p>
+<p>Proceed as follow:</p>
+<ul>
+<li>In the Windows search bar, type <code>variables</code> and open <strong>Modify system environment variables</strong>.</li>
+<li>At the bottom, click on <strong>Environment variables…</strong></li>
+<li>In the section <strong>System variable</strong>, add a <strong>new entry</strong> and set:
+<ul>
+<li>Name: <code>R_USER</code></li>
+<li>Value: <code>C:\Users\username</code> (replace <code>username</code> by your Windows user name)</li>
+</ul></li>
+</ul>
+<p>After restarting <i class="fa-brands fa-r-project" aria-label="r-project"></i>, the functions <code>utils::file.edit("~/.Rprofile")</code> and <code>usethis::edit_r_profile()</code> will create (if required) and open the <code>.Rprofile</code> file in <code>C:/Users/username</code> (not in <code>C:/Users/username/Documents</code>).</p>
 
 
 </section>
