@@ -35,6 +35,8 @@ This repository is structured as follow:
 - [`R/`](https://github.com/frbcesab/tips-and-tricks/tree/main/R): folder containing R functions developed for this project.
 - [`DESCRIPTION/`](https://github.com/frbcesab/tips-and-tricks/tree/main/DESCRIPTION): contains project metadata (authors, description, license, dependencies, etc.).
 
+Each post is stored in the folder [`posts/`](https://github.com/frbcesab/tips-and-tricks/tree/main/posts) and has its own subfolder named `yyyy-mm-dd-post-title/`. All additional files (images, data, etc.) required in the post should be stored in this subfolder.
+
 
 
 ## Installation
