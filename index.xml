@@ -10,7 +10,20 @@
 <atom:link href="https://frbcesab.github.io/tips-and-tricks/index.xml" rel="self" type="application/rss+xml"/>
 <description>Tips and tricks</description>
 <generator>quarto-1.4.551</generator>
-<lastBuildDate>Tue, 27 Feb 2024 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Mon, 11 Mar 2024 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Windows and the HOME directory</title>
+  <dc:creator>Nicolas Casajus</dc:creator>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-11-windows-and-the-home-directory/2024-03-11-windows-and-the-home-directory.html</link>
+  <description><![CDATA[ This post only concerns Windows users. ]]></description>
+  <category>r</category>
+  <category>configuration</category>
+  <category>home</category>
+  <category>windows</category>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-11-windows-and-the-home-directory/2024-03-11-windows-and-the-home-directory.html</guid>
+  <pubDate>Mon, 11 Mar 2024 00:00:00 GMT</pubDate>
+  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-03-11-windows-and-the-home-directory/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
+</item>
 <item>
   <title>RStudio shortcuts: a selection</title>
   <dc:creator>Nicolas Casajus</dc:creator>

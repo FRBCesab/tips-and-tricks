@@ -2,34 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://frbcesab.github.io/tips-and-tricks/about.html</loc>
-    <lastmod>2024-03-11T15:25:29.103Z</lastmod>
+    <lastmod>2024-03-12T12:15:18.773Z</lastmod>
   </url>
   <url>
     <loc>https://frbcesab.github.io/tips-and-tricks/CODE_OF_CONDUCT.html</loc>
-    <lastmod>2024-03-11T15:25:29.091Z</lastmod>
+    <lastmod>2024-03-12T12:15:18.761Z</lastmod>
   </url>
   <url>
     <loc>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/2024-02-27-code-snippets-in-rstudio.html</loc>
-    <lastmod>2024-03-11T15:25:29.103Z</lastmod>
+    <lastmod>2024-03-12T12:15:18.773Z</lastmod>
   </url>
   <url>
-    <loc>https://frbcesab.github.io/tips-and-tricks/CONTRIBUTING.html</loc>
-    <lastmod>2024-03-11T15:25:29.091Z</lastmod>
+    <loc>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-11-windows-and-the-home-directory/2024-03-11-windows-and-the-home-directory.html</loc>
+    <lastmod>2024-03-12T12:15:18.781Z</lastmod>
   </url>
   <url>
     <loc>https://frbcesab.github.io/tips-and-tricks/LICENSE.html</loc>
-    <lastmod>2024-03-11T15:25:29.091Z</lastmod>
+    <lastmod>2024-03-12T12:15:18.761Z</lastmod>
+  </url>
+  <url>
+    <loc>https://frbcesab.github.io/tips-and-tricks/CONTRIBUTING.html</loc>
+    <lastmod>2024-03-12T12:15:18.761Z</lastmod>
   </url>
   <url>
     <loc>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/2024-02-27-rstudio-shortcuts-a-selection.html</loc>
-    <lastmod>2024-03-11T15:25:29.115Z</lastmod>
+    <lastmod>2024-03-12T12:15:18.781Z</lastmod>
   </url>
   <url>
     <loc>https://frbcesab.github.io/tips-and-tricks/contribute.html</loc>
-    <lastmod>2024-03-11T15:25:29.103Z</lastmod>
+    <lastmod>2024-03-12T12:15:18.773Z</lastmod>
   </url>
   <url>
     <loc>https://frbcesab.github.io/tips-and-tricks/index.html</loc>
-    <lastmod>2024-03-11T15:25:29.103Z</lastmod>
+    <lastmod>2024-03-12T12:15:18.773Z</lastmod>
   </url>
 </urlset>
