@@ -35,6 +35,21 @@ On Windows {{< fa brands windows >}}, depending on whether you use RStudio IDE (
 - `C:/Users/username` on a terminal
 - `C:/Users/username/Documents` on RStudio IDE
 
+And the behavior of various {{< fa brands r-project >}} functions is inconsistent. For instance:
+
+```{r}
+#| eval: false
+
+path.expand("~")
+## C:/Users/username/Documents
+
+normalizePath("~")
+## C:\\Users\\username\\Documents
+
+fs::path_home()
+## C:/Users/username
+```
+
 
 ## Changing HOME directory
 
@@ -46,26 +61,29 @@ On Windows {{< fa brands windows >}}, depending on whether you use RStudio IDE (
 :::
 
 
-Here we will resolve the discrepancy between these two different directories by using `C:/Users/username` everywhere.
+Here we will resolve the discrepancy between these two different directories by using `C:/Users/username` everywhere (like in Unix systems).
 
 As mentioned in the [R for Windows FAQ](https://cran.r-project.org/bin/windows/base/rw-FAQ.html#What-are-HOME-and-working-directories_003f) (section 2.13), we can modify this `HOME` directory at the system level by setting the environment variable `R_USER`.
 
-This environment variable can be modified by creating a `.Renviron.site` file in the directory `C:/Program Files/R/R-X.X.X/etc/` (where `R-X.X.X` is the version of {{< fa brands r-project >}}). This file is used to store environment variables at the system level (so for all users). You need to have permission to create this file.
+This environment variable can be modified by creating a `.Renviron.site` file in the directory `C:/Program Files/R/R-X.X.X/etc/` (where `R-X.X.X` is the version of {{< fa brands r-project >}}). This file is used to store environment variables at the system level (so for all users).
+
+**N.B.** You need to have permission to create/edit this file.
 
 
 Proceed as follow if the `.Renviron.site` file does not exist in `C:/Program Files/R/R-X.X.X/etc/`:
 
 - In `C:/Users/username/Desktop/`, create an empty file `.Renviron.site`.
-- Open this file and add this line: `R_USER='C:/Users/username'` and save it.
+- Open this file and add this line: `R_USER='C:/Users/username'` (replace `username` by your Windows user name).
+- Save the file.
 - Copy this `.Renviron.site` file in `C:/Program Files/R/R-X.X.X/etc/`.
 
 Proceed as follow if the `.Renviron.site` file already exists in `C:/Program Files/R/R-X.X.X/etc/`:
 
-- Open the `.Renviron.site` file in `C:/Program Files/R/R-X.X.X/etc/` and add this line: `R_USER='C:/Users/username'`.
+- Open the `.Renviron.site` file in `C:/Program Files/R/R-X.X.X/etc/` and add this line: `R_USER='C:/Users/username'` (replace `username` by your Windows user name).
 - Save the file.
 
 
-After restarting {{< fa brands r-project >}}, run these two lines:
+After restarting {{< fa brands r-project >}}, run these lines:
 
 ```{r}
 #| eval: false
@@ -74,6 +92,12 @@ Sys.getenv("R_USER")
 ## C:/Users/username
 
 path.expand("~")
+## C:/Users/username
+
+normalizePath("~")
+## C:\\Users\\username
+
+fs::path_home()
 ## C:/Users/username
 ```
 
@@ -86,3 +110,19 @@ From now you should have the same outputs on RStudio IDE and on a Terminal.
 You will need to repeat this tip each time you reinstall/upgrade {{< fa brands r-project >}}.
 :::
 
+
+## Edit (2024/03/12)
+
+With some {{< fa brands r-project >}} functions, this tip is not enough. For instance, the functions `utils::file.edit("~/.Renviron")`, `utils::file.edit("~/.Rprofile")`, `usethis::edit_r_environ()`, `usethis::edit_r_profile()` do not recognized the new `HOME` directory.
+
+To fix this issue, we need to define the `R_USER` environment variable at the Windows {{< fa brands windows >}} level.
+
+Proceed as follow:
+
+- In the Windows search bar, type `variables` and open **Modify system environment variables**.
+- At the bottom, click on **Environment variables...**
+- In the section **System variable**, add a **new entry** and set:
+  - Name: `R_USER`
+  - Value: `C:\Users\username` (replace `username` by your Windows user name)
+
+After restarting {{< fa brands r-project >}}, the functions `utils::file.edit("~/.Rprofile")` and `usethis::edit_r_profile()` will create (if required) and open the `.Rprofile` file in `C:/Users/username` (not in `C:/Users/username/Documents`).
