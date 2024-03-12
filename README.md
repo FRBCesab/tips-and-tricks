@@ -1,4 +1,4 @@
-# Tips and tricks for Data Science with R <img src="https://raw.githubusercontent.com/FRBCesab/templates/main/logos/website-sticker.png" align="right" style="float:right; height:120px;"/>
+# Tips and tricks for data science <img src="https://raw.githubusercontent.com/FRBCesab/templates/main/logos/website-sticker.png" align="right" style="float:right; height:120px;"/>
 
 <!-- badges: start -->
 [![Quarto Render and Publish](https://github.com/FRBCesab/tips-and-tricks/actions/workflows/quarto-publish.yml/badge.svg)](https://github.com/FRBCesab/tips-and-tricks/actions/workflows/quarto-publish.yml)
@@ -17,7 +17,7 @@
 
 ## Overview
 
-This repository contains the code of the [website](https://frbcesab.github.io/tips-and-tricks/) **_Tips and tricks for Data Science with R_** built with :heart: with 
+This repository contains the code of the [website](https://frbcesab.github.io/tips-and-tricks/) **_Tips and tricks for data science_** built with :heart: with 
 [`Quarto`](https://quarto.org/) & 
 [`GitHub Actions`](https://github.com/features/actions).
 
@@ -26,13 +26,13 @@ This repository contains the code of the [website](https://frbcesab.github.io/ti
 
 This repository is structured as follow:
 
-- [`_quarto.yml`](https://github.com/frbcesab/tips-and-tricks/tree/main/_quarto.yml): configuration file of the website
+- [`_quarto.yml`](https://github.com/frbcesab/tips-and-tricks/tree/main/_quarto.yml): configuration file of the website.
 - [`index.qmd`](https://github.com/frbcesab/tips-and-tricks/tree/main/index.qmd): home page of the website, including the configuration and behavior of the blog.
-- [`about.qmd`](https://github.com/frbcesab/tips-and-tricks/tree/main/about.qmd): page About of the website
-- [`contribute.qmd`](https://github.com/frbcesab/tips-and-tricks/tree/main/contribute.qmd): page Contribute of the website
-- [`images/`](https://github.com/frbcesab/tips-and-tricks/tree/main/images): folder containing images for main pages of the website
-- [`posts/`](https://github.com/frbcesab/tips-and-tricks/tree/main/posts): folder containing blog posts
-- [`R/`](https://github.com/frbcesab/tips-and-tricks/tree/main/R): folder containing R functions developed for this project
+- [`about.qmd`](https://github.com/frbcesab/tips-and-tricks/tree/main/about.qmd): page About of the website.
+- [`contribute.qmd`](https://github.com/frbcesab/tips-and-tricks/tree/main/contribute.qmd): page Contribute of the website.
+- [`images/`](https://github.com/frbcesab/tips-and-tricks/tree/main/images): folder containing images for main pages of the website.
+- [`posts/`](https://github.com/frbcesab/tips-and-tricks/tree/main/posts): folder containing blog posts.
+- [`R/`](https://github.com/frbcesab/tips-and-tricks/tree/main/R): folder containing R functions developed for this project.
 - [`DESCRIPTION/`](https://github.com/frbcesab/tips-and-tricks/tree/main/DESCRIPTION): contains project metadata (authors, description, license, dependencies, etc.).
 
 
@@ -62,5 +62,5 @@ By contributing to this project, you agree to abide by its terms.
 
 ### Citation
 
-> Casajus N (2024) FRB-CESAB: Tips and tricks for Data Science with R. URL: <https://frbcesab.github.io/tips-and-tricks/>
+> Casajus N (2024) FRB-CESAB: Tips and tricks for data science. URL: <https://frbcesab.github.io/tips-and-tricks/>
 
