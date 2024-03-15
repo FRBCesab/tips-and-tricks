@@ -337,7 +337,20 @@ This is a temporary fix
 <li>Value: <code>C:\Users\username</code> (replace <code>username</code> by your Windows user name)</li>
 </ul></li>
 </ul>
-<p>After restarting <i class="fa-brands fa-r-project" aria-label="r-project"></i>, the functions <code>utils::file.edit("~/.Rprofile")</code> and <code>usethis::edit_r_profile()</code> will create (if required) and open the <code>.Rprofile</code> file in <code>C:/Users/username</code> (not in <code>C:/Users/username/Documents</code>).</p>
+<p>After restarting <i class="fa-brands fa-r-project" aria-label="r-project"></i>, the <code>HOME</code> directory should always point to <code>C:/Users/username</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">Sys.getenv</span>(<span class="st">"R_USER"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="do">## C:/Users/username</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="fu">path.expand</span>(<span class="st">"~"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="do">## C:/Users/username</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="fu">normalizePath</span>(<span class="st">"~"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="do">## C:\\Users\\username</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a></span>
+<span id="cb3-10"><a href="#cb3-10"></a>fs<span class="sc">::</span><span class="fu">path_home</span>()</span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="do">## C:/Users/username</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 </section>
