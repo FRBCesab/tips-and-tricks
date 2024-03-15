@@ -88,7 +88,7 @@ create_post <- function(title, date = NULL) {
   yaml <- c(yaml, paste0("categories: [tag1, tag2]"))
   yaml <- c(yaml, paste0("image: \"\""))
   yaml <- c(yaml, paste0("toc: true"))
-  yaml <- c(yaml, paste0("draft: true"))
+  # yaml <- c(yaml, paste0("draft: true"))
   yaml <- c(yaml, "---")
   yaml <- c(yaml, "")
   yaml <- c(yaml, "Post content...")
