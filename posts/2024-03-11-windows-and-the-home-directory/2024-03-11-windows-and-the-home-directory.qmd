@@ -125,4 +125,21 @@ Proceed as follow:
   - Name: `R_USER`
   - Value: `C:\Users\username` (replace `username` by your Windows user name)
 
-After restarting {{< fa brands r-project >}}, the functions `utils::file.edit("~/.Rprofile")` and `usethis::edit_r_profile()` will create (if required) and open the `.Rprofile` file in `C:/Users/username` (not in `C:/Users/username/Documents`).
+After restarting {{< fa brands r-project >}}, the `HOME` directory should always point to `C:/Users/username`.
+
+```{r}
+#| eval: false
+
+Sys.getenv("R_USER")
+## C:/Users/username
+
+path.expand("~")
+## C:/Users/username
+
+normalizePath("~")
+## C:\\Users\\username
+
+fs::path_home()
+## C:/Users/username
+```
+
