@@ -1,0 +1,29 @@
+---
+title: "ZSH: an alternative to Bash"
+author: "Nicolas Casajus"
+date: "2024-03-26"
+categories: [terminal, linux, git-bash, zsh]
+image: ""
+toc: true
+draft: false
+---
+
+The [**Z Shell**](https://www.zsh.org/) (or **zsh**) is a Unix shell, i.e. a command-line interpreter (CLI) that provides an user interface for Unix-like operating systems (including [Git Bash](https://www.atlassian.com/git/tutorials/git-bash) on Windows systems). Zsh is an extended [**Bourne shell**](https://en.wikipedia.org/wiki/Bourne_shell) with many improvements[^1] (command-line completion, file globbing, spelling correction and autofill of command names, themeable prompts, etc.).
+It's the default shell on MacOS computers since 2019. Other operating systems use [**Bash**](https://www.gnu.org/software/bash/) as the default shell.
+
+In this post, we will see how to install and configure zsh and [**Oh My ZSH!**](https://ohmyz.sh/), an open source, community-driven framework for managing the Zsh configuration.
+
+
+## Installation
+
+### Windows
+
+### Linux
+
+## Customization
+
+
+
+
+
+[^1]: <https://en.wikipedia.org/wiki/Z_shell>
