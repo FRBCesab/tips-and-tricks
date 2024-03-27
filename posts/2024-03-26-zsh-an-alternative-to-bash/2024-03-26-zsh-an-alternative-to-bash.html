@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Nicolas Casajus">
-<meta name="dcterms.date" content="2024-03-11">
+<meta name="dcterms.date" content="2024-03-26">
 
-<title>Tips and tricks - Windows and the HOME directory</title>
+<title>Tips and tricks - ZSH: an alternative to Bash (Windows)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -163,12 +163,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Windows and the HOME directory</h1>
+      <h1 class="title">ZSH: an alternative to Bash (Windows)</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">r</div>
-                <div class="quarto-category">configuration</div>
-                <div class="quarto-category">home</div>
                 <div class="quarto-category">windows</div>
+                <div class="quarto-category">terminal</div>
+                <div class="quarto-category">git-bash</div>
+                <div class="quarto-category">zsh</div>
               </div>
                   </div>
   </div>
@@ -186,7 +186,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 11, 2024</p>
+        <p class="date">March 26, 2024</p>
       </div>
     </div>
     
@@ -202,9 +202,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#context" id="toc-context" class="nav-link active" data-scroll-target="#context">Context</a></li>
-  <li><a href="#changing-home-directory" id="toc-changing-home-directory" class="nav-link" data-scroll-target="#changing-home-directory">Changing HOME directory</a></li>
-  <li><a href="#edit-20240312" id="toc-edit-20240312" class="nav-link" data-scroll-target="#edit-20240312">Edit (2024/03/12)</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a>
+  <ul class="collapse">
+  <li><a href="#zsh-shell" id="toc-zsh-shell" class="nav-link" data-scroll-target="#zsh-shell">ZSH shell</a></li>
+  <li><a href="#oh-my-zsh" id="toc-oh-my-zsh" class="nav-link" data-scroll-target="#oh-my-zsh">Oh My Zsh</a></li>
+  </ul></li>
+  <li><a href="#customization" id="toc-customization" class="nav-link" data-scroll-target="#customization">Customization</a>
+  <ul class="collapse">
+  <li><a href="#color-theme" id="toc-color-theme" class="nav-link" data-scroll-target="#color-theme">Color theme</a></li>
+  <li><a href="#nerd-fonts" id="toc-nerd-fonts" class="nav-link" data-scroll-target="#nerd-fonts">Nerd Fonts</a></li>
+  <li><a href="#powerlevel10k-prompt" id="toc-powerlevel10k-prompt" class="nav-link" data-scroll-target="#powerlevel10k-prompt">Powerlevel10k prompt</a></li>
+  <li><a href="#zsh-plugins" id="toc-zsh-plugins" class="nav-link" data-scroll-target="#zsh-plugins">ZSH plugins</a></li>
+  <li><a href="#aliases" id="toc-aliases" class="nav-link" data-scroll-target="#aliases">Aliases</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -228,134 +239,191 @@ Windows-only
 <p>This post only concerns Windows users.</p>
 </div>
 </div>
-<section id="context" class="level2">
-<h2 class="anchored" data-anchor-id="context">Context</h2>
-<p>In common operating systems, there is an important directory: the <code>HOME</code> directory (also known as the <em>User’s home directory</em>). This directory contains the user’s main folders (<code>Desktop/</code>, <code>Documents/</code>, <code>Pictures/</code>, etc.) but it can also be used by software to store user’s configuration files (<code>ssh</code>, <code>bash</code>, <code>zsh</code>, etc.).</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Home vs.&nbsp;working directory
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <em>working directory</em> is the directory from which <i class="fa-brands fa-r-project" aria-label="r-project"></i> was launched. The function <code>getwd()</code> can be run to find this directory. This directory changes between projects. The <em>home directory</em> is user specific and the symbol <code>~</code> is often used to refer to this <code>HOME</code> directory.</p>
-</div>
-</div>
-<p><i class="fa-brands fa-r-project" aria-label="r-project"></i> also uses this <code>HOME</code> directory to store two configuration files: the <code>.Renviron</code> and <code>.Rprofile</code> files (run <code>?Startup</code> to learn more about these files).</p>
-<p>On Unix systems (<i class="fa-brands fa-apple" aria-label="apple"></i> and <i class="fa-brands fa-ubuntu" aria-label="ubuntu"></i>), the <code>HOME</code> directory is <code>/home/username</code> (or <code>/Users/username</code> on Apple computers).</p>
-<p>On Windows <i class="fa-brands fa-windows" aria-label="windows"></i>, depending on whether you use RStudio IDE (and therefore <code>Rgui.exe</code>) or <i class="fa-brands fa-r-project" aria-label="r-project"></i> in a terminal (and therefore <code>Rterm.exe</code>), the value of this <code>HOME</code> directory can be different:</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>When you install <a href="https://git-scm.com/"><code>git</code></a> on Windows systems, you can also install the <a href="https://www.atlassian.com/git/tutorials/git-bash">Git Bash</a> software. It’s an interesting solution to run common Linux command lines (<code>git</code>, <code>cd</code>, <code>rm</code>, <code>mkdir</code>, <code>nano</code>, etc.) on Windows environments. <strong>Git Bash</strong> uses <a href="https://www.gnu.org/software/bash/">Bash</a> as the default shell, but other shells, more powerful, are available.</p>
+<p>In this post we will focus on the <a href="https://www.zsh.org/"><strong>Z Shell</strong></a> (or <strong>zsh</strong>). It inherits Bash’s features and provides some improvements<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>:</p>
 <ul>
-<li><code>C:/Users/username</code> on a terminal</li>
-<li><code>C:/Users/username/Documents</code> on RStudio IDE</li>
+<li>command suggestion</li>
+<li>command line completion</li>
+<li>file globbing</li>
+<li>syntax highlighting</li>
+<li>spelling correction</li>
+<li>themeable prompts</li>
+<li>and many other plugins</li>
 </ul>
-<p>And the behavior of various <i class="fa-brands fa-r-project" aria-label="r-project"></i> functions is inconsistent. For instance:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">path.expand</span>(<span class="st">"~"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="do">## C:/Users/username/Documents</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">normalizePath</span>(<span class="st">"~"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="do">## C:\\Users\\username\\Documents</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a>fs<span class="sc">::</span><span class="fu">path_home</span>()</span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="do">## C:/Users/username</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>We will also present <a href="https://ohmyz.sh/"><strong>Oh My Zsh!</strong></a>, an open source, community-driven framework for managing <strong>zsh</strong> plugins.</p>
 </section>
-<section id="changing-home-directory" class="level2">
-<h2 class="anchored" data-anchor-id="changing-home-directory">Changing HOME directory</h2>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Danger
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Do not follow this tip if you are several users on the same computer.</strong></p>
-</div>
-</div>
-<p>Here we will resolve the discrepancy between these two different directories by using <code>C:/Users/username</code> everywhere (like in Unix systems).</p>
-<p>As mentioned in the <a href="https://cran.r-project.org/bin/windows/base/rw-FAQ.html#What-are-HOME-and-working-directories_003f">R for Windows FAQ</a> (section 2.13), we can modify this <code>HOME</code> directory at the system level by setting the environment variable <code>R_USER</code>.</p>
-<p>This environment variable can be modified by creating a <code>.Renviron.site</code> file in the directory <code>C:/Program Files/R/R-X.X.X/etc/</code> (where <code>R-X.X.X</code> is the version of <i class="fa-brands fa-r-project" aria-label="r-project"></i>). This file is used to store environment variables at the system level (so for all users).</p>
-<p><strong>N.B.</strong> You need to have permission to create/edit this file.</p>
-<p>Proceed as follow if the <code>.Renviron.site</code> file does not exist in <code>C:/Program Files/R/R-X.X.X/etc/</code>:</p>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<section id="zsh-shell" class="level3">
+<h3 class="anchored" data-anchor-id="zsh-shell">ZSH shell</h3>
+<p>To install <strong>zsh</strong> on Git Bash, proceed as follow:</p>
 <ul>
-<li>In <code>C:/Users/username/Desktop/</code>, create an empty file <code>.Renviron.site</code>.</li>
-<li>Open this file and add this line: <code>R_USER='C:/Users/username'</code> (replace <code>username</code> by your Windows user name).</li>
-<li>Save the file.</li>
-<li>Copy this <code>.Renviron.site</code> file in <code>C:/Program Files/R/R-X.X.X/etc/</code>.</li>
+<li>Visit <a href="https://packages.msys2.org/package/zsh?repo=msys&amp;variant=x86_64">this page</a> and download the file <code>zsh-X.X-X-x86_64.pkg.tar.zst</code>.</li>
+<li>Install the software <a href="https://peazip.github.io/">PeaZip</a> (required to extract the content of <code>zst</code> archives).</li>
+<li>Extract the content of <code>zsh-X.X-X-x86_64.pkg.tar.zst</code> with PeaZip.</li>
+<li>Copy all the files in the folder <code>C:/Program Files/Git/</code>.</li>
+<li>Open Git Bash and run <code>zsh</code> (press <code>q</code> to skip the <strong>zsh</strong> configuration).</li>
+<li>Delete the <code>zsh-X.X-X-x86_64.pkg.tar.zst</code> file (and extracted files).</li>
+<li>Uninstall PeaZip.</li>
 </ul>
-<p>Proceed as follow if the <code>.Renviron.site</code> file already exists in <code>C:/Program Files/R/R-X.X.X/etc/</code>:</p>
-<ul>
-<li>Open the <code>.Renviron.site</code> file in <code>C:/Program Files/R/R-X.X.X/etc/</code> and add this line: <code>R_USER='C:/Users/username'</code> (replace <code>username</code> by your Windows user name).</li>
-<li>Save the file.</li>
-</ul>
-<p>After restarting <i class="fa-brands fa-r-project" aria-label="r-project"></i>, run these lines:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">Sys.getenv</span>(<span class="st">"R_USER"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="do">## C:/Users/username</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="fu">path.expand</span>(<span class="st">"~"</span>)</span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="do">## C:/Users/username</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="fu">normalizePath</span>(<span class="st">"~"</span>)</span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="do">## C:\\Users\\username</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a></span>
-<span id="cb2-10"><a href="#cb2-10"></a>fs<span class="sc">::</span><span class="fu">path_home</span>()</span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="do">## C:/Users/username</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>From now you should have the same outputs on RStudio IDE and on a Terminal.</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-This is a temporary fix
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>You will need to repeat this tip each time you reinstall/upgrade <i class="fa-brands fa-r-project" aria-label="r-project"></i>.</p>
-</div>
-</div>
+<p>Now we will set <strong>zsh</strong> as the default shell on Git Bash. To do so, we are going to edit/create the configuration file of the <strong>bash</strong> shell to tell Git Bash to launch <strong>zsh</strong> at startup.</p>
+<p>Open Git Bash, run <code>nano ~/.bashrc</code> and add these lines:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">-t</span> 1 <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>  <span class="bu">exec</span> zsh</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="cf">fi</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Press <code>CTRL + X</code>, <code>Y</code>, and <code>Return</code> to save and quit this file. Close and reopen Git Bash. <strong>zsh</strong> is now the default shell.</p>
 </section>
-<section id="edit-20240312" class="level2">
-<h2 class="anchored" data-anchor-id="edit-20240312">Edit (2024/03/12)</h2>
-<p>With some <i class="fa-brands fa-r-project" aria-label="r-project"></i> functions, this tip is not enough. For instance, the functions <code>utils::file.edit("~/.Renviron")</code>, <code>utils::file.edit("~/.Rprofile")</code>, <code>usethis::edit_r_environ()</code>, <code>usethis::edit_r_profile()</code> do not recognized the new <code>HOME</code> directory.</p>
-<p>To fix this issue, we need to define the <code>R_USER</code> environment variable at the Windows <i class="fa-brands fa-windows" aria-label="windows"></i> level.</p>
+<section id="oh-my-zsh" class="level3">
+<h3 class="anchored" data-anchor-id="oh-my-zsh">Oh My Zsh</h3>
+<p><a href="https://ohmyz.sh/">Oh My Zsh!</a> is a framework for making easier the configuration of <strong>zsh</strong> and managing <strong>zsh</strong> plugins. To install <strong>Oh My Zsh!</strong> run the following command on Git Bash:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">sh</span> <span class="at">-c</span> <span class="st">"</span><span class="va">$(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="va">)</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The prompt must have changed (<code>-&gt; ~</code>).</p>
+<p><strong>N.B.</strong> You can ignore the error message (ERROR: this script is obsolete…).</p>
+</section>
+</section>
+<section id="customization" class="level2">
+<h2 class="anchored" data-anchor-id="customization">Customization</h2>
+<section id="color-theme" class="level3">
+<h3 class="anchored" data-anchor-id="color-theme">Color theme</h3>
+<p>You can change the default color theme of Git Bash by right-clicking on the title bar and by selecting <code>Options...</code>. In the <code>Look</code> menu, you can select a predefined theme (e.g.&nbsp;<strong>Gruvbox</strong>).</p>
+</section>
+<section id="nerd-fonts" class="level3">
+<h3 class="anchored" data-anchor-id="nerd-fonts">Nerd Fonts</h3>
+<p>Before changing the <strong>zsh</strong> prompt, we need to install on Windows a <a href="https://www.nerdfonts.com">Nerd Font</a>. It’s recommended to use the <a href="https://www.programmingfonts.org/#meslo">MesloLG Nerd Font</a> with the <a href="https://github.com/romkatv/powerlevel10k">Powerlevel10k</a> prompt (the prompt we will install later).</p>
 <p>Proceed as follow:</p>
 <ul>
-<li>In the Windows search bar, type <code>variables</code> and open <strong>Modify system environment variables</strong>.</li>
-<li>At the bottom, click on <strong>Environment variables…</strong></li>
-<li>In the section <strong>System variable</strong>, add a <strong>new entry</strong> and set:
-<ul>
-<li>Name: <code>R_USER</code></li>
-<li>Value: <code>C:\Users\username</code> (replace <code>username</code> by your Windows user name)</li>
-</ul></li>
+<li>Download the MesloLG Nerd Font pack at <a href="https://www.nerdfonts.com/font-downloads" class="uri">https://www.nerdfonts.com/font-downloads</a>.</li>
+<li>Extract the content of the ZIP file.</li>
+<li>Select all files (except the <code>README.md</code> and the <code>LICENSE</code>), right-click and select <code>Install</code>.</li>
 </ul>
-<p>After restarting <i class="fa-brands fa-r-project" aria-label="r-project"></i>, the <code>HOME</code> directory should always point to <code>C:/Users/username</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">Sys.getenv</span>(<span class="st">"R_USER"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="do">## C:/Users/username</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="fu">path.expand</span>(<span class="st">"~"</span>)</span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="do">## C:/Users/username</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="fu">normalizePath</span>(<span class="st">"~"</span>)</span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="do">## C:\\Users\\username</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a></span>
-<span id="cb3-10"><a href="#cb3-10"></a>fs<span class="sc">::</span><span class="fu">path_home</span>()</span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="do">## C:/Users/username</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, on Git Bash, right-click on the title bar and select <code>Options...</code>. In the <code>Text</code> menu, click on <code>Select...</code> and choose <code>MesloLGS NF</code>.</p>
+</section>
+<section id="powerlevel10k-prompt" class="level3">
+<h3 class="anchored" data-anchor-id="powerlevel10k-prompt">Powerlevel10k prompt</h3>
+<p>We are going to install the <a href="https://github.com/romkatv/powerlevel10k">Powerlevel10k</a> prompt. To install this prompt with <strong>Oh My Zsh!</strong>, run this command:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">git</span> clone <span class="at">--depth</span><span class="op">=</span>1 https://github.com/romkatv/powerlevel10k.git <span class="va">${ZSH_CUSTOM</span><span class="op">:-</span><span class="va">$HOME</span>/.oh-my-zsh/custom<span class="va">}</span>/themes/powerlevel10k</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now we need to activate this prompt in the configuration file of <strong>zsh</strong> (named <code>~/.zshrc</code>). Let’s open this file with <code>nano ~/.zshrc</code>.</p>
+<p>Replace the line <code>ZSH_THEME="robbyrussell"</code> by:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="va">ZSH_THEME</span><span class="op">=</span><span class="st">"powerlevel10k/powerlevel10k"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Press <code>CTRL + X</code>, <code>Y</code>, and <code>Return</code> to save and quit this file.</p>
+<p>Finally, run <code>source ~/.zshrc</code> to update the configuration of <strong>zsh</strong>. This will launch the <strong>Powerlevel10k configuration wizard</strong>. Answer the questions as you wish to customize the prompt.</p>
+<p>Congrats! Your prompt should look like this one:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="prompt.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Oh My Zsh! prompts
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can install a different prompt (theme) if you want. <strong>Oh My Zsh!</strong> provides a lot of different <a href="https://github.com/ohmyzsh/ohmyzsh/wiki/Themes">themes</a>.</p>
+</div>
+</div>
+</section>
+<section id="zsh-plugins" class="level3">
+<h3 class="anchored" data-anchor-id="zsh-plugins">ZSH plugins</h3>
+<p><strong>Oh My Zsh!</strong> comes bundled with <a href="https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins">many plugins</a> that add new features to <strong>zsh</strong> shell. By default, the <a href="https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git"><strong>git</strong></a> plugin is enabled. It provides <code>git</code> aliases (shortcuts).</p>
+<section id="z-plugin" class="level4">
+<h4 class="anchored" data-anchor-id="z-plugin">z plugin</h4>
+<p>Let’s add a new functionality by enabling the <a href="https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/z"><strong>z</strong></a> plugin. This plugin defines the <a href="https://github.com/agkozak/zsh-z">z command</a> that tracks your most visited directories and allows you to access them with very few keystrokes.</p>
+<p>To activate this plugin, we need to modify a line in the configuration file of <strong>zsh</strong>. Let’s open this file with <code>nano ~/.zshrc</code>.</p>
+<p>Replace the line <code>plugins=(...)</code> by:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource txt number-lines code-with-copy"><code class="sourceCode default"><span id="cb5-1"><a href="#cb5-1"></a>plugins=(... z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Press <code>CTRL + X</code>, <code>Y</code>, and <code>Return</code> to save and quit this file.</p>
+<p>Finally, run <code>source ~/.zshrc</code> to update the configuration of <strong>zsh</strong>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Enabling plugins
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can use the same method to activate other <a href="https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins">plugins</a> bundled with <strong>Oh My Zsh!</strong></p>
+</div>
+</div>
+<p>To use the <code>z</code> command, you must first visit the directory with the Linux command <code>cd</code>. After a while, you will be able to access this directory by simply writing <code>z</code> followed by a pattern specific to this directory.</p>
+<p>For example, if you visit the folder <code>C:/Users/Username/Document/Projects</code> a couple of times, you will able to write <code>z proj</code>. After pressing the <code>TAB</code> key, the command line will be replaced by: <code>z C:/Users/Username/Document/Projects</code>. Press <code>Return</code> and this will have the same effect as running <code>cd C:/Users/Username/Document/Projects</code>.</p>
+</section>
+<section id="autosuggestions-plugin" class="level4">
+<h4 class="anchored" data-anchor-id="autosuggestions-plugin">Autosuggestions plugin</h4>
+<p>The <a href="https://github.com/zsh-users/zsh-autosuggestions">zsh-autosuggestions</a> plugin is a fast autosuggestions tool for <strong>zsh</strong>. It suggests commands as you type based on history and completions.</p>
+<p>This plugin is not bundled with <strong>Oh My Zsh!</strong> but we can install it with <code>git</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">git</span> clone https://github.com/zsh-users/zsh-autosuggestions.git <span class="va">${ZSH_CUSTOM}</span>/plugins/zsh-autosuggestions</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To activate this plugin, we need to modify the configuration file of <strong>zsh</strong>. Let’s open this file with <code>nano ~/.zshrc</code>.</p>
+<p>Replace the line <code>plugins=(...)</code> by:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource txt number-lines code-with-copy"><code class="sourceCode default"><span id="cb7-1"><a href="#cb7-1"></a>plugins=(... zsh-autosuggestions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Press <code>CTRL + X</code>, <code>Y</code>, and <code>Return</code> to save and quit this file.</p>
+<p>Finally, run <code>source ~/.zshrc</code> to update the configuration of <strong>zsh</strong>.</p>
+<p>To use this feature, start typing a command (for example <code>cd</code>) and you will see a completion offered after the cursor in a muted gray color. Press <code>TAB</code> to accept the suggestion or use the <code>Up</code> and <code>Down</code> arrow keys to navigate into the history associated with this command.</p>
+</section>
+<section id="syntax-highlighting-plugin" class="level4">
+<h4 class="anchored" data-anchor-id="syntax-highlighting-plugin">Syntax highlighting plugin</h4>
+<p>The <a href="https://github.com/zsh-users/zsh-syntax-highlighting">zsh-syntax-highlighting</a> plugin is a tool that enables highlighting of commands as they are typed. Valid commands, errors, strings, and URL will be highlighted by a specific color.</p>
+<p>This plugin is not bundled with <strong>Oh My Zsh!</strong> but we can install it with <code>git</code>:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">git</span> clone https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="va">${ZSH_CUSTOM}</span>/plugins/zsh-syntax-highlighting</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To activate this plugin, we need to modify the configuration file of <strong>zsh</strong>. Let’s open this file with <code>nano ~/.zshrc</code>.</p>
+<p>Replace the line <code>plugins=(...)</code> by:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource txt number-lines code-with-copy"><code class="sourceCode default"><span id="cb9-1"><a href="#cb9-1"></a>plugins=(... zsh-syntax-highlighting)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Press <code>CTRL + X</code>, <code>Y</code>, and <code>Return</code> to save and quit this file.</p>
+<p>Finally, run <code>source ~/.zshrc</code> to update the configuration of <strong>zsh</strong>.</p>
+</section>
+</section>
+<section id="aliases" class="level3">
+<h3 class="anchored" data-anchor-id="aliases">Aliases</h3>
+<p>You can improve your productivity by creating <strong>aliases</strong> (shortcuts). Note that this feature is available in many shells.</p>
+<p>For example, we can create this alias:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a><span class="bu">alias</span> ..=<span class="st">'cd ..'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, instead of writing <code>cd ..</code>, we can simply type <code>..</code> to navigate to the parent directory.</p>
+<p>We can store aliases in the configuration file of <strong>zsh</strong>. Let’s open this file with <code>nano ~/.zshrc</code> and add at the end of the file a subjective selection of aliases:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a><span class="bu">alias</span> ..=<span class="st">'cd ..'</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="bu">alias</span> gs=<span class="st">'git status'</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="bu">alias</span> ga=<span class="st">'git add'</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="bu">alias</span> gc=<span class="st">'git commit -m'</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="bu">alias</span> gp=<span class="st">'git push'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Press <code>CTRL + X</code>, <code>Y</code>, and <code>Return</code> to save and quit this file. Run <code>source ~/.zshrc</code> to update the configuration of <strong>zsh</strong>.</p>
+<p>Of course, you can add your own aliases. The hardest part is remembering!</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+RStudio default terminal
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can benefit of all these features in <strong>RStudio IDE</strong> by changing the default terminal application. Go to <code>Tools</code>, <code>Global Options</code> and <code>Terminal</code>. Select <strong>Git Bash</strong> in <em>New terminals open with</em>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="rstudio-terminal.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
 </div>
 
 
 </section>
+</section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p><a href="https://en.wikipedia.org/wiki/Z_shell" class="uri">https://en.wikipedia.org/wiki/Z_shell</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

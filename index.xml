@@ -9,8 +9,21 @@
 <link>https://frbcesab.github.io/tips-and-tricks/</link>
 <atom:link href="https://frbcesab.github.io/tips-and-tricks/index.xml" rel="self" type="application/rss+xml"/>
 <description>Tips and tricks</description>
-<generator>quarto-1.4.551</generator>
-<lastBuildDate>Tue, 12 Mar 2024 00:00:00 GMT</lastBuildDate>
+<generator>quarto-1.4.552</generator>
+<lastBuildDate>Tue, 26 Mar 2024 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>ZSH: an alternative to Bash (Windows)</title>
+  <dc:creator>Nicolas Casajus</dc:creator>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-26-zsh-an-alternative-to-bash/2024-03-26-zsh-an-alternative-to-bash.html</link>
+  <description><![CDATA[ This post only concerns Windows users. ]]></description>
+  <category>windows</category>
+  <category>terminal</category>
+  <category>git-bash</category>
+  <category>zsh</category>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-26-zsh-an-alternative-to-bash/2024-03-26-zsh-an-alternative-to-bash.html</guid>
+  <pubDate>Tue, 26 Mar 2024 00:00:00 GMT</pubDate>
+  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-03-26-zsh-an-alternative-to-bash" medium="image"/>
+</item>
 <item>
   <title>Storing secrets with the .Renviron file</title>
   <dc:creator>Nicolas Casajus</dc:creator>
