@@ -1,0 +1,248 @@
+---
+title: "ZSH: an alternative to Bash (Windows)"
+author: "Nicolas Casajus"
+date: "2024-03-26"
+categories: [windows, terminal, git-bash, zsh]
+image: ""
+toc: true
+draft: false
+code-overflow: scroll
+---
+
+
+::: {.callout-important}
+## Windows-only
+
+This post only concerns Windows users.
+:::
+
+
+## Introduction
+
+When you install [`git`](https://git-scm.com/) on Windows systems, you can also install the [Git Bash](https://www.atlassian.com/git/tutorials/git-bash) software. It's an interesting solution to run common Linux command lines (`git`, `cd`, `rm`, `mkdir`, `nano`, etc.) on Windows environments. **Git Bash** uses [Bash](https://www.gnu.org/software/bash/) as the default shell, but other shells, more powerful, are available.
+
+In this post we will focus on the [**Z Shell**](https://www.zsh.org/) (or **zsh**). It inherits Bash's features and provides some improvements[^1]:
+
+- command suggestion
+- command line completion
+- file globbing
+- syntax highlighting
+- spelling correction
+- themeable prompts
+- and many other plugins
+
+We will also present [**Oh My Zsh!**](https://ohmyz.sh/), an open source, community-driven framework for managing **zsh** plugins.
+
+
+
+## Installation
+
+### ZSH shell
+
+To install **zsh** on Git Bash, proceed as follow:
+
+- Visit [this page](https://packages.msys2.org/package/zsh?repo=msys&variant=x86_64) and download the file `zsh-X.X-X-x86_64.pkg.tar.zst`.
+- Install the software [PeaZip](https://peazip.github.io/) (required to extract the content of `zst` archives).
+- Extract the content of `zsh-X.X-X-x86_64.pkg.tar.zst` with PeaZip.
+- Copy all the files in the folder `C:/Program Files/Git/`.
+- Open Git Bash and run `zsh` (press `q` to skip the **zsh** configuration). 
+- Delete the `zsh-X.X-X-x86_64.pkg.tar.zst` file (and extracted files).
+- Uninstall PeaZip.
+
+Now we will set **zsh** as the default shell on Git Bash. To do so, we are going to edit/create the configuration file of the **bash** shell to tell Git Bash to launch **zsh** at startup.
+
+Open Git Bash, run `nano ~/.bashrc` and add these lines:
+
+```sh
+if [ -t 1 ]; then
+  exec zsh
+fi
+```
+
+Press `CTRL + X`, `Y`, and `Return` to save and quit this file. Close and reopen Git Bash. **zsh** is now the default shell.
+
+
+
+### Oh My Zsh
+
+[Oh My Zsh!](https://ohmyz.sh/) is a framework for making easier the configuration of **zsh** and managing **zsh** plugins. To install **Oh My Zsh!** run the following command on Git Bash:
+
+```sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+The prompt must have changed (`-> ~ `). 
+
+**N.B.** You can ignore the error message (ERROR: this script is obsolete...).
+
+
+## Customization
+
+### Color theme
+
+You can change the default color theme of Git Bash by right-clicking on the title bar and by selecting `Options...`. In the `Look` menu, you can select a predefined theme (e.g. **Gruvbox**).
+
+
+### Nerd Fonts
+
+Before changing the **zsh** prompt, we need to install on Windows a [Nerd Font](https://www.nerdfonts.com). It's recommended to use the [MesloLG Nerd Font](https://www.programmingfonts.org/#meslo) with the [Powerlevel10k](https://github.com/romkatv/powerlevel10k) prompt (the prompt we will install later).
+
+Proceed as follow:
+
+* Download the MesloLG Nerd Font pack at <https://www.nerdfonts.com/font-downloads>.
+* Extract the content of the ZIP file.
+* Select all files (except the `README.md` and the `LICENSE`), right-click and select `Install`.
+
+Then, on Git Bash, right-click on the title bar and select `Options...`. In the `Text` menu, click on `Select...` and choose `MesloLGS NF`.
+
+
+### Powerlevel10k prompt
+
+We are going to install the [Powerlevel10k](https://github.com/romkatv/powerlevel10k) prompt. To install this prompt with **Oh My Zsh!**, run this command:
+
+```sh
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+```
+
+Now we need to activate this prompt in the configuration file of **zsh** (named `~/.zshrc`). Let's open this file with `nano ~/.zshrc`.
+
+Replace the line `ZSH_THEME="robbyrussell"` by:
+
+```sh
+ZSH_THEME="powerlevel10k/powerlevel10k"
+```
+
+Press `CTRL + X`, `Y`, and `Return` to save and quit this file.
+
+Finally, run `source ~/.zshrc` to update the configuration of **zsh**. This will launch the **Powerlevel10k configuration wizard**. Answer the questions as you wish to customize the prompt.
+
+Congrats! Your prompt should look like this one:
+
+![](prompt.png){fig-align="center" width="70%"}
+
+
+::: {.callout-tip}
+## Oh My Zsh! prompts
+
+You can install a different prompt (theme) if you want. **Oh My Zsh!** provides a lot of different [themes](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes).
+:::
+
+
+### ZSH plugins
+
+**Oh My Zsh!** comes bundled with [many plugins](https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins) that add new features to **zsh** shell. By default, the [**git**](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git) plugin is enabled. It provides `git` aliases (shortcuts).
+
+#### z plugin
+
+Let's add a new functionality by enabling the [**z**](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/z) plugin. This plugin defines the [z command](https://github.com/agkozak/zsh-z) that tracks your most visited directories and allows you to access them with very few keystrokes.
+
+To activate this plugin, we need to modify a line in the configuration file of **zsh**. Let's open this file with `nano ~/.zshrc`.
+
+Replace the line `plugins=(...)` by:
+
+```txt
+plugins=(... z)
+```
+
+Press `CTRL + X`, `Y`, and `Return` to save and quit this file.
+
+Finally, run `source ~/.zshrc` to update the configuration of **zsh**.
+
+::: {.callout-tip}
+## Enabling plugins
+
+You can use the same method to activate other [plugins](https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins) bundled with **Oh My Zsh!**
+:::
+
+To use the `z` command, you must first visit the directory with the Linux command `cd`. After a while, you will be able to access this directory by simply writing `z` followed by a pattern specific to this directory.
+
+For example, if you visit the folder `C:/Users/Username/Document/Projects` a couple of times, you will able to write `z proj`. After pressing the `TAB` key, the command line will be replaced by: `z C:/Users/Username/Document/Projects`. Press `Return` and this will have the same effect as running `cd C:/Users/Username/Document/Projects`.
+
+
+#### Autosuggestions plugin
+
+The [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) plugin is a fast autosuggestions tool for **zsh**. It suggests commands as you type based on history and completions.
+
+This plugin is not bundled with **Oh My Zsh!** but we can install it with `git`:
+
+```sh
+git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
+```
+
+To activate this plugin, we need to modify the configuration file of **zsh**. Let's open this file with `nano ~/.zshrc`.
+
+Replace the line `plugins=(...)` by:
+
+```txt
+plugins=(... zsh-autosuggestions)
+```
+
+Press `CTRL + X`, `Y`, and `Return` to save and quit this file.
+
+Finally, run `source ~/.zshrc` to update the configuration of **zsh**.
+
+To use this feature, start typing a command (for example `cd`) and you will see a completion offered after the cursor in a muted gray color. Press `TAB` to accept the suggestion or use the `Up` and `Down` arrow keys to navigate into the history associated with this command.
+
+
+#### Syntax highlighting plugin
+
+The [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) plugin is a tool that enables highlighting of commands as they are typed. Valid commands, errors, strings, and URL will be highlighted by a specific color.
+
+This plugin is not bundled with **Oh My Zsh!** but we can install it with `git`:
+
+```sh
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
+```
+
+To activate this plugin, we need to modify the configuration file of **zsh**. Let's open this file with `nano ~/.zshrc`.
+
+Replace the line `plugins=(...)` by:
+
+```txt
+plugins=(... zsh-syntax-highlighting)
+```
+
+Press `CTRL + X`, `Y`, and `Return` to save and quit this file.
+
+Finally, run `source ~/.zshrc` to update the configuration of **zsh**.
+
+
+
+### Aliases
+
+You can improve your productivity by creating **aliases** (shortcuts). Note that this feature is available in many shells.
+
+For example, we can create this alias:
+
+```sh
+alias ..='cd ..'
+```
+
+Then, instead of writing `cd ..`, we can simply type `..` to navigate to the parent directory.
+
+We can store aliases in the configuration file of **zsh**. Let's open this file with `nano ~/.zshrc` and add at the end of the file a subjective selection of aliases:
+
+```sh
+alias ..='cd ..'
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit -m'
+alias gp='git push'
+```
+
+Press `CTRL + X`, `Y`, and `Return` to save and quit this file. Run `source ~/.zshrc` to update the configuration of **zsh**.
+
+
+Of course, you can add your own aliases. The hardest part is remembering!
+
+
+::: {.callout-tip}
+## RStudio default terminal
+
+You can benefit of all these features in **RStudio IDE** by changing the default terminal application. Go to `Tools`, `Global Options` and `Terminal`. Select **Git Bash** in _New terminals open with_.
+
+![](rstudio-terminal.png){fig-align="center" width="90%"}
+:::
+
+
+[^1]: <https://en.wikipedia.org/wiki/Z_shell>
