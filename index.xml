@@ -10,7 +10,19 @@
 <atom:link href="https://frbcesab.github.io/tips-and-tricks/index.xml" rel="self" type="application/rss+xml"/>
 <description>Tips and tricks</description>
 <generator>quarto-1.4.552</generator>
-<lastBuildDate>Tue, 26 Mar 2024 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 02 Apr 2024 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Python tutorial - Part 1</title>
+  <dc:creator>Camille Coux</dc:creator>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-04-02-python-tutorial-part-1/2024-04-02-python-tutorial-part-1.html</link>
+  <description><![CDATA[ This post has a dedicated presentation available <a href="https://frbcesab.github.io/python-tuto-01/">here</a>. ]]></description>
+  <category>python</category>
+  <category>tutorial</category>
+  <category>games</category>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-04-02-python-tutorial-part-1/2024-04-02-python-tutorial-part-1.html</guid>
+  <pubDate>Tue, 02 Apr 2024 00:00:00 GMT</pubDate>
+  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-04-02-python-tutorial-part-1" medium="image"/>
+</item>
 <item>
   <title>ZSH: an alternative to Bash (Windows)</title>
   <dc:creator>Nicolas Casajus</dc:creator>

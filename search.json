@@ -133,46 +133,18 @@
     "text": "Footnotes\n\n\nhttps://en.wikipedia.org/wiki/Z_shell↩︎"
   },
   {
-    "objectID": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html",
-    "href": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html",
-    "title": "Storing secrets with the .Renviron file",
+    "objectID": "posts/2024-04-02-python-tutorial-part-1/2024-04-02-python-tutorial-part-1.html",
+    "href": "posts/2024-04-02-python-tutorial-part-1/2024-04-02-python-tutorial-part-1.html",
+    "title": "Python tutorial - Part 1",
     "section": "",
-    "text": "What is a secret? It is usually a password, an username or an API token (key) required by services. For instance, some  packages require an authentication method:\n\nusethis requires a token to control the GitHub API\ntaxize requires tokens to query API provided by several taxonomic databases\nrwosstarter requires a token to access the Web of Science API\nrgbif requires an username and a password associated by a GBIF account\n\nIt’s tempting to record secrets as variables in R scripts. But keep in mind this: Never share your secrets with anyone (this also includes GitHub).\nAccording to the documentation of the httr package, there is three secure ways to store your secrets:\n\nAsk for the secret each time (no permanent storage).\nStore the secret as an environment variable.\nUse the keyring package and the operating system’s credential store.\n\nHere we will see how to easily store secret as an environment variable.\n\n\n\n\n\n\nEnvironment variable\n\n\n\nAccording to Wikipedia,\n\nAn environment variable is a user-definable value that can affect the way running processes will behave on a computer.\n\nIn short, it is a way to pass information to a program. Environment variable are used by many programs and operating systems and are made up of a name-value pair."
+    "text": "This post has a dedicated presentation available here.\nThe source of the Quarto presentation is available on GitHub."
   },
   {
-    "objectID": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#introduction",
-    "href": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#introduction",
-    "title": "Storing secrets with the .Renviron file",
+    "objectID": "posts/2024-02-27-rstudio-shortcuts-a-selection/2024-02-27-rstudio-shortcuts-a-selection.html",
+    "href": "posts/2024-02-27-rstudio-shortcuts-a-selection/2024-02-27-rstudio-shortcuts-a-selection.html",
+    "title": "RStudio shortcuts: a selection",
     "section": "",
-    "text": "What is a secret? It is usually a password, an username or an API token (key) required by services. For instance, some  packages require an authentication method:\n\nusethis requires a token to control the GitHub API\ntaxize requires tokens to query API provided by several taxonomic databases\nrwosstarter requires a token to access the Web of Science API\nrgbif requires an username and a password associated by a GBIF account\n\nIt’s tempting to record secrets as variables in R scripts. But keep in mind this: Never share your secrets with anyone (this also includes GitHub).\nAccording to the documentation of the httr package, there is three secure ways to store your secrets:\n\nAsk for the secret each time (no permanent storage).\nStore the secret as an environment variable.\nUse the keyring package and the operating system’s credential store.\n\nHere we will see how to easily store secret as an environment variable.\n\n\n\n\n\n\nEnvironment variable\n\n\n\nAccording to Wikipedia,\n\nAn environment variable is a user-definable value that can affect the way running processes will behave on a computer.\n\nIn short, it is a way to pass information to a program. Environment variable are used by many programs and operating systems and are made up of a name-value pair."
-  },
-  {
-    "objectID": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#the-.renviron-file",
-    "href": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#the-.renviron-file",
-    "title": "Storing secrets with the .Renviron file",
-    "section": "The .Renviron file",
-    "text": "The .Renviron file\nThe  startup process is complex but one special  file is interesting for our purpose: the .Renviron file. This file does not contain  code: it only contains environment variables that will be pass to  at startup. It looks like:\nNAME1=value1\nNAME2=value2\nWe can use this file to store our secrets. To open (and create if necessary) the .Renviron file, run this command:\n\n## Create (if required) and open ~/.Renviron file ----\nutils::file.edit(\"~/.Renviron\")\n\n## Alternatively,\nusethis::edit_r_environ()\n\nThis command will create an .Renviron file at the user level (i.e. in his/her HOME directory) and all environment variables defined inside will be available for all  sessions.\nTo store a new secret, just add a new line. For instance:\nGITHUB_PAT='ghp_9999zzz9999zzz'\nN.B. add a new empty line at the end of this file otherwise  will ignore it."
-  },
-  {
-    "objectID": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#accessing-secrets",
-    "href": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#accessing-secrets",
-    "title": "Storing secrets with the .Renviron file",
-    "section": "Accessing secrets",
-    "text": "Accessing secrets\nTo retrieve the value of a secret (and any environment variable), just use the function Sys.getenv().\n\n## Get secret value ----\nSys.getenv(\"GITHUB_PAT\")\n\n## Handle this secret securely ----\ngithub_pat &lt;- Sys.getenv(\"GITHUB_PAT\")\n\nN.B. by running Sys.getenv() without argument you will print all available environment variables."
-  },
-  {
-    "objectID": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#to-go-further",
-    "href": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#to-go-further",
-    "title": "Storing secrets with the .Renviron file",
-    "section": "To go further",
-    "text": "To go further\nA .Renviron file can be created at three different levels:\n\nat the system level (named .Renviron.site)\nat the user level (~/.Renviron)\nat the project level (.Renviron)\n\nAt startup  will first read .Renviron.site, then ~/.Renviron and finally the .Renviron of the project. This means that if the same environment variable is defined in ~/.Renviron (user level) and in the .Renviron of the project, the value defined in the .Renviron of the project will overwrite the one defined at the user level.\n\nIf you want to store a secret that be shared among projects, store it in the ~/.Renviron (user level)\nIf you want to store a secret specific to a project, store it in the .Renviron (project level)\n\n\n\n\n\n\n\ngit and .Renviron\n\n\n\nIf you create a .Renviron file at the project level, do not forget to add this file to the .gitignore. Otherwise your secret will be published on GitHub."
-  },
-  {
-    "objectID": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#resources",
-    "href": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#resources",
-    "title": "Storing secrets with the .Renviron file",
-    "section": "Resources",
-    "text": "Resources\nhttps://rstats.wtf/r-startup.html https://resources.numbat.space/using-.rprofile-and-.html https://cran.r-project.org/web/packages/httr/vignettes/secrets.html https://www.r-bloggers.com/2024/02/key-advantages-of-using-the-keyring-package/"
+    "text": "This post lists useful shortcuts that will increase your productivity in using RStudio IDE. This subset is a subjective selection: for more shortcuts, press the combination Alt + Shift + K.\n\nTable 1. A subjective selection of RStudio shortcuts\n\n\n\n\n\n\n\nCategory\nAction\nKey combination\n\n\n\n\nNavigation\nGo to next tab\nGo to previous tab\nCtrl + Tab\nCtrl + Shift + Tab\n\n\nPanels\nMove cursor to Editor\nMove cursor to Console\nMove cursor to Terminal\nExpand Editor panel\nExpand Console panel\nCtrl + 1\nCtrl + 2\nAlt + Shift + M\nCtrl + Shift + 1\nCtrl + Shift + 2\n\n\nFiles\nCreate a new .R file\nSave file\nClose file\nCtrl + Shift + N\nCtrl + S\nCtrl + W\n\n\nEditor\nComment/uncomment current line/selection\nSend current line/selection to Console\nSend current line/selection to Terminal\nInsert assignment operator (&lt;-)\nInsert pipe operator (%&gt;% or |&gt;)\nMove current line up\nMove current line down\nDelete current line\nDuplicate current line (below)\nYank (cut) line up to cursor\nYank (cut) line after cursor\nAdd a cursor above current cursor\nAdd a cursor below current cursor\nAdd a cursor on the click\nCtrl + Shift + C\nCtrl + Return\nCtrl + Shift + Return\nCtrl + Shift + +\nCtrl + Shift + Return\nAlt + Up\nAlt + Down\nCtrl + D\nCtrl + Shift + D\nCtrl + U\nCtrl + K\nCtrl + Alt + Up\nCtrl + Alt + Down\nCtrl + Alt + Click\n\n\nBuild\nLoad project (devtools::load_all())\nCheck package (devtools::check())\nKnit/Render/Preview .(R|q)md files\nInsert code chunk in .(R|q)md files\nCtrl + Shift + L\nCtrl + Shift + E\nCtrl + Shift + K\nCtrl + Alt + I\n\n\nOther\nClear console/terminal\nCtrl + L"
   },
   {
     "objectID": "CODE_OF_CONDUCT.html",
@@ -231,11 +203,46 @@
     "text": "This Code of Conduct is adapted from the Contributor Covenant, version 2.1, available at https://www.contributor-covenant.org/version/2/1/code_of_conduct.html.\nCommunity Impact Guidelines were inspired by Mozilla’s code of conduct enforcement ladder.\nFor answers to common questions about this code of conduct, see the FAQ at https://www.contributor-covenant.org/faq. Translations are available at https://www.contributor-covenant.org/translations."
   },
   {
-    "objectID": "posts/2024-02-27-rstudio-shortcuts-a-selection/2024-02-27-rstudio-shortcuts-a-selection.html",
-    "href": "posts/2024-02-27-rstudio-shortcuts-a-selection/2024-02-27-rstudio-shortcuts-a-selection.html",
-    "title": "RStudio shortcuts: a selection",
+    "objectID": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html",
+    "href": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html",
+    "title": "Storing secrets with the .Renviron file",
     "section": "",
-    "text": "This post lists useful shortcuts that will increase your productivity in using RStudio IDE. This subset is a subjective selection: for more shortcuts, press the combination Alt + Shift + K.\n\nTable 1. A subjective selection of RStudio shortcuts\n\n\n\n\n\n\n\nCategory\nAction\nKey combination\n\n\n\n\nNavigation\nGo to next tab\nGo to previous tab\nCtrl + Tab\nCtrl + Shift + Tab\n\n\nPanels\nMove cursor to Editor\nMove cursor to Console\nMove cursor to Terminal\nExpand Editor panel\nExpand Console panel\nCtrl + 1\nCtrl + 2\nAlt + Shift + M\nCtrl + Shift + 1\nCtrl + Shift + 2\n\n\nFiles\nCreate a new .R file\nSave file\nClose file\nCtrl + Shift + N\nCtrl + S\nCtrl + W\n\n\nEditor\nComment/uncomment current line/selection\nSend current line/selection to Console\nSend current line/selection to Terminal\nInsert assignment operator (&lt;-)\nInsert pipe operator (%&gt;% or |&gt;)\nMove current line up\nMove current line down\nDelete current line\nDuplicate current line (below)\nYank (cut) line up to cursor\nYank (cut) line after cursor\nAdd a cursor above current cursor\nAdd a cursor below current cursor\nAdd a cursor on the click\nCtrl + Shift + C\nCtrl + Return\nCtrl + Shift + Return\nCtrl + Shift + +\nCtrl + Shift + Return\nAlt + Up\nAlt + Down\nCtrl + D\nCtrl + Shift + D\nCtrl + U\nCtrl + K\nCtrl + Alt + Up\nCtrl + Alt + Down\nCtrl + Alt + Click\n\n\nBuild\nLoad project (devtools::load_all())\nCheck package (devtools::check())\nKnit/Render/Preview .(R|q)md files\nInsert code chunk in .(R|q)md files\nCtrl + Shift + L\nCtrl + Shift + E\nCtrl + Shift + K\nCtrl + Alt + I\n\n\nOther\nClear console/terminal\nCtrl + L"
+    "text": "What is a secret? It is usually a password, an username or an API token (key) required by services. For instance, some  packages require an authentication method:\n\nusethis requires a token to control the GitHub API\ntaxize requires tokens to query API provided by several taxonomic databases\nrwosstarter requires a token to access the Web of Science API\nrgbif requires an username and a password associated by a GBIF account\n\nIt’s tempting to record secrets as variables in R scripts. But keep in mind this: Never share your secrets with anyone (this also includes GitHub).\nAccording to the documentation of the httr package, there is three secure ways to store your secrets:\n\nAsk for the secret each time (no permanent storage).\nStore the secret as an environment variable.\nUse the keyring package and the operating system’s credential store.\n\nHere we will see how to easily store secret as an environment variable.\n\n\n\n\n\n\nEnvironment variable\n\n\n\nAccording to Wikipedia,\n\nAn environment variable is a user-definable value that can affect the way running processes will behave on a computer.\n\nIn short, it is a way to pass information to a program. Environment variable are used by many programs and operating systems and are made up of a name-value pair."
+  },
+  {
+    "objectID": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#introduction",
+    "href": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#introduction",
+    "title": "Storing secrets with the .Renviron file",
+    "section": "",
+    "text": "What is a secret? It is usually a password, an username or an API token (key) required by services. For instance, some  packages require an authentication method:\n\nusethis requires a token to control the GitHub API\ntaxize requires tokens to query API provided by several taxonomic databases\nrwosstarter requires a token to access the Web of Science API\nrgbif requires an username and a password associated by a GBIF account\n\nIt’s tempting to record secrets as variables in R scripts. But keep in mind this: Never share your secrets with anyone (this also includes GitHub).\nAccording to the documentation of the httr package, there is three secure ways to store your secrets:\n\nAsk for the secret each time (no permanent storage).\nStore the secret as an environment variable.\nUse the keyring package and the operating system’s credential store.\n\nHere we will see how to easily store secret as an environment variable.\n\n\n\n\n\n\nEnvironment variable\n\n\n\nAccording to Wikipedia,\n\nAn environment variable is a user-definable value that can affect the way running processes will behave on a computer.\n\nIn short, it is a way to pass information to a program. Environment variable are used by many programs and operating systems and are made up of a name-value pair."
+  },
+  {
+    "objectID": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#the-.renviron-file",
+    "href": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#the-.renviron-file",
+    "title": "Storing secrets with the .Renviron file",
+    "section": "The .Renviron file",
+    "text": "The .Renviron file\nThe  startup process is complex but one special  file is interesting for our purpose: the .Renviron file. This file does not contain  code: it only contains environment variables that will be pass to  at startup. It looks like:\nNAME1=value1\nNAME2=value2\nWe can use this file to store our secrets. To open (and create if necessary) the .Renviron file, run this command:\n\n## Create (if required) and open ~/.Renviron file ----\nutils::file.edit(\"~/.Renviron\")\n\n## Alternatively,\nusethis::edit_r_environ()\n\nThis command will create an .Renviron file at the user level (i.e. in his/her HOME directory) and all environment variables defined inside will be available for all  sessions.\nTo store a new secret, just add a new line. For instance:\nGITHUB_PAT='ghp_9999zzz9999zzz'\nN.B. add a new empty line at the end of this file otherwise  will ignore it."
+  },
+  {
+    "objectID": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#accessing-secrets",
+    "href": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#accessing-secrets",
+    "title": "Storing secrets with the .Renviron file",
+    "section": "Accessing secrets",
+    "text": "Accessing secrets\nTo retrieve the value of a secret (and any environment variable), just use the function Sys.getenv().\n\n## Get secret value ----\nSys.getenv(\"GITHUB_PAT\")\n\n## Handle this secret securely ----\ngithub_pat &lt;- Sys.getenv(\"GITHUB_PAT\")\n\nN.B. by running Sys.getenv() without argument you will print all available environment variables."
+  },
+  {
+    "objectID": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#to-go-further",
+    "href": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#to-go-further",
+    "title": "Storing secrets with the .Renviron file",
+    "section": "To go further",
+    "text": "To go further\nA .Renviron file can be created at three different levels:\n\nat the system level (named .Renviron.site)\nat the user level (~/.Renviron)\nat the project level (.Renviron)\n\nAt startup  will first read .Renviron.site, then ~/.Renviron and finally the .Renviron of the project. This means that if the same environment variable is defined in ~/.Renviron (user level) and in the .Renviron of the project, the value defined in the .Renviron of the project will overwrite the one defined at the user level.\n\nIf you want to store a secret that be shared among projects, store it in the ~/.Renviron (user level)\nIf you want to store a secret specific to a project, store it in the .Renviron (project level)\n\n\n\n\n\n\n\ngit and .Renviron\n\n\n\nIf you create a .Renviron file at the project level, do not forget to add this file to the .gitignore. Otherwise your secret will be published on GitHub."
+  },
+  {
+    "objectID": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#resources",
+    "href": "posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html#resources",
+    "title": "Storing secrets with the .Renviron file",
+    "section": "Resources",
+    "text": "Resources\nhttps://rstats.wtf/r-startup.html https://resources.numbat.space/using-.rprofile-and-.html https://cran.r-project.org/web/packages/httr/vignettes/secrets.html https://www.r-bloggers.com/2024/02/key-advantages-of-using-the-keyring-package/"
   },
   {
     "objectID": "posts/2024-03-11-windows-and-the-home-directory/2024-03-11-windows-and-the-home-directory.html",
