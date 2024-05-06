@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.4.554">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,6 +76,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -170,10 +173,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#requirements" id="toc-requirements" class="nav-link" data-scroll-target="#requirements">Requirements</a></li>
   <li><a href="#authoring" id="toc-authoring" class="nav-link" data-scroll-target="#authoring">Authoring</a>
   <ul class="collapse">
-  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#post-setup" id="toc-post-setup" class="nav-link" data-scroll-target="#post-setup">Post setup</a></li>
   <li><a href="#post-metadata" id="toc-post-metadata" class="nav-link" data-scroll-target="#post-metadata">Post metadata</a></li>
-  <li><a href="#markdown-syntax" id="toc-markdown-syntax" class="nav-link" data-scroll-target="#markdown-syntax">Markdown syntax</a></li>
+  <li><a href="#post-content" id="toc-post-content" class="nav-link" data-scroll-target="#post-content">Post content</a></li>
   </ul></li>
+  <li><a href="#pull-request" id="toc-pull-request" class="nav-link" data-scroll-target="#pull-request">Pull request</a></li>
   </ul>
 </nav>
     </div>
@@ -221,10 +225,10 @@ Code of conduct
 <ol type="1">
 <li><a href="https://docs.github.com/en/get-started/quickstart/contributing-to-projects"><strong>Fork</strong></a> this <a href="https://github.com/frbcesab/tips-and-tricks">repository</a> using the GitHub interface.</li>
 <li><a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository"><strong>Clone</strong></a> your fork by opening RStudio IDE and create a New Project from Version Control.</li>
-<li><strong>Set up</strong> and <strong>write</strong> your post (see below <a href="#writing-a-post">Writing a post</a>).</li>
-<li><strong>Stage</strong> (<code>git add</code>) and <strong>commit</strong> (<code>git commit</code>) your changes as often as necessary.</li>
-<li><strong>Push</strong> your changes to your GitHub account in a terminal with <code>git push origin yyyy-mm-dd-title-of-the-post</code>.</li>
-<li>Submit a <a href="https://docs.github.com/en/get-started/quickstart/contributing-to-projects#making-a-pull-request"><strong>Pull Request</strong></a> on the <a href="https://github.com/frbcesab/tips-and-tricks/compare">original repo</a>.</li>
+<li><strong>Set up</strong> and <strong>write</strong> your post (see below <a href="#authoring">Writing a post</a>).</li>
+<li><strong>Stage</strong> (<code>git add</code>) and <strong>commit</strong> (<code>git commit</code>) your changes.</li>
+<li><strong>Push</strong> your changes to your GitHub fork.</li>
+<li>Submit a <a href="https://docs.github.com/en/get-started/quickstart/contributing-to-projects#making-a-pull-request"><strong>Pull Request</strong></a> on the <a href="https://github.com/frbcesab/tips-and-tricks/compare">original repo</a> (see below <a href="#pull-request">Pull request</a>).</li>
 </ol>
 <p>We will then review your Pull Request as soon as possible.</p>
 <div class="callout callout-style-default callout-important callout-titled">
@@ -237,7 +241,7 @@ Branch naming rule
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For each post, a new <code>git</code> branch will be created <strong>automatically</strong> and named as follow (in lower case): <code>yyyy-mm-dd-title-of-the-post</code>. This will make easier the review process and the maintenance of this blog.<br> For example: <code>2024-02-27-code-snippets-in-rstudio</code>.</p>
+<p>For each post, a new <code>git</code> branch will be created <strong>automatically</strong> and named as follow (in lower case): <code>yyyy-mm-dd-title-of-the-post</code>. This will make easier the review process and the maintenance of this blog.<br> For example: <code>2024-05-07-working-with-git-branches</code>.</p>
 </div>
 </div>
 </section>
@@ -283,47 +287,114 @@ Branch naming rule
 </section>
 <section id="authoring" class="level2">
 <h2 class="anchored" data-anchor-id="authoring">Authoring</h2>
-<section id="setup" class="level3">
-<h3 class="anchored" data-anchor-id="setup">Setup</h3>
+<section id="post-setup" class="level3">
+<h3 class="anchored" data-anchor-id="post-setup">Post setup</h3>
 <p>Run the <i class="fa-brands fa-r-project" aria-label="r-project"></i> command <code>devtools::load_all()</code> to load and access <a href="https://github.com/FRBCesab/tips-and-tricks/tree/main/R">helper functions</a> developed for this blog.</p>
 <p>Then create the file structure for your new post. The function <a href="https://github.com/FRBCesab/tips-and-tricks/blob/main/R/create_post.R"><code>create_post()</code></a> has been developed to make this task easier.</p>
 <p>For example,</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="do">## Create a new post ----</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">create_post</span>(<span class="at">title =</span> <span class="st">"Code snippets in RStudio"</span>, <span class="at">date =</span> <span class="st">"2024-02-27"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">create_post</span>(<span class="at">title =</span> <span class="st">"Working with git branches"</span>, <span class="at">date =</span> <span class="st">"2024-05-07"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>N.B.</strong> You can omit the argument <code>date</code> if you want to use the today date.</p>
 <p>This function will:</p>
 <ul>
-<li>create a new <code>git</code> branch named <code>2024-02-27-code-snippets-in-rstudio</code></li>
+<li>create a new <code>git</code> branch named <code>2024-05-07-working-with-git-branches</code></li>
 <li>switch the repo to this new <code>git</code> branch</li>
-<li>create a subfolder in <code>posts/</code> named <code>2024-02-27-code-snippets-in-rstudio</code></li>
-<li>create a Quarto file in this subfolder named <code>2024-02-27-code-snippets-in-rstudio.qmd</code></li>
+<li>create a subfolder in <code>posts/</code> named <code>2024-05-07-working-with-git-branches</code></li>
+<li>create a Quarto file in this subfolder named <code>2024-05-07-working-with-git-branches.qmd</code></li>
 </ul>
-<p>You will write the content of your post inside this <code>.qmd</code> file and add additional files (images, data, etc.) in the subfolder created in <code>posts/</code>.</p>
+<p>You will write the content of your post inside this <code>.qmd</code> file and add additional files (images, data, etc.) in the subfolder <code>posts/2024-05-07-working-with-git-branches/</code>.</p>
 </section>
 <section id="post-metadata" class="level3">
 <h3 class="anchored" data-anchor-id="post-metadata">Post metadata</h3>
 <p>Before starting writing your post, please edit the post metadata (i.e.&nbsp;the <a href="https://quarto.org/docs/websites/website-blog.html#posts-directory">YAML section</a>) in the post file (<code>.qmd</code> file) as follow:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1"></a><span class="pp">---</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Code snippets in RStudio"</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Working with git branches"</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Nicolas Casajus"</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> </span><span class="st">"2024-02-27"</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="fu">categories</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">editor</span><span class="kw">,</span><span class="at"> shortcut</span><span class="kw">,</span><span class="at"> rstudio</span><span class="kw">]</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="fu">image</span><span class="kw">:</span><span class="at"> </span><span class="st">"logo-r.png"</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> </span><span class="st">"2024-05-07"</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="fu">categories</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">git</span><span class="kw">,</span><span class="at"> git-branch</span><span class="kw">,</span><span class="at"> git-checkout</span><span class="kw">,</span><span class="at"> git-merge</span><span class="kw">]</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="fu">draft</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="fu">lightbox</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="fu">code-overflow</span><span class="kw">:</span><span class="at"> scroll</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
-<li>Add your author name.</li>
-<li>Choose 3-5 categories (tags) that will used to feed to search engine.</li>
-<li>Link to an image that will be displayed in the home page of the blog to describe your post.</li>
+<li>Add your name in the <code>author</code> field.</li>
+<li>Add 3 to 5 tags in the <code>categories</code> field. They will be used to feed to search engine.</li>
 </ul>
 </section>
-<section id="markdown-syntax" class="level3">
-<h3 class="anchored" data-anchor-id="markdown-syntax">Markdown syntax</h3>
+<section id="post-content" class="level3">
+<h3 class="anchored" data-anchor-id="post-content">Post content</h3>
 <p>This blog uses the <a href="https://quarto.org/docs/authoring/markdown-basics.html">Markdown syntax</a> (Pandoc flavor). By running in the terminal the Quarto command <code>quarto preview</code>, you will start a live server to preview your post as you type.</p>
-
-
 </section>
+</section>
+<section id="pull-request" class="level2">
+<h2 class="anchored" data-anchor-id="pull-request">Pull request</h2>
+<p>A <strong>Pull request</strong> is a proposal to merge a set of changes from one branch into another (<a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests">GitHub documentation</a>).</p>
+<p>To submit your new post, you will create a Pull request (PR) to merge the branch <code>2024-05-07-working-with-git-branches</code> of your fork into the branch <code>main</code> of the original repo.</p>
+<p>First, send your local changes to your GitHub fork. On a terminal, run the following command to push your new branch:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">## Send your new branch to GitHub (fork) ----</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">git</span> push <span class="at">--set-upstream</span> origin 2024-05-07-working-with-git-branches</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then create a new PR by visiting your GitHub fork homepage: you should see a new green button named <strong>Compare &amp; Pull request</strong> (Fig. 1).</p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><a href="images/pr-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" data-glightbox="description: .lightbox-desc-1" title="Figure 1. Create a Pull request from a Fork"><img src="images/pr-1.png" class="img-fluid quarto-figure quarto-figure-left figure-img" style="width:100.0%" alt="Figure 1. Create a Pull request from a Fork"></a></p>
+</figure>
+</div>
+<figcaption>Figure 1. Create a Pull request from a Fork</figcaption>
+</figure>
+</div>
+<p>Add some information about your PR (Fig. 2):</p>
+<ul>
+<li>Check that you have selected the appropriate repos and branches (A).</li>
+<li>Add a title (B).</li>
+<li>Add a description (C). You can link this PR to an existing Issue.</li>
+</ul>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><a href="images/pr-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" data-glightbox="description: .lightbox-desc-2" title="Figure 2. Draft a Pull request"><img src="images/pr-2.png" class="img-fluid quarto-figure quarto-figure-left figure-img" style="width:100.0%" alt="Figure 2. Draft a Pull request"></a></p>
+</figure>
+</div>
+<figcaption>Figure 2. Draft a Pull request</figcaption>
+</figure>
+</div>
+<p>Create a <strong>Draft Pull request</strong> (D): this will allow you to keep working on your post (i.e.&nbsp;adding commits). All new commits on the branch <code>2024-05-07-working-with-git-branches</code> will be automatically added to this PR.</p>
+<p>Once your post is ready, click on <strong>Ready for review</strong> to finalize your PR (Fig. 3).</p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><a href="images/pr-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" data-glightbox="description: .lightbox-desc-3" title="Figure 3. Create a Pull request"><img src="images/pr-3.png" class="img-fluid quarto-figure quarto-figure-left figure-img" style="width:100.0%" alt="Figure 3. Create a Pull request"></a></p>
+</figure>
+</div>
+<figcaption>Figure 3. Create a Pull request</figcaption>
+</figure>
+</div>
+<p>This will open a new PR and inform the blog maintainers that they can review your PR.</p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><a href="images/pr-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" data-glightbox="description: .lightbox-desc-4" title="Figure 4. Pull request ready for review"><img src="images/pr-4.png" class="img-fluid quarto-figure quarto-figure-left figure-img" style="width:100.0%" alt="Figure 4. Pull request ready for review"></a></p>
+</figure>
+</div>
+<figcaption>Figure 4. Pull request ready for review</figcaption>
+</figure>
+</div>
+<p>Your post will be merged (by the blog maintainer) into the <code>main</code> branch and will be accessible a few minutes later <a href="https://frbcesab.github.io/tips-and-tricks/">here</a>.</p>
+
+
+<div class="hidden" aria-hidden="true">
+<span class="glightbox-desc lightbox-desc-1">Figure 1. Create a Pull request from a Fork</span>
+<span class="glightbox-desc lightbox-desc-2">Figure 2. Draft a Pull request</span>
+<span class="glightbox-desc lightbox-desc-3">Figure 3. Create a Pull request</span>
+<span class="glightbox-desc lightbox-desc-4">Figure 4. Pull request ready for review</span>
+</div>
 </section>
 
 </main> <!-- /main -->
@@ -750,6 +821,31 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","selector":".lightbox","loop":false,"descPosition":"bottom","closeEffect":"zoom"});
+window.onload = () => {
+  lightboxQuarto.on('slide_before_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    const href = trigger.getAttribute('href');
+    if (href !== null) {
+      const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+      if (imgEl !== null) {
+        const srcAttr = imgEl.getAttribute("src");
+        if (srcAttr && srcAttr.startsWith("data:")) {
+          slideConfig.href = srcAttr;
+        }
+      }
+    } 
+  });
+
+  lightboxQuarto.on('slide_after_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    if (window.Quarto?.typesetMath) {
+      window.Quarto.typesetMath(slideNode);
+    }
+  });
+
+};
+          </script>
 
 
 
