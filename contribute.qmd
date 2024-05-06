@@ -2,6 +2,7 @@
 title: "Contribute"
 toc: true
 comments: false
+lightbox: true
 ---
 
 First off, thanks for taking the time to contribute to `tips-and-tricks`! All types of contributions are encouraged and valued. 
@@ -26,9 +27,9 @@ Proceed as follow to write and submit your own post:
 1. [**Fork**](https://docs.github.com/en/get-started/quickstart/contributing-to-projects) this [repository](https://github.com/frbcesab/tips-and-tricks) using the GitHub interface.
 1. [**Clone**](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) your fork by opening RStudio IDE and create a New Project from Version Control.
 1. **Set up** and **write** your post (see below [Writing a post](#authoring)).
-1. **Stage** (`git add`) and **commit** (`git commit`) your changes as often as necessary.
-1. **Push** your changes to your GitHub account in a terminal with `git push origin yyyy-mm-dd-title-of-the-post`.
-1. Submit a [**Pull Request**](https://docs.github.com/en/get-started/quickstart/contributing-to-projects#making-a-pull-request) on the [original repo](https://github.com/frbcesab/tips-and-tricks/compare).
+1. **Stage** (`git add`) and **commit** (`git commit`) your changes.
+1. **Push** your changes to your GitHub fork.
+1. Submit a [**Pull Request**](https://docs.github.com/en/get-started/quickstart/contributing-to-projects#making-a-pull-request) on the [original repo](https://github.com/frbcesab/tips-and-tricks/compare) (see below [Pull request](#pull-request)).
 
 We will then review your Pull Request as soon as possible.
 
@@ -37,7 +38,7 @@ We will then review your Pull Request as soon as possible.
 ## Branch naming rule
 
 For each post, a new `git` branch will be created **automatically** and named as follow (in lower case): `yyyy-mm-dd-title-of-the-post`. This will make easier the review process and the maintenance of this blog.<br/>
-For example: `2024-02-27-code-snippets-in-rstudio`. 
+For example: `2024-05-07-working-with-git-branches`. 
 :::
 
 
@@ -74,7 +75,7 @@ For example,
 #| eval: false
 
 ## Create a new post ----
-create_post(title = "Code snippets in RStudio", date = "2024-02-27")
+create_post(title = "Working with git branches", date = "2024-05-07")
 ```
 
 
@@ -82,12 +83,12 @@ create_post(title = "Code snippets in RStudio", date = "2024-02-27")
 
 This function will:
 
-- create a new `git` branch named `2024-02-27-code-snippets-in-rstudio`
+- create a new `git` branch named `2024-05-07-working-with-git-branches`
 - switch the repo to this new `git` branch
-- create a subfolder in `posts/` named `2024-02-27-code-snippets-in-rstudio`
-- create a Quarto file in this subfolder named `2024-02-27-code-snippets-in-rstudio.qmd`
+- create a subfolder in `posts/` named `2024-05-07-working-with-git-branches`
+- create a Quarto file in this subfolder named `2024-05-07-working-with-git-branches.qmd`
 
-You will write the content of your post inside this `.qmd` file and add additional files (images, data, etc.) in the subfolder `posts/2024-02-27-code-snippets-in-rstudio/`.
+You will write the content of your post inside this `.qmd` file and add additional files (images, data, etc.) in the subfolder `posts/2024-05-07-working-with-git-branches/`.
 
 
 
@@ -97,13 +98,13 @@ Before starting writing your post, please edit the post metadata (i.e. the [YAML
 
 ```yaml
 ---
-title: "Code snippets in RStudio"
+title: "Working with git branches"
 author: "Nicolas Casajus"
-date: "2024-02-27"
-categories: [editor, shortcut, rstudio]
-image: ""
+date: "2024-05-07"
+categories: [git, git-branch, git-checkout, git-merge]
 toc: true
 draft: false
+lightbox: true
 code-overflow: scroll
 ---
 ```
@@ -122,17 +123,38 @@ This blog uses the [Markdown syntax](https://quarto.org/docs/authoring/markdown-
 
 ## Pull request
 
-According to the [GitHub documentation](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests):
+A **Pull request** is a proposal to merge a set of changes from one branch into another ([GitHub documentation](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)).
 
-> A **pull request** is a proposal to merge a set of changes from one branch into another.
+To submit your new post, you will create a Pull request (PR) to merge the branch `2024-05-07-working-with-git-branches` of your fork into the branch `main` of the original repo.
 
-To create a Pull request (PR) to merge the branch `2024-02-27-code-snippets-in-rstudio` of the fork into the branch `main` of the original repo, proceed as follow:
-
-
-
+First, send your local changes to your GitHub fork. On a terminal, run the following command to push your new branch:
 
 ```sh
 ## Send your new branch to GitHub (fork) ----
-git push --set-upstream origin 2024-02-27-code-snippets-in-rstudio
+git push --set-upstream origin 2024-05-07-working-with-git-branches
 ```
 
+Then create a new PR by visiting your GitHub fork homepage: you should see a new green button named **Compare & Pull request** (Fig. 1).
+
+![Figure 1. Create a Pull request from a Fork](images/pr-1.png){.lightbox fig-align="left" width="100%"}
+
+
+Add some information about your PR (Fig. 2):
+
+- Check that you have selected the appropriate repos and branches (A).
+- Add a title (B).
+- Add a description (C). You can link this PR to an existing Issue.
+
+![Figure 2. Draft a Pull request](images/pr-2.png){.lightbox fig-align="left" width="100%"}
+
+Create a **Draft Pull request** (D): this will allow you to keep working on your post (i.e. adding commits). All new commits on the branch `2024-05-07-working-with-git-branches` will be automatically added to this PR.
+
+Once your post is ready, click on **Ready for review** to finalize your PR (Fig. 3).
+
+![Figure 3. Create a Pull request](images/pr-3.png){.lightbox fig-align="left" width="100%"}
+
+This will open a new PR and inform the blog maintainers that they can review your PR.
+
+![Figure 4. Pull request ready for review](images/pr-4.png){.lightbox fig-align="left" width="100%"}
+
+Your post will be merged (by the blog maintainer) into the `main` branch and will be accessible a few minutes later [here](https://frbcesab.github.io/tips-and-tricks/).
