@@ -9,4 +9,31 @@ draft: false
 code-overflow: scroll
 ---
 
-Post content...
+## Introduction
+
+...
+
+
+
+## App structure
+
+...
+
+
+
+## UI interface
+
+...
+
+
+
+## Server actions
+
+...
+
+
+
+## Resources
+
+...
+
