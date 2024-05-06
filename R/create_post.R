@@ -89,6 +89,7 @@ create_post <- function(title, date = NULL) {
   yaml <- c(yaml, paste0("image: \"\""))
   yaml <- c(yaml, paste0("toc: true"))
   yaml <- c(yaml, paste0("draft: false"))
+  yaml <- c(yaml, paste0("lightbox: true"))
   yaml <- c(yaml, paste0("code-overflow: scroll"))
   yaml <- c(yaml, "---")
   yaml <- c(yaml, "")
