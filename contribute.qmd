@@ -116,3 +116,23 @@ code-overflow: scroll
 ### Post content
 
 This blog uses the [Markdown syntax](https://quarto.org/docs/authoring/markdown-basics.html) (Pandoc flavor). By running in the terminal the Quarto command `quarto preview`, you will start a live server to preview your post as you type.
+
+
+
+
+## Pull request
+
+According to the [GitHub documentation](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests):
+
+> A **pull request** is a proposal to merge a set of changes from one branch into another.
+
+To create a Pull request (PR) to merge the branch `2024-02-27-code-snippets-in-rstudio` of the fork into the branch `main` of the original repo, proceed as follow:
+
+
+
+
+```sh
+## Send your new branch to GitHub (fork) ----
+git push --set-upstream origin 2024-02-27-code-snippets-in-rstudio
+```
+
