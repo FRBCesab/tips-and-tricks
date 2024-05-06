@@ -1,0 +1,12 @@
+---
+title: "Using the pivot_*() functions"
+author: "Clara Marino"
+date: "2024-04-16"
+categories: [r, data-wrangling, tidyr]
+image: ""
+toc: true
+draft: false
+code-overflow: scroll
+---
+
+Post content...
