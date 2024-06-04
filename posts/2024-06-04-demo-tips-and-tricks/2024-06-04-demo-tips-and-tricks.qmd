@@ -1,0 +1,11 @@
+---
+title: "Demo Tips and Tricks"
+author: "Nicolas Casajus"
+date: "2024-06-04"
+categories: [r, git-branch, pull-request]
+toc: true
+draft: false
+code-overflow: scroll
+---
+
+This is just a demo.
