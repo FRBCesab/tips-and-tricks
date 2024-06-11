@@ -9,8 +9,20 @@
 <link>https://frbcesab.github.io/tips-and-tricks/</link>
 <atom:link href="https://frbcesab.github.io/tips-and-tricks/index.xml" rel="self" type="application/rss+xml"/>
 <description>Tips and tricks</description>
-<generator>quarto-1.4.554</generator>
-<lastBuildDate>Tue, 02 Apr 2024 00:00:00 GMT</lastBuildDate>
+<generator>quarto-1.4.555</generator>
+<lastBuildDate>Tue, 11 Jun 2024 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Python tutorial - Part 2</title>
+  <dc:creator>Camille Coux</dc:creator>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-06-11-python-tutorial-part-2/2024-06-11-python-tutorial-part-2.html</link>
+  <description><![CDATA[ This post has a dedicated presentation available <a href="https://frbcesab.github.io/python-tuto-02/">here</a>. ]]></description>
+  <category>python</category>
+  <category>tutorial</category>
+  <category>function</category>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-06-11-python-tutorial-part-2/2024-06-11-python-tutorial-part-2.html</guid>
+  <pubDate>Tue, 11 Jun 2024 00:00:00 GMT</pubDate>
+  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-06-11-python-tutorial-part-2" medium="image"/>
+</item>
 <item>
   <title>Python tutorial - Part 1</title>
   <dc:creator>Camille Coux</dc:creator>
@@ -63,18 +75,6 @@
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-03-11-windows-and-the-home-directory/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
 </item>
 <item>
-  <title>Code snippets in RStudio</title>
-  <dc:creator>Nicolas Casajus</dc:creator>
-  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/2024-02-27-code-snippets-in-rstudio.html</link>
-  <description><![CDATA[ A code snippet is a text shortcut that is used to insert a predefined chunk of code. It’s like <em>super-completion</em>. The <a href="https://posit.co/products/open-source/rstudio/">RStudio IDE</a> contains a lot of predefined code snippets. For instance: ]]></description>
-  <category>editor</category>
-  <category>shortcut</category>
-  <category>rstudio</category>
-  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/2024-02-27-code-snippets-in-rstudio.html</guid>
-  <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
-  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
-</item>
-<item>
   <title>RStudio shortcuts: a selection</title>
   <dc:creator>Nicolas Casajus</dc:creator>
   <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/2024-02-27-rstudio-shortcuts-a-selection.html</link>
@@ -85,6 +85,18 @@
   <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/2024-02-27-rstudio-shortcuts-a-selection.html</guid>
   <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
+</item>
+<item>
+  <title>Code snippets in RStudio</title>
+  <dc:creator>Nicolas Casajus</dc:creator>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/2024-02-27-code-snippets-in-rstudio.html</link>
+  <description><![CDATA[ A code snippet is a text shortcut that is used to insert a predefined chunk of code. It’s like <em>super-completion</em>. The <a href="https://posit.co/products/open-source/rstudio/">RStudio IDE</a> contains a lot of predefined code snippets. For instance: ]]></description>
+  <category>editor</category>
+  <category>shortcut</category>
+  <category>rstudio</category>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/2024-02-27-code-snippets-in-rstudio.html</guid>
+  <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
+  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
 </item>
 </channel>
 </rss>
