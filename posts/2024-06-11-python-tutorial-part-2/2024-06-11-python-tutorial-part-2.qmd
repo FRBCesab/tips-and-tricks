@@ -2,7 +2,7 @@
 title: "Python tutorial - Part 2"
 author: "Camille Coux"
 date: "2024-06-11"
-categories: [python, tutorial, games]
+categories: [python, tutorial, function]
 image: ""
 toc: true
 ---
