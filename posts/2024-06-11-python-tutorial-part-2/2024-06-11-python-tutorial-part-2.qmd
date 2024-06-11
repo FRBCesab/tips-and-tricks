@@ -1,0 +1,12 @@
+---
+title: "Python tutorial - Part 2"
+author: "Camille Coux"
+date: "2024-06-11"
+categories: [python, tutorial, function]
+image: ""
+toc: true
+---
+
+This post has a dedicated presentation available [here](https://frbcesab.github.io/python-tuto-02/). 
+
+The source of the [Quarto](https://quarto.org/) presentation is available on [GitHub](https://github.com/FRBCesab/python-tuto-02).
