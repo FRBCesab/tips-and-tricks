@@ -10,13 +10,75 @@ lightbox: true
 code-overflow: scroll
 ---
 
-...
+In this post, we will discuss about the family of `apply()` functions. These functions allows you to recursively apply a function across all elements of a `vector`, `list`, `matrix`, or `data.frame`. The `apply()`
+family is an interesting alternative to the `for` loop because it wraps the loop into a simple function.
+
+
+The functions in the `apply()` family differ in their input and output types:
+
+| Function                                         | Description                                                               |
+|:------------------------------------------------:|:--------------------------------------------------------------------------|
+| [`apply()`](https://rdrr.io/r/base/apply.html)   | Applies a function to **margins** of an `array`, `matrix` or `data.frame` (2D objects) |
+| [`lapply()`](https://rdrr.io/r/base/lapply.html) | Applies a function over a `list` or `vector` and returns a `list`         |
+| [`sapply()`](https://rdrr.io/r/base/lapply.html) | Wrapper of `lapply` but returns a `vector` or `matrix` (volatile)         |
+| [`vapply()`](https://rdrr.io/r/base/lapply.html) | Similar to `sapply` but safer                                             |
+| [`tapply()`](https://rdrr.io/r/base/tapply.html) | Applies a function to a **group** of data grouped by one or more factors and returns an `array`          |
+
+
+
+<br/>
 
 
 
 ## Dataset
 
-...
+To illustrate to use of `apply()` functions, we will use the [`palmerpenguins`](https://allisonhorst.github.io/palmerpenguins/articles/intro.html) package. It contains the `penguins` dataset with size measurements for three penguin species observed on three islands in the Palmer Archipelago, Antarctica.
+
+![Atwork by [Allison Horst](https://allisonhorst.com/)](palmer-penguins.png){width=60%}
+
+> These data were collected from 2007 and 2009 by Dr. Kristen Gorman and are released under the [CC0](https://creativecommons.org/public-domain/cc0/) license.
+
+
+<br/>
+
+
+Let's install the released version of [`palmerpenguins`](https://allisonhorst.github.io/palmerpenguins/) package from [CRAN](https://cran.r-project.org/):
+
+```{r}
+#| echo: true
+#| eval: false
+
+## Install 'palmerpenguins' package ----
+install.packages("palmerpenguins")
+```
+
+
+Now, let's import the dataset:
+
+```{r}
+#| echo: true
+#| eval: true
+
+## Import 'penguins' dataset ----
+library("palmerpenguins")
+
+penguins
+```
+
+For this post, we will use a subset of this dataset:
+
+```{r}
+#| echo: true
+#| eval: true
+
+## Columns to keep ----
+cols <- c("species", "island", "bill_length_mm", "body_mass_g", 
+          "sex")
+
+## Subset data ----
+penguins <- penguins[ , cols]
+penguins
+```
 
 
 
@@ -26,13 +88,13 @@ code-overflow: scroll
 
 
 
-## The `sapply()` function
+## The `lapply()` function
 
 ...
 
 
 
-## The `lapply()` function
+## The `sapply()` function
 
 ...
 
