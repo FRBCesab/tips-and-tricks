@@ -1,0 +1,49 @@
+---
+title: "The apply() function family"
+author: "Nicolas Casajus"
+date: "2024-11-19"
+categories: [r, apply, tapply, lapply, sapply, vapply]
+image: ""
+toc: true
+draft: false
+lightbox: true
+code-overflow: scroll
+---
+
+...
+
+
+
+## Dataset
+
+...
+
+
+
+## The `apply()` function
+
+...
+
+
+
+## The `sapply()` function
+
+...
+
+
+
+## The `lapply()` function
+
+...
+
+
+
+## The `vapply()` function
+
+...
+
+
+## The `tapply()` function
+
+...
+
