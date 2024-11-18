@@ -1,0 +1,26 @@
+/*-- scss:defaults --*/
+
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+
+$font-family-monospace: "Fira Code", monospace !default;
+
+/*-- scss:rules --*/
+
+.bouton {
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+.btn {
+  border-radius: 0.5rem;
+}
+
+a.bouton {
+  color: #375A7F;
+  text-decoration: none;
+}
+
+a.bouton:hover {
+  color: white;
+  text-decoration: none;
+}

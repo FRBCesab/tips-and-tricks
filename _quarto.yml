@@ -40,11 +40,10 @@ website:
 format:
   html:
   
-    theme: litera
-    css: styles.css
+    theme: [litera,styles.scss]
     
     code-copy: true
     code-overflow: wrap
     code-line-numbers: true
     code-block-border-left: true
-    highlight-style: zenburn
+    highlight-style: nord
