@@ -9,8 +9,24 @@
 <link>https://frbcesab.github.io/tips-and-tricks/</link>
 <atom:link href="https://frbcesab.github.io/tips-and-tricks/index.xml" rel="self" type="application/rss+xml"/>
 <description>Tips and tricks</description>
-<generator>quarto-1.4.555</generator>
-<lastBuildDate>Tue, 11 Jun 2024 00:00:00 GMT</lastBuildDate>
+<generator>quarto-1.5.57</generator>
+<lastBuildDate>Tue, 19 Nov 2024 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>The apply() function family</title>
+  <dc:creator>Nicolas Casajus</dc:creator>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-11-19-the-apply-function-family/2024-11-19-the-apply-function-family.html</link>
+  <description><![CDATA[ In this post, we will discuss about the family of <code>apply()</code> functions. These functions allows you to recursively apply a function across all elements of a <code>vector</code>, <code>list</code>, <code>matrix</code>, or <code>data.frame</code>. The <code>apply()</code> family is an interesting alternative to the <code>for</code> loop because it wraps the loop into a simple function. ]]></description>
+  <category>r</category>
+  <category>apply</category>
+  <category>lapply</category>
+  <category>tapply</category>
+  <category>recursive</category>
+  <category>function</category>
+  <category>loop</category>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-11-19-the-apply-function-family/2024-11-19-the-apply-function-family.html</guid>
+  <pubDate>Tue, 19 Nov 2024 00:00:00 GMT</pubDate>
+  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-11-19-the-apply-function-family" medium="image"/>
+</item>
 <item>
   <title>Python tutorial - Part 2</title>
   <dc:creator>Camille Coux</dc:creator>
@@ -75,18 +91,6 @@
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-03-11-windows-and-the-home-directory/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
 </item>
 <item>
-  <title>RStudio shortcuts: a selection</title>
-  <dc:creator>Nicolas Casajus</dc:creator>
-  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/2024-02-27-rstudio-shortcuts-a-selection.html</link>
-  <description><![CDATA[ This post lists useful shortcuts that will increase your productivity in using RStudio IDE. This subset is a subjective selection: for more shortcuts, press the combination <code>Alt + Shift + K</code>. ]]></description>
-  <category>editor</category>
-  <category>shortcut</category>
-  <category>rstudio</category>
-  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/2024-02-27-rstudio-shortcuts-a-selection.html</guid>
-  <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
-  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
-</item>
-<item>
   <title>Code snippets in RStudio</title>
   <dc:creator>Nicolas Casajus</dc:creator>
   <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/2024-02-27-code-snippets-in-rstudio.html</link>
@@ -97,6 +101,18 @@
   <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/2024-02-27-code-snippets-in-rstudio.html</guid>
   <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
+</item>
+<item>
+  <title>RStudio shortcuts: a selection</title>
+  <dc:creator>Nicolas Casajus</dc:creator>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/2024-02-27-rstudio-shortcuts-a-selection.html</link>
+  <description><![CDATA[ This post lists useful shortcuts that will increase your productivity in using RStudio IDE. This subset is a subjective selection: for more shortcuts, press the combination <code>Alt + Shift + K</code>. ]]></description>
+  <category>editor</category>
+  <category>shortcut</category>
+  <category>rstudio</category>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/2024-02-27-rstudio-shortcuts-a-selection.html</guid>
+  <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
+  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
 </item>
 </channel>
 </rss>
