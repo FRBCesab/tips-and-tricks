@@ -29,6 +29,8 @@ jobs:
             any::knitr
             any::rmarkdown
             any::palmerpenguins
+            any::tidyr
+            any::dplyr
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2

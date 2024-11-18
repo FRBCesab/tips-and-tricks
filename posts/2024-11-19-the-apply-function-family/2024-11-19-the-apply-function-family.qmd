@@ -2,7 +2,7 @@
 title: "The apply() function family"
 author: "Nicolas Casajus"
 date: "2024-11-19"
-categories: [r, apply, tapply, lapply, sapply, vapply]
+categories: [r, apply, lapply, tapply, recursive, function, loop]
 image: ""
 toc: true
 draft: false
@@ -24,6 +24,9 @@ The functions in the `apply()` family differ in their input and output types:
 | [`vapply()`](https://rdrr.io/r/base/lapply.html) | Similar to `sapply` but safer                                             |
 | [`tapply()`](https://rdrr.io/r/base/tapply.html) | Applies a function to a **group** of data grouped by one or more factors and returns an `array`          |
 
+<br/>
+
+**NB.** Here we won't talk about `sapply()` and `vapply()` as there are similar to `lapply()`.
 
 
 <br/>
@@ -72,8 +75,8 @@ For this post, we will use a subset of this dataset:
 #| eval: true
 
 ## Columns to keep ----
-cols <- c("species", "island", "bill_length_mm", "body_mass_g", 
-          "sex")
+cols <- c("species", "island", "bill_length_mm", "bill_depth_mm", 
+          "body_mass_g")
 
 ## Subset data ----
 penguins <- penguins[ , cols]
@@ -84,28 +87,287 @@ penguins
 
 ## The `apply()` function
 
-...
+The `apply()` lets you perform a function across rows or columns of a `data.frame` (or any types of 2-dimension objects).
+
+- the first argument `X` specifies the data
+- the second argument `MARGIN` specifies the direction (`1` for rows, `2` for columns)
+- the third argument `FUN` is the function to apply
+
+Let's compute the arithmetic mean of the columns `bill_length_mm`, `bill_depth_mm` and `body_mass_g` by applying the `mean()` function **across columns** 3 to 5 of the `penguins` dataset.
+
+```{r}
+#| echo: true
+#| eval: true
+
+## Mean of columns 3, 4 and 5 ----
+apply(penguins[ , 3:5], 2, mean)
+```
+
+We can pass arguments to the function `mean()` by using the argument `...` of the function `apply()`. Let's remove missing values before computing the mean.
+
+```{r}
+#| echo: true
+#| eval: true
+
+## Use additional arguments ----
+apply(penguins[ , 3:5], 2, mean, na.rm = TRUE)
+```
+
+Note that the `apply()` functions are pipe-friendly.
+
+```{r}
+#| echo: true
+#| eval: true
+
+## Pipe version ----
+penguins[ , 3:5] |> 
+  apply(2, mean, na.rm = TRUE)
+```
+
+We can also use a custom function.
+
+```{r}
+#| echo: true
+#| eval: true
+
+## Custom function ----
+apply(penguins[ , 3:5], 2, function(x) mean(x, na.rm = TRUE))
+```
+
+Finally, we can define a custom function outside the `apply()` function.
+
+```{r}
+#| echo: true
+#| eval: true
+
+## Custom function ----
+my_mean <- function(x, na_rm = FALSE) {
+  mean(x, na.rm = na_rm)
+}
+
+apply(penguins[ , 3:5], 2, my_mean, na_rm = TRUE)
+```
 
 
+The output is a vector, but in some cases it can be a `matrix` (or an `array`).
+
+
+```{r}
+#| echo: true
+#| eval: true
+
+## Different output class ----
+apply(penguins[ , 3:5], 2, range, na.rm = TRUE)
+```
+
+
+<br/>
 
 ## The `lapply()` function
 
-...
+The `lapply()` function performs a function on each element of a `list` or `vector`.
+
+- the first argument `X` specifies the `list` or the `vector`
+- the second argument `FUN` is the function to apply
+
+Let's try to compute the arithmetic mean of the columns `bill_length_mm`, `bill_depth_mm` and `body_mass_g`.
+
+```{r}
+#| echo: true
+#| eval: true
+
+## Column names ----
+columns <- c("bill_length_mm", "bill_depth_mm", "body_mass_g")
+
+## Mean of columns 3, 4 and 5 ----
+lapply(columns, function(x) {
+  penguins[ , x, drop = TRUE] |> 
+    mean(na.rm = TRUE)
+})
+```
+
+The output is a `list` of same length as `X`, and we can simplified it by using `unlist()`. We can do this because the output for each iteration is a single value.
+
+```{r}
+#| echo: true
+#| eval: true
+
+## Column names ----
+columns <- c("bill_length_mm", "bill_depth_mm", "body_mass_g")
+
+## Mean of columns 3, 4 and 5 ----
+values <- lapply(columns, function(x) {
+  penguins[ , x, drop = TRUE] |> 
+    mean(na.rm = TRUE)
+})
+
+## Simplify output ----
+unlist(values)
+```
+
+And we can name values.
+
+```{r}
+#| echo: true
+#| eval: true
+
+## Column names ----
+columns <- c("bill_length_mm", "bill_depth_mm", "body_mass_g")
+
+## Mean of columns 3, 4 and 5 ----
+values <- lapply(columns, function(x) {
+  penguins[ , x, drop = TRUE] |> 
+    mean(na.rm = TRUE)
+})
+
+## Simplify output ----
+values <- unlist(values)
+
+## Name elements ----
+names(values) <- columns
+
+values
+```
 
 
+The `lapply()` allows you to perform complex tasks.
 
-## The `sapply()` function
+```{r}
+#| echo: true
+#| eval: true
 
-...
+## Column names ----
+columns <- c("bill_length_mm", "bill_depth_mm", "body_mass_g")
+
+## Mean, min and max of columns 3, 4 and 5 ----
+values <- lapply(columns, function(x) {
+  column <- penguins[ , x, drop = TRUE]
+  data.frame("trait" = x,
+             "mean"  = mean(column, na.rm = TRUE),
+             "min"   = min(column, na.rm = TRUE),
+             "max"   = max(column, na.rm = TRUE))
+})
+
+values
+```
 
 
+Let's simplify the output into a single `data.frame` by recursively applying (with `do.call()`) the function `rbind.data.frame()` to each `data.frame` of the `list`.
 
-## The `vapply()` function
 
-...
+```{r}
+#| echo: true
+#| eval: true
+
+## Simplify output ----
+values <- do.call(rbind.data.frame, values)
+
+values
+```
+
+**NB.** Here the object `penguins` is retrieved from the global environment. But it's safer to explicitly use it like this:
+
+```{r}
+#| echo: true
+#| eval: true
+
+## Column names ----
+columns <- c("bill_length_mm", "bill_depth_mm", "body_mass_g")
+
+## Mean, min and max of columns 3, 4 and 5 ----
+values <- lapply(columns, function(x, data) {
+  column <- data[ , x, drop = TRUE]
+  data.frame("trait" = x,
+             "mean"  = mean(column, na.rm = TRUE),
+             "min"   = min(column, na.rm = TRUE),
+             "max"   = max(column, na.rm = TRUE))
+}, data = penguins)
+
+do.call(rbind.data.frame, values)
+```
+
+
+<br/>
 
 
 ## The `tapply()` function
 
-...
+The `tapply()` allows you to perform a function across specified groups in your data. For `dplyr` users, it's equivalent to the `group_by()` and `summarize()` functions.
 
+- the first argument `X` specifies the values
+- the second argument `INDEX` specifies the groups
+- the third argument `FUN` is the function to apply
+
+Lets' compute the mean of `bill_length_mm` for each species.
+
+```{r}
+#| echo: true
+#| eval: true
+
+## Average bill length for each species ----
+tapply(penguins$"bill_length_mm", penguins$"species", function(x) {
+  mean(x, na.rm = TRUE)
+})
+```
+
+We can group values according to two variables.
+
+
+```{r}
+#| echo: true
+#| eval: true
+
+## Average bill length for each species ----
+tapply(penguins$"bill_length_mm", 
+       list(penguins$"species", penguins$"island"), 
+       function(x) mean(x, na.rm = TRUE))
+```
+
+Here the output is a `matrix`. We can convert it to long `data.frame` w/ `tidyr::pivot_longer()`.
+
+
+
+```{r}
+#| echo: true
+#| eval: true
+
+## Load 'dplyr' package ----
+library("tidyr")
+
+## Average bill length for each species and island ----
+values <- tapply(penguins$"bill_length_mm", 
+                 list(penguins$"species", penguins$"island"), 
+                 function(x) mean(x, na.rm = TRUE))
+
+## Convert to data.frame ----
+values <- data.frame(values)
+values$"species" <- rownames(values)
+
+
+## Pivot data ----  
+values |> 
+  pivot_longer(cols      = !species,
+               values_to = "bill_length_mm",
+               names_to  = "island")
+```
+
+
+This is equivalent to `dplyr` approach.
+
+
+```{r}
+#| echo: true
+#| eval: true
+#| message: false
+#| warning: false
+
+## Load 'dplyr' package ----
+library("dplyr")
+
+## Summarise data ----
+penguins %>%
+  group_by(species, island) %>%
+  summarize(bill_length_mm = mean(bill_length_mm, 
+                                  na.rm = TRUE)) %>%
+  ungroup()
+```
