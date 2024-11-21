@@ -6,6 +6,10 @@ $font-family-monospace: "Fira Code", monospace !default;
 
 /*-- scss:rules --*/
 
+main ul li {
+  font-family: Georgia,Cambria,"Times New Roman",Times,serif !important;
+}
+
 .bouton {
   margin-left: 1%;
   margin-right: 1%;
@@ -23,4 +27,8 @@ a.bouton {
 a.bouton:hover {
   color: white;
   text-decoration: none;
+}
+
+.small {
+  font-size: 0.8em;
 }
