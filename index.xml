@@ -28,6 +28,21 @@
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-11-19-the-apply-function-family" medium="image"/>
 </item>
 <item>
+  <title>Research compendium</title>
+  <dc:creator>Nicolas Casajus</dc:creator>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-09-24-research-compendium/2024-09-24-research-compendium.html</link>
+  <description><![CDATA[ This post explains how to work with a <strong>research compendium</strong>. The goal of a research compendium is to provide a standard and easily recognizable way for <strong><em>organizing the digital materials</em></strong> of a project to enable others to inspect, reproduce, and extend the research (Marwick B <em>et al.</em> 2018). A research compendium follows three general principles: ]]></description>
+  <category>r</category>
+  <category>compendium</category>
+  <category>project</category>
+  <category>description-file</category>
+  <category>reproducibility</category>
+  <category>documentation</category>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-09-24-research-compendium/2024-09-24-research-compendium.html</guid>
+  <pubDate>Tue, 24 Sep 2024 00:00:00 GMT</pubDate>
+  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-09-24-research-compendium" medium="image"/>
+</item>
+<item>
   <title>Python tutorial - Part 2</title>
   <dc:creator>Camille Coux</dc:creator>
   <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-06-11-python-tutorial-part-2/2024-06-11-python-tutorial-part-2.html</link>
