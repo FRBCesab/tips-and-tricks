@@ -9,8 +9,21 @@
 <link>https://frbcesab.github.io/tips-and-tricks/</link>
 <atom:link href="https://frbcesab.github.io/tips-and-tricks/index.xml" rel="self" type="application/rss+xml"/>
 <description>Tips and tricks</description>
-<generator>quarto-1.5.57</generator>
-<lastBuildDate>Tue, 19 Nov 2024 00:00:00 GMT</lastBuildDate>
+<generator>quarto-1.6.39</generator>
+<lastBuildDate>Tue, 17 Dec 2024 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Deploying a website with GitHub Pages</title>
+  <dc:creator>Nicolas Casajus</dc:creator>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-12-17-deploying-a-website-with-github-pages/</link>
+  <description><![CDATA[ <a href="https://docs.github.com/en/pages">GitHub Pages</a> is an option available at the repository level to host and publish HTML pages (single webpage, website, HTML presentation, blog, book, etc.) through GitHub. ]]></description>
+  <category>website</category>
+  <category>github</category>
+  <category>github-pages</category>
+  <category>publishing</category>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-12-17-deploying-a-website-with-github-pages/</guid>
+  <pubDate>Tue, 17 Dec 2024 00:00:00 GMT</pubDate>
+  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-12-17-deploying-a-website-with-github-pages" medium="image"/>
+</item>
 <item>
   <title>The apply() function family</title>
   <dc:creator>Nicolas Casajus</dc:creator>
