@@ -75,7 +75,8 @@ For example,
 #| eval: false
 
 ## Create a new post ----
-create_post(title = "Working with git branches", date = "2024-05-07")
+create_post(title = "Working with git branches", 
+            date  = "2024-05-07")
 ```
 
 
@@ -86,15 +87,15 @@ This function will:
 - create a new `git` branch named `2024-05-07-working-with-git-branches`
 - switch the repo to this new `git` branch
 - create a subfolder in `posts/` named `2024-05-07-working-with-git-branches`
-- create a Quarto file in this subfolder named `2024-05-07-working-with-git-branches.qmd`
+- create a Quarto file in this subfolder named `index.qmd`
 
-You will write the content of your post inside this `.qmd` file and add additional files (images, data, etc.) in the subfolder `posts/2024-05-07-working-with-git-branches/`.
+You will write the content of your post inside this `index.qmd` file and add additional files (images, data, etc.) in the subfolder `posts/2024-05-07-working-with-git-branches/`.
 
 
 
 ### Post metadata
 
-Before starting writing your post, please edit the post metadata (i.e. the [YAML section](https://quarto.org/docs/websites/website-blog.html#posts-directory)) in the post file (`.qmd` file) as follow:
+Before starting writing your post, please edit the post metadata (i.e. the [YAML section](https://quarto.org/docs/websites/website-blog.html#posts-directory)) in the post file (`index.qmd` file) as follow:
 
 ```yaml
 ---
