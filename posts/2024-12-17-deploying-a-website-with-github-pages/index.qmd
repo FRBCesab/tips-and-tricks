@@ -1,0 +1,72 @@
+---
+title: "Deploying a website with GitHub Pages"
+author: "Nicolas Casajus"
+date: "2024-12-17"
+categories: [website, github, github-pages, publishing]
+image: ""
+toc: true
+draft: false
+lightbox: true
+code-overflow: scroll
+---
+
+
+
+
+## GitHub Pages
+
+[GitHub Pages](https://docs.github.com/en/pages) is an option available at the repository level to host and publish HTML pages (single webpage, website, HTML presentation, blog, book, etc.) through GitHub.
+
+::: {.callout-important}
+## Important
+
+To enable this option for a repository, you must be the **owner** of the repository (or **admin** if the repository is hosted on a GitHub organization) and the repository must be **public** (for GitHub free plan).
+:::
+
+
+On the repository page, click on **Settings** (top navigation bar) and click on the section **Pages** (right side bar).
+
+
+![Set up GitHub Pages](pages-setup.png)
+
+
+Use the following settings:
+
+- Select `Deploy from a branch` in **Source**.
+- Select the `main` (or `master`) branch in **Branch**.
+- Select `/ (root)` in **Branch** if the HTML file is at the root of the repository or `/docs` if the HTML file is inside a _docs/_ directory.
+
+
+After a few minutes, your HTML file will be available at:
+
+`https://<ghaccount>.github.io/<reponame>/<filename>.html`
+
+where:
+
+- `<ghaccount>` is your GitHub account (or GitHub organization)
+- `<reponame>` your repository name
+- `<filename>` the name of the HTML file.
+
+::: {.callout-tip}
+## Shorten URL w/ `index.html`
+
+If you have a single HTML file, you can save it as `index.html`. The URL will be shortened to:
+
+`https://<ghaccount>.github.io/<reponame>/`
+
+If your website contains many HTML pages, the homepage should the `index.html`.
+:::
+
+## Personal website
+
+GitHub provides a special repository to host a user (or organization) website: `<ghaccount>.github.io`.
+
+By creating the repository `<ghaccount>.github.io`, your personal website will be available at:
+
+`https://<ghaccount>.github.io/`
+
+
+## Resources
+
+<https://docs.github.com/en/pages/><br/>
+<https://docs.gitlab.com/ee/user/project/pages/>
