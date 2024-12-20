@@ -293,7 +293,8 @@ Branch naming rule
 <p>For example,</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="do">## Create a new post ----</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">create_post</span>(<span class="at">title =</span> <span class="st">"Working with git branches"</span>, <span class="at">date =</span> <span class="st">"2024-05-07"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">create_post</span>(<span class="at">title =</span> <span class="st">"Working with git branches"</span>, </span>
+<span id="cb1-3"><a href="#cb1-3"></a>            <span class="at">date  =</span> <span class="st">"2024-05-07"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>N.B.</strong> You can omit the argument <code>date</code> if you want to use the today date.</p>
 <p>This function will:</p>
@@ -301,13 +302,13 @@ Branch naming rule
 <li>create a new <code>git</code> branch named <code>2024-05-07-working-with-git-branches</code></li>
 <li>switch the repo to this new <code>git</code> branch</li>
 <li>create a subfolder in <code>posts/</code> named <code>2024-05-07-working-with-git-branches</code></li>
-<li>create a Quarto file in this subfolder named <code>2024-05-07-working-with-git-branches.qmd</code></li>
+<li>create a Quarto file in this subfolder named <code>index.qmd</code></li>
 </ul>
-<p>You will write the content of your post inside this <code>.qmd</code> file and add additional files (images, data, etc.) in the subfolder <code>posts/2024-05-07-working-with-git-branches/</code>.</p>
+<p>You will write the content of your post inside this <code>index.qmd</code> file and add additional files (images, data, etc.) in the subfolder <code>posts/2024-05-07-working-with-git-branches/</code>.</p>
 </section>
 <section id="post-metadata" class="level3">
 <h3 class="anchored" data-anchor-id="post-metadata">Post metadata</h3>
-<p>Before starting writing your post, please edit the post metadata (i.e.&nbsp;the <a href="https://quarto.org/docs/websites/website-blog.html#posts-directory">YAML section</a>) in the post file (<code>.qmd</code> file) as follow:</p>
+<p>Before starting writing your post, please edit the post metadata (i.e.&nbsp;the <a href="https://quarto.org/docs/websites/website-blog.html#posts-directory">YAML section</a>) in the post file (<code>index.qmd</code> file) as follow:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1"></a><span class="pp">---</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Working with git branches"</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Nicolas Casajus"</span></span>
