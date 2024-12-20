@@ -27,7 +27,7 @@
 <item>
   <title>The apply() function family</title>
   <dc:creator>Nicolas Casajus</dc:creator>
-  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-11-19-the-apply-function-family/2024-11-19-the-apply-function-family.html</link>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-11-19-the-apply-function-family/</link>
   <description><![CDATA[ In this post, we will discuss about the family of <code>apply()</code> functions. These functions allows you to recursively apply a function across all elements of a <code>vector</code>, <code>list</code>, <code>matrix</code>, or <code>data.frame</code>. The <code>apply()</code> family is an interesting alternative to the <code>for</code> loop because it wraps the loop into a simple function. ]]></description>
   <category>r</category>
   <category>apply</category>
@@ -36,14 +36,14 @@
   <category>recursive</category>
   <category>function</category>
   <category>loop</category>
-  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-11-19-the-apply-function-family/2024-11-19-the-apply-function-family.html</guid>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-11-19-the-apply-function-family/</guid>
   <pubDate>Tue, 19 Nov 2024 00:00:00 GMT</pubDate>
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-11-19-the-apply-function-family" medium="image"/>
 </item>
 <item>
   <title>Research compendium</title>
   <dc:creator>Nicolas Casajus</dc:creator>
-  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-09-24-research-compendium/2024-09-24-research-compendium.html</link>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-09-24-research-compendium/</link>
   <description><![CDATA[ This post explains how to work with a <strong>research compendium</strong>. The goal of a research compendium is to provide a standard and easily recognizable way for <strong><em>organizing the digital materials</em></strong> of a project to enable others to inspect, reproduce, and extend the research (Marwick B <em>et al.</em> 2018). A research compendium follows three general principles: ]]></description>
   <category>r</category>
   <category>compendium</category>
@@ -51,94 +51,94 @@
   <category>description-file</category>
   <category>reproducibility</category>
   <category>documentation</category>
-  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-09-24-research-compendium/2024-09-24-research-compendium.html</guid>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-09-24-research-compendium/</guid>
   <pubDate>Tue, 24 Sep 2024 00:00:00 GMT</pubDate>
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-09-24-research-compendium" medium="image"/>
 </item>
 <item>
   <title>Python tutorial - Part 2</title>
   <dc:creator>Camille Coux</dc:creator>
-  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-06-11-python-tutorial-part-2/2024-06-11-python-tutorial-part-2.html</link>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-06-11-python-tutorial-part-2/</link>
   <description><![CDATA[ This post has a dedicated presentation available <a href="https://frbcesab.github.io/python-tuto-02/">here</a>. ]]></description>
   <category>python</category>
   <category>tutorial</category>
   <category>function</category>
-  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-06-11-python-tutorial-part-2/2024-06-11-python-tutorial-part-2.html</guid>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-06-11-python-tutorial-part-2/</guid>
   <pubDate>Tue, 11 Jun 2024 00:00:00 GMT</pubDate>
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-06-11-python-tutorial-part-2" medium="image"/>
 </item>
 <item>
   <title>Python tutorial - Part 1</title>
   <dc:creator>Camille Coux</dc:creator>
-  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-04-02-python-tutorial-part-1/2024-04-02-python-tutorial-part-1.html</link>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-04-02-python-tutorial-part-1/</link>
   <description><![CDATA[ This post has a dedicated presentation available <a href="https://frbcesab.github.io/python-tuto-01/">here</a>. ]]></description>
   <category>python</category>
   <category>tutorial</category>
   <category>games</category>
-  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-04-02-python-tutorial-part-1/2024-04-02-python-tutorial-part-1.html</guid>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-04-02-python-tutorial-part-1/</guid>
   <pubDate>Tue, 02 Apr 2024 00:00:00 GMT</pubDate>
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-04-02-python-tutorial-part-1" medium="image"/>
 </item>
 <item>
   <title>ZSH: an alternative to Bash (Windows)</title>
   <dc:creator>Nicolas Casajus</dc:creator>
-  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-26-zsh-an-alternative-to-bash/2024-03-26-zsh-an-alternative-to-bash.html</link>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-26-zsh-an-alternative-to-bash/</link>
   <description><![CDATA[ This post only concerns Windows users. ]]></description>
   <category>windows</category>
   <category>terminal</category>
   <category>git-bash</category>
   <category>zsh</category>
-  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-26-zsh-an-alternative-to-bash/2024-03-26-zsh-an-alternative-to-bash.html</guid>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-26-zsh-an-alternative-to-bash/</guid>
   <pubDate>Tue, 26 Mar 2024 00:00:00 GMT</pubDate>
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-03-26-zsh-an-alternative-to-bash" medium="image"/>
 </item>
 <item>
   <title>Storing secrets with the .Renviron file</title>
   <dc:creator>Nicolas Casajus</dc:creator>
-  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html</link>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-12-storing-secrets-with-the-renviron-file/</link>
   <description><![CDATA[ What is a secret? It is usually a password, an username or an API token (key) required by services. For instance, some <i class="fa-brands fa-r-project" aria-label="r-project"></i> packages require an authentication method: ]]></description>
   <category>r</category>
   <category>secret</category>
   <category>.renviron</category>
   <category>security</category>
-  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-12-storing-secrets-with-the-renviron-file/2024-03-12-storing-secrets-with-the-renviron-file.html</guid>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-12-storing-secrets-with-the-renviron-file/</guid>
   <pubDate>Tue, 12 Mar 2024 00:00:00 GMT</pubDate>
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-03-12-storing-secrets-with-the-renviron-file/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
 </item>
 <item>
   <title>Windows and the HOME directory</title>
   <dc:creator>Nicolas Casajus</dc:creator>
-  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-11-windows-and-the-home-directory/2024-03-11-windows-and-the-home-directory.html</link>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-11-windows-and-the-home-directory/</link>
   <description><![CDATA[ This post only concerns Windows users. ]]></description>
   <category>r</category>
   <category>configuration</category>
   <category>home</category>
   <category>windows</category>
-  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-11-windows-and-the-home-directory/2024-03-11-windows-and-the-home-directory.html</guid>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-11-windows-and-the-home-directory/</guid>
   <pubDate>Mon, 11 Mar 2024 00:00:00 GMT</pubDate>
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-03-11-windows-and-the-home-directory/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
 </item>
 <item>
   <title>Code snippets in RStudio</title>
   <dc:creator>Nicolas Casajus</dc:creator>
-  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/2024-02-27-code-snippets-in-rstudio.html</link>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/</link>
   <description><![CDATA[ A code snippet is a text shortcut that is used to insert a predefined chunk of code. It’s like <em>super-completion</em>. The <a href="https://posit.co/products/open-source/rstudio/">RStudio IDE</a> contains a lot of predefined code snippets. For instance: ]]></description>
   <category>editor</category>
   <category>shortcut</category>
   <category>rstudio</category>
-  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/2024-02-27-code-snippets-in-rstudio.html</guid>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/</guid>
   <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
 </item>
 <item>
   <title>RStudio shortcuts: a selection</title>
   <dc:creator>Nicolas Casajus</dc:creator>
-  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/2024-02-27-rstudio-shortcuts-a-selection.html</link>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/</link>
   <description><![CDATA[ This post lists useful shortcuts that will increase your productivity in using RStudio IDE. This subset is a subjective selection: for more shortcuts, press the combination <code>Alt + Shift + K</code>. ]]></description>
   <category>editor</category>
   <category>shortcut</category>
   <category>rstudio</category>
-  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/2024-02-27-rstudio-shortcuts-a-selection.html</guid>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/</guid>
   <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
 </item>
