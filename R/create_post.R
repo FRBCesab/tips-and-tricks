@@ -99,7 +99,7 @@ create_post <- function(title, date = NULL) {
   yaml <- paste0(yaml, collapse = "\n")
   
   post_dir <- file.path("posts", slug)
-  post_qmd <- file.path("posts", slug, paste0(slug, ".qmd"))
+  post_qmd <- file.path("posts", slug, "index.qmd")
   
   
   ## Create post folder ----
@@ -122,7 +122,7 @@ create_post <- function(title, date = NULL) {
   
   ## Opening .qmd file ----
 
-  file.edit(file.path("posts", slug, paste0(slug, ".qmd")))
+  file.edit(file.path("posts", slug, "index.qmd"))
   
   
   invisible(NULL)
