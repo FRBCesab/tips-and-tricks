@@ -47,3 +47,6 @@ format:
     code-line-numbers: true
     code-block-border-left: true
     highlight-style: nord
+
+execute:
+  freeze: auto
