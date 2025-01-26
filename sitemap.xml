@@ -1,67 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://frbcesab.github.io/tips-and-tricks/posts/2024-09-24-research-compendium/index.html</loc>
-    <lastmod>2024-12-20T13:45:47.012Z</lastmod>
-  </url>
-  <url>
-    <loc>https://frbcesab.github.io/tips-and-tricks/posts/2024-06-11-python-tutorial-part-2/index.html</loc>
-    <lastmod>2024-12-20T13:45:47.012Z</lastmod>
-  </url>
-  <url>
-    <loc>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/index.html</loc>
-    <lastmod>2024-12-20T13:45:47.012Z</lastmod>
-  </url>
-  <url>
-    <loc>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-11-windows-and-the-home-directory/index.html</loc>
-    <lastmod>2024-12-20T13:45:47.012Z</lastmod>
-  </url>
-  <url>
-    <loc>https://frbcesab.github.io/tips-and-tricks/posts/2024-12-17-deploying-a-website-with-github-pages/index.html</loc>
-    <lastmod>2024-12-20T13:45:47.016Z</lastmod>
-  </url>
-  <url>
-    <loc>https://frbcesab.github.io/tips-and-tricks/index.html</loc>
-    <lastmod>2024-12-20T13:45:47.004Z</lastmod>
-  </url>
-  <url>
-    <loc>https://frbcesab.github.io/tips-and-tricks/CODE_OF_CONDUCT.html</loc>
-    <lastmod>2024-12-20T13:45:46.984Z</lastmod>
-  </url>
-  <url>
-    <loc>https://frbcesab.github.io/tips-and-tricks/about.html</loc>
-    <lastmod>2024-12-20T13:45:46.996Z</lastmod>
-  </url>
-  <url>
-    <loc>https://frbcesab.github.io/tips-and-tricks/contribute.html</loc>
-    <lastmod>2024-12-20T13:45:46.996Z</lastmod>
-  </url>
-  <url>
     <loc>https://frbcesab.github.io/tips-and-tricks/CONTRIBUTING.html</loc>
-    <lastmod>2024-12-20T13:45:46.984Z</lastmod>
-  </url>
-  <url>
-    <loc>https://frbcesab.github.io/tips-and-tricks/LICENSE.html</loc>
-    <lastmod>2024-12-20T13:45:46.984Z</lastmod>
+    <lastmod>2025-01-26T09:17:11.379Z</lastmod>
   </url>
   <url>
     <loc>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-12-storing-secrets-with-the-renviron-file/index.html</loc>
-    <lastmod>2024-12-20T13:45:47.012Z</lastmod>
+    <lastmod>2025-01-26T09:17:11.407Z</lastmod>
   </url>
   <url>
     <loc>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/index.html</loc>
-    <lastmod>2024-12-20T13:45:47.008Z</lastmod>
+    <lastmod>2025-01-26T09:17:11.404Z</lastmod>
   </url>
   <url>
-    <loc>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-26-zsh-an-alternative-to-bash/index.html</loc>
-    <lastmod>2024-12-20T13:45:47.012Z</lastmod>
+    <loc>https://frbcesab.github.io/tips-and-tricks/posts/2024-12-17-deploying-a-website-with-github-pages/index.html</loc>
+    <lastmod>2025-01-26T09:17:11.413Z</lastmod>
   </url>
   <url>
     <loc>https://frbcesab.github.io/tips-and-tricks/posts/2024-11-19-the-apply-function-family/index.html</loc>
-    <lastmod>2024-12-20T13:45:47.012Z</lastmod>
+    <lastmod>2025-01-26T09:17:11.410Z</lastmod>
+  </url>
+  <url>
+    <loc>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-11-windows-and-the-home-directory/index.html</loc>
+    <lastmod>2025-01-26T09:17:11.407Z</lastmod>
+  </url>
+  <url>
+    <loc>https://frbcesab.github.io/tips-and-tricks/index.html</loc>
+    <lastmod>2025-01-26T09:17:11.397Z</lastmod>
+  </url>
+  <url>
+    <loc>https://frbcesab.github.io/tips-and-tricks/about.html</loc>
+    <lastmod>2025-01-26T09:17:11.390Z</lastmod>
+  </url>
+  <url>
+    <loc>https://frbcesab.github.io/tips-and-tricks/CODE_OF_CONDUCT.html</loc>
+    <lastmod>2025-01-26T09:17:11.379Z</lastmod>
+  </url>
+  <url>
+    <loc>https://frbcesab.github.io/tips-and-tricks/contribute.html</loc>
+    <lastmod>2025-01-26T09:17:11.390Z</lastmod>
+  </url>
+  <url>
+    <loc>https://frbcesab.github.io/tips-and-tricks/posts/2024-09-24-research-compendium/index.html</loc>
+    <lastmod>2025-01-26T09:17:11.410Z</lastmod>
+  </url>
+  <url>
+    <loc>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/index.html</loc>
+    <lastmod>2025-01-26T09:17:11.406Z</lastmod>
   </url>
   <url>
     <loc>https://frbcesab.github.io/tips-and-tricks/posts/2024-04-02-python-tutorial-part-1/index.html</loc>
-    <lastmod>2024-12-20T13:45:47.012Z</lastmod>
+    <lastmod>2025-01-26T09:17:11.409Z</lastmod>
+  </url>
+  <url>
+    <loc>https://frbcesab.github.io/tips-and-tricks/posts/2024-03-26-zsh-an-alternative-to-bash/index.html</loc>
+    <lastmod>2025-01-26T09:17:11.408Z</lastmod>
+  </url>
+  <url>
+    <loc>https://frbcesab.github.io/tips-and-tricks/posts/2024-06-11-python-tutorial-part-2/index.html</loc>
+    <lastmod>2025-01-26T09:17:11.409Z</lastmod>
+  </url>
+  <url>
+    <loc>https://frbcesab.github.io/tips-and-tricks/LICENSE.html</loc>
+    <lastmod>2025-01-26T09:17:11.379Z</lastmod>
   </url>
 </urlset>

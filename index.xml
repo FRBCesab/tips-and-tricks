@@ -9,7 +9,7 @@
 <link>https://frbcesab.github.io/tips-and-tricks/</link>
 <atom:link href="https://frbcesab.github.io/tips-and-tricks/index.xml" rel="self" type="application/rss+xml"/>
 <description>Tips and tricks</description>
-<generator>quarto-1.6.39</generator>
+<generator>quarto-1.6.40</generator>
 <lastBuildDate>Tue, 17 Dec 2024 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Deploying a website with GitHub Pages</title>
@@ -119,18 +119,6 @@
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-03-11-windows-and-the-home-directory/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
 </item>
 <item>
-  <title>Code snippets in RStudio</title>
-  <dc:creator>Nicolas Casajus</dc:creator>
-  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/</link>
-  <description><![CDATA[ A code snippet is a text shortcut that is used to insert a predefined chunk of code. It’s like <em>super-completion</em>. The <a href="https://posit.co/products/open-source/rstudio/">RStudio IDE</a> contains a lot of predefined code snippets. For instance: ]]></description>
-  <category>editor</category>
-  <category>shortcut</category>
-  <category>rstudio</category>
-  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/</guid>
-  <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
-  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
-</item>
-<item>
   <title>RStudio shortcuts: a selection</title>
   <dc:creator>Nicolas Casajus</dc:creator>
   <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/</link>
@@ -141,6 +129,18 @@
   <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/</guid>
   <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
+</item>
+<item>
+  <title>Code snippets in RStudio</title>
+  <dc:creator>Nicolas Casajus</dc:creator>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/</link>
+  <description><![CDATA[ A code snippet is a text shortcut that is used to insert a predefined chunk of code. It’s like <em>super-completion</em>. The <a href="https://posit.co/products/open-source/rstudio/">RStudio IDE</a> contains a lot of predefined code snippets. For instance: ]]></description>
+  <category>editor</category>
+  <category>shortcut</category>
+  <category>rstudio</category>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/</guid>
+  <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
+  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
 </item>
 </channel>
 </rss>
