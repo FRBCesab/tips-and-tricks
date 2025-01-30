@@ -462,7 +462,7 @@ library(parallel)
 # Let's use 10 threads ----
 n_cores <- 10
 
-# Create a socket w/ 5 threads ----
+# Create a socket w/ 10 threads ----
 cluster <- makeCluster(spec = n_cores)
 
 # Attach packages in each session ----
@@ -513,7 +513,7 @@ library(doParallel)
 # Let's use 10 threads ----
 n_cores <- 10
 
-# Create a socket w/ 5 threads ----
+# Create a socket w/ 10 threads ----
 cluster <- makeCluster(spec = n_cores)
 
 # Attach packages in each session ----
