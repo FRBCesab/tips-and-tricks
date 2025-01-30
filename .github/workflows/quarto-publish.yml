@@ -31,6 +31,8 @@ jobs:
             any::palmerpenguins
             any::tidyr
             any::dplyr
+            any::sf
+            any::ggplot2
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
