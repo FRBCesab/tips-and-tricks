@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nicolas Casajus">
+<meta name="dcterms.date" content="2025-01-28">
+
+<title>Parallel Computing in R – Tips and tricks</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-98b257f4e36a85277b37d89c13da1f73.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-c5cfe9b150b5ffabf6c301a328d08187.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/favicon.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Tips and tricks</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../contribute.html"> 
+<span class="menu-text">Contribute</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/frbcesab/tips-and-tricks"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Parallel Computing in R</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">r</div>
+                <div class="quarto-category">parallel-computing</div>
+                <div class="quarto-category">spatial</div>
+                <div class="quarto-category">optimization</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Nicolas Casajus </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 28, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-cpu" id="toc-what-is-a-cpu" class="nav-link" data-scroll-target="#what-is-a-cpu">What is a CPU?</a></li>
+  <li><a href="#parallel-computing" id="toc-parallel-computing" class="nav-link" data-scroll-target="#parallel-computing">Parallel computing</a></li>
+  </ul></li>
+  <li><a href="#case-study" id="toc-case-study" class="nav-link" data-scroll-target="#case-study">Case study</a>
+  <ul class="collapse">
+  <li><a href="#import-data" id="toc-import-data" class="nav-link" data-scroll-target="#import-data">Import data</a></li>
+  <li><a href="#extract-species-names" id="toc-extract-species-names" class="nav-link" data-scroll-target="#extract-species-names">Extract species names</a></li>
+  <li><a href="#explore-data" id="toc-explore-data" class="nav-link" data-scroll-target="#explore-data">Explore data</a></li>
+  <li><a href="#define-main-function" id="toc-define-main-function" class="nav-link" data-scroll-target="#define-main-function">Define main function</a></li>
+  <li><a href="#test-main-function" id="toc-test-main-function" class="nav-link" data-scroll-target="#test-main-function">Test main function</a></li>
+  <li><a href="#non-parallel-for-loop" id="toc-non-parallel-for-loop" class="nav-link" data-scroll-target="#non-parallel-for-loop">Non-parallel: <code>for()</code> loop</a></li>
+  <li><a href="#non-parallel-lapply" id="toc-non-parallel-lapply" class="nav-link" data-scroll-target="#non-parallel-lapply">Non-parallel: <code>lapply()</code></a></li>
+  <li><a href="#forking-mclapply" id="toc-forking-mclapply" class="nav-link" data-scroll-target="#forking-mclapply">Forking: <code>mclapply()</code></a></li>
+  <li><a href="#socket-parlapply" id="toc-socket-parlapply" class="nav-link" data-scroll-target="#socket-parlapply">Socket: <code>parLapply()</code></a></li>
+  <li><a href="#socket-foreach" id="toc-socket-foreach" class="nav-link" data-scroll-target="#socket-foreach">Socket: <code>foreach()</code></a></li>
+  <li><a href="#benchmark" id="toc-benchmark" class="nav-link" data-scroll-target="#benchmark">Benchmark</a></li>
+  <li><a href="#bonus-aggregate-outputs" id="toc-bonus-aggregate-outputs" class="nav-link" data-scroll-target="#bonus-aggregate-outputs">Bonus: aggregate outputs</a></li>
+  <li><a href="#to-go-further" id="toc-to-go-further" class="nav-link" data-scroll-target="#to-go-further">To go further</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Traditionally, when we work with <i class="fa-brands fa-r-project" aria-label="r-project"></i> we use the <strong>sequential computing</strong> approach where instructions are processed one at a time, with each subsequent instruction waiting for the previous one to complete. It typically uses a <strong>single processor</strong>, which can result in <strong>lower performance</strong> and higher processor workload. The primary drawback of sequential computing is that it can be <strong>time-consuming</strong>, as only one instruction is executed at any given moment.</p>
+<p><strong>Parallel computing</strong> was introduced to overcome these limitations. In this approach, multiple instructions or processes are executed concurrently. By running tasks simultaneously, parallel computing <strong>saves time</strong> and is capable of <strong>solving larger problems</strong>. It uses <strong>multiple high-performance processors</strong>, which results in a lower workload for each processor.</p>
+<p><br></p>
+<section id="what-is-a-cpu" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-a-cpu">What is a CPU?</h3>
+<p>The <strong>Central Processing Unit</strong> (<strong>CPU</strong>), also called processor, is a piece of computer hardware (electronic circuitry) that executes instructions, such as arithmetic, logic, controlling, and input/output (I/O) operations<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. In other words, it is the brain of the computer.</p>
+<p>Modern CPUs consist of several units, named (<strong>physical</strong>) <strong>cores</strong> (multi-core processors). These cores can be <strong>multithreaded</strong>. This means that these cores can provide multiple threads of execution in parallel (usually up to 2). Threads are also known as <strong>logical cores</strong>.</p>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p><a href="cpu.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="cpu.png" class="img-fluid" style="width:90.0%"></a></p>
+</div><div class="column" style="width:70%;">
+<p>In this example, the CPU (in brown) contains 4 cores (in blue and green):</p>
+<ul>
+<li>2 single-threading cores (in blue)</li>
+<li>2 multi-threading cores (in green)</li>
+</ul>
+<p>Six threads (logical cores) are available for parallel computing.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For instance, my <a href="https://www.lenovo.com/fr/fr/p/laptops/thinkpad/thinkpadp/thinkpad-p14s-gen-3-(14-inch-intel)/len101t0011">Lenovo P14s Gen 3</a> is shipped with the <a href="https://www.intel.com/content/www/us/en/products/sku/226253/intel-core-i71280p-processor-24m-cache-up-to-4-80-ghz/specifications.html">Intel® Core™ i7-1280P processor</a>. It is made up of <strong>6 multi-threading cores</strong> (2 threads per core) and <strong>8 single-threading cores</strong>. Parallel computation can use <strong>20 threads</strong>.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># How many logical cores are available on my computer?</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>parallel<span class="sc">::</span><span class="fu">detectCores</span>(<span class="at">logical =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="do">## [1] 20</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+</section>
+<section id="parallel-computing" class="level3">
+<h3 class="anchored" data-anchor-id="parallel-computing">Parallel computing</h3>
+<p>Here we will focus on the <a href="https://en.wikipedia.org/wiki/Embarrassingly_parallel"><strong>Embarrassingly parallel computing paradigm</strong></a>. In this paradigm, a problem can be split into multiple independent pieces. The pieces of the problem are executed simultaneously as they don’t have to communicate with each other (except at the end when all outputs are assembled).</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hidden parallel tasks
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Many <i class="fa-brands fa-r-project" aria-label="r-project"></i> packages (and system libraries) include built-in parallel computing that operates behind the scenes. This <strong>hidden parallel computing</strong> won’t interfere with your work and will actually enhance computational efficiency. However, it’s still a good idea to be aware of it, as it could impact other tasks (and users) using the same machine.</p>
+</div>
+</div>
+<p><i class="fa-solid fa-hand-point-right" aria-label="hand-point-right"></i>&nbsp; <strong>Data parallel computing</strong> involves splitting a large dataset into smaller segments and performing the same operation on each segment simultaneously. This approach is especially useful for tasks where the same computation must be applied to multiple data points (e.g.&nbsp;large data processing, simulations, machine learning, image and video processing).</p>
+<p>Many <i class="fa-brands fa-r-project" aria-label="r-project"></i> packages implement high-performance and parallel computing (see this <a href="https://cran.r-project.org/web/views/HighPerformanceComputing.html">CRAN Task View</a>).</p>
+<p>The <code>parallel</code> package in <i class="fa-brands fa-r-project" aria-label="r-project"></i> implements two types of parallel computing:</p>
+<ul>
+<li><strong>Shared memory parallelization</strong> (or <strong><code>FORK</code></strong>): Each parallel thread is essentially a full copy of the master process, along with the shared environment, including objects and variables defined before the parallel threads are launched. This makes it run efficiently, especially when handling large datasets. However, a key limitation is that the approach does not work on Windows systems.</li>
+<li><strong>Distributed memory parallelization</strong> (or <strong><code>SOCKET</code></strong>): Each thread operates independently, without sharing objects or variables, which must be explicitly passed from the master process. As a result, it tends to run slower due to the overhead of communication. This approach is compatible with all operating systems.</li>
+</ul>
+<table class="caption-top table">
+<caption>Table: Comparison of two parallel computing approaches</caption>
+<colgroup>
+<col style="width: 31%">
+<col style="width: 27%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Forking</th>
+<th style="text-align: left;">Socket</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Operating system</strong></td>
+<td style="text-align: left;"><i class="fa-brands fa-apple" aria-label="apple"></i> &nbsp; <i class="fa-brands fa-ubuntu" aria-label="ubuntu"></i></td>
+<td style="text-align: left;"><i class="fa-brands fa-windows" aria-label="windows"></i> &nbsp; <i class="fa-brands fa-apple" aria-label="apple"></i> &nbsp; <i class="fa-brands fa-ubuntu" aria-label="ubuntu"></i></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Environment</strong></td>
+<td style="text-align: left;">Common to all sessions<br>(time saving)</td>
+<td style="text-align: left;">Unique to each session<br>(transfer variables, functions &amp; packages)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Usage</strong></td>
+<td style="text-align: left;">Very easy</td>
+<td style="text-align: left;">More difficult<br>(configure cluster &amp; environment)</td>
+</tr>
+</tbody>
+</table>
+<div class="small">
+<p><em>Source (in French): <a href="https://regnault.pages.math.cnrs.fr/meroo/src/quarto/calc_paral_R.html" class="uri">https://regnault.pages.math.cnrs.fr/meroo/src/quarto/calc_paral_R.html</a></em></p>
+</div>
+<p>Let’s explore these two approaches with a case study.</p>
+<p><br></p>
+</section>
+</section>
+<section id="case-study" class="level2">
+<h2 class="anchored" data-anchor-id="case-study">Case study</h2>
+<p><i class="fa-solid fa-hand-point-right" aria-label="hand-point-right"></i>&nbsp; <strong>Objective</strong>: We want to intersect the spatial distribution of 40 species on a spatial grid (defining the Western Palearctic region) to create a matrix with grid cells in row and the presence/absence of each species in column.</p>
+<p>The workflow is the following:</p>
+<ol type="1">
+<li>Import study area (grid)</li>
+<li>Import species spatial distributions (polygons)</li>
+<li>Subset polygons for species X</li>
+<li>Intersect polygons X with the grid</li>
+<li>Assemble occurrences of all species</li>
+</ol>
+<p>Steps 3-4 must be repeated for each species and therefore can be parallelized.</p>
+<p><br></p>
+<section id="import-data" class="level3">
+<h3 class="anchored" data-anchor-id="import-data">Import data</h3>
+<p>Let’s import the study area, a regular spatial grid (<code>sf</code> <code>POLYGONS</code>) defined in the WGS84 system and delimiting the Western Palearctic region.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># Import study area ----</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>study_area  <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_read</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"study_area.gpkg"</span>))</span>
+<span id="cb2-3"><a href="#cb2-3"></a>study_area</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 3254 features and 1 field
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: -24.53429 ymin: 14.91196 xmax: 69.02288 ymax: 81.85871
+Geodetic CRS:  WGS 84
+First 10 features:
+   id                           geom
+1   1 MULTIPOLYGON (((11.46571 15...
+2   2 MULTIPOLYGON (((11.46571 15...
+3   3 MULTIPOLYGON (((12.46571 15...
+4   4 MULTIPOLYGON (((13.46571 15...
+5   5 MULTIPOLYGON (((14.46571 15...
+6   6 MULTIPOLYGON (((15.46571 15...
+7   7 MULTIPOLYGON (((16.46571 15...
+8   8 MULTIPOLYGON (((17.46571 15...
+9   9 MULTIPOLYGON (((26.46571 15...
+10 10 MULTIPOLYGON (((26.46571 15...</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Attach ggplot2 ----</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co"># Map study area ----</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a>  <span class="fu">theme</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">family =</span> <span class="st">"serif"</span>)) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> study_area)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="index_files/figure-html/map-area-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="index_files/figure-html/map-area-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now let’s import the bird spatial distribution layer (<code>sf</code> <code>POLYGONS</code>) also defined in the WGS84 system.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># Import species distribution ----</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>sp_polygons <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_read</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"species_polygons.gpkg"</span>))</span>
+<span id="cb5-3"><a href="#cb5-3"></a>sp_polygons</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 40 features and 1 field
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: -30 ymin: 10 xmax: 75 ymax: 81.85748
+Geodetic CRS:  WGS 84
+First 10 features:
+     binomial                           geom
+1  species_01 MULTIPOLYGON (((6.04248 45....
+2  species_02 MULTIPOLYGON (((-16.16014 2...
+3  species_03 MULTIPOLYGON (((29.5531 40....
+4  species_04 MULTIPOLYGON (((75 12.38982...
+5  species_05 MULTIPOLYGON (((-7.675472 4...
+6  species_06 MULTIPOLYGON (((-3.947759 4...
+7  species_07 MULTIPOLYGON (((4.209473 36...
+8  species_08 MULTIPOLYGON (((75 42.27599...
+9  species_09 MULTIPOLYGON (((-4.051088 4...
+10 species_10 MULTIPOLYGON (((5.534302 61...</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="extract-species-names" class="level3">
+<h3 class="anchored" data-anchor-id="extract-species-names">Extract species names</h3>
+<p>Let’s extract the name of the 40 species (used later for parallel computing).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># Extract species names ----</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>sp_names <span class="ot">&lt;-</span> <span class="fu">unique</span>(sp_polygons<span class="sc">$</span><span class="st">"binomial"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3"></a>sp_names <span class="ot">&lt;-</span> <span class="fu">sort</span>(sp_names)</span>
+<span id="cb7-4"><a href="#cb7-4"></a>sp_names</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "species_01" "species_02" "species_03" "species_04" "species_05"
+ [6] "species_06" "species_07" "species_08" "species_09" "species_10"
+[11] "species_11" "species_12" "species_13" "species_14" "species_15"
+[16] "species_16" "species_17" "species_18" "species_19" "species_20"
+[21] "species_21" "species_22" "species_23" "species_24" "species_25"
+[26] "species_26" "species_27" "species_28" "species_29" "species_30"
+[31] "species_31" "species_32" "species_33" "species_34" "species_35"
+[36] "species_36" "species_37" "species_38" "species_39" "species_40"</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="explore-data" class="level3">
+<h3 class="anchored" data-anchor-id="explore-data">Explore data</h3>
+<p>We will select polygons for <strong>species_22</strong> and map layers.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Subset one species ----</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>species      <span class="ot">&lt;-</span> <span class="st">"species_22"</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a>sub_polygons <span class="ot">&lt;-</span> sp_polygons[sp_polygons<span class="sc">$</span><span class="st">"binomial"</span> <span class="sc">==</span> species, ]</span>
+<span id="cb9-4"><a href="#cb9-4"></a>sub_polygons</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 1 feature and 1 field
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: -6.235596 ymin: 52.44647 xmax: 34.74487 ymax: 71.18811
+Geodetic CRS:  WGS 84
+     binomial                           geom
+22 species_22 MULTIPOLYGON (((5.123108 60...</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># Map layers ----</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>  <span class="fu">theme</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">family =</span> <span class="st">"serif"</span>)) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> study_area) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> sub_polygons, </span>
+<span id="cb11-7"><a href="#cb11-7"></a>          <span class="at">fill =</span> <span class="st">"#4F000088"</span>, </span>
+<span id="cb11-8"><a href="#cb11-8"></a>          <span class="at">col  =</span> <span class="st">"#4F0000FF"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="index_files/figure-html/map-data-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="index_files/figure-html/map-data-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="define-main-function" class="level3">
+<h3 class="anchored" data-anchor-id="define-main-function">Define main function</h3>
+<p>Now let’s define a function that will report the occurrence of one species on the grid (step 4 of the workflow).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># Function to rasterize ----</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>polygon_to_grid <span class="ot">&lt;-</span> <span class="cf">function</span>(grid, polygon) {</span>
+<span id="cb12-3"><a href="#cb12-3"></a></span>
+<span id="cb12-4"><a href="#cb12-4"></a>  <span class="do">## Clean species name ----</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a>  species <span class="ot">&lt;-</span> <span class="fu">unique</span>(polygon<span class="sc">$</span><span class="st">"binomial"</span>)</span>
+<span id="cb12-6"><a href="#cb12-6"></a>  species <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">" "</span>, <span class="st">"_"</span>, species) <span class="sc">|&gt;</span> </span>
+<span id="cb12-7"><a href="#cb12-7"></a>    <span class="fu">tolower</span>()</span>
+<span id="cb12-8"><a href="#cb12-8"></a>  </span>
+<span id="cb12-9"><a href="#cb12-9"></a>  <span class="do">## Intersect layers ----</span></span>
+<span id="cb12-10"><a href="#cb12-10"></a>  cells <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_intersects</span>(grid, polygon, <span class="at">sparse =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-11"><a href="#cb12-11"></a>  cells <span class="ot">&lt;-</span> <span class="fu">apply</span>(cells, <span class="dv">1</span>, any)</span>
+<span id="cb12-12"><a href="#cb12-12"></a>  cells <span class="ot">&lt;-</span> <span class="fu">which</span>(cells)</span>
+<span id="cb12-13"><a href="#cb12-13"></a>  </span>
+<span id="cb12-14"><a href="#cb12-14"></a>  <span class="do">## Create presence/absence column ----</span></span>
+<span id="cb12-15"><a href="#cb12-15"></a>  grid[     , species] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb12-16"><a href="#cb12-16"></a>  grid[cells, species] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb12-17"><a href="#cb12-17"></a>  </span>
+<span id="cb12-18"><a href="#cb12-18"></a>  <span class="do">## Remove spatial information ----</span></span>
+<span id="cb12-19"><a href="#cb12-19"></a>  sf<span class="sc">::</span><span class="fu">st_drop_geometry</span>(grid)</span>
+<span id="cb12-20"><a href="#cb12-20"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This function returns a <code>data.frame</code> with two columns: the identifier of the cell and the presence/absence of the species.</p>
+<p><br></p>
+</section>
+<section id="test-main-function" class="level3">
+<h3 class="anchored" data-anchor-id="test-main-function">Test main function</h3>
+<p>Let’s try this function with the distribution of <em>Curruca cantillans</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># Rasterize species polygons -----</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>sp_grid <span class="ot">&lt;-</span> <span class="fu">polygon_to_grid</span>(study_area, sub_polygons)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>although coordinates are longitude/latitude, st_intersects assumes that they
+are planar</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">head</span>(sp_grid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  id species_22
+1  1          0
+2  2          0
+3  3          0
+4  4          0
+5  5          0
+6  6          0</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># Add geometry ----</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a>sf<span class="sc">::</span><span class="fu">st_geometry</span>(sp_grid) <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_geometry</span>(study_area)</span>
+<span id="cb17-3"><a href="#cb17-3"></a></span>
+<span id="cb17-4"><a href="#cb17-4"></a><span class="co"># Convert occurrence to factor ----</span></span>
+<span id="cb17-5"><a href="#cb17-5"></a>sp_grid<span class="sc">$</span><span class="st">"species_22"</span> <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sp_grid<span class="sc">$</span><span class="st">"species_22"</span>)</span>
+<span id="cb17-6"><a href="#cb17-6"></a></span>
+<span id="cb17-7"><a href="#cb17-7"></a><span class="co"># Map result ----</span></span>
+<span id="cb17-8"><a href="#cb17-8"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb17-9"><a href="#cb17-9"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb17-10"><a href="#cb17-10"></a>  <span class="fu">theme</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">family =</span> <span class="st">"serif"</span>), <span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb17-11"><a href="#cb17-11"></a>  <span class="fu">geom_sf</span>(<span class="at">data    =</span> sp_grid, </span>
+<span id="cb17-12"><a href="#cb17-12"></a>          <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">fill =</span> species_22)) <span class="sc">+</span></span>
+<span id="cb17-13"><a href="#cb17-13"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"0"</span> <span class="ot">=</span> <span class="st">"#FFFFFFFF"</span>, </span>
+<span id="cb17-14"><a href="#cb17-14"></a>                               <span class="st">"1"</span> <span class="ot">=</span> <span class="st">"#9F0000FF"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="index_files/figure-html/map-grid-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="index_files/figure-html/map-grid-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Our workflow is ready for one species. Now we have to apply this function on each species. Let’s have a look at different approaches.</p>
+<p><br></p>
+</section>
+<section id="non-parallel-for-loop" class="level3">
+<h3 class="anchored" data-anchor-id="non-parallel-for-loop">Non-parallel: <code>for()</code> loop</h3>
+<p>One way of repeating a task is the <strong>iteration</strong>. Let’s walk over species with the <code>for()</code> loop.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># Create the output (list of 40 empty elements) ----</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a>grids <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">"list"</span>, <span class="at">length =</span> <span class="fu">length</span>(sp_names))</span>
+<span id="cb18-3"><a href="#cb18-3"></a></span>
+<span id="cb18-4"><a href="#cb18-4"></a><span class="co"># Define the sequence to loop on ----</span></span>
+<span id="cb18-5"><a href="#cb18-5"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(sp_names)) {</span>
+<span id="cb18-6"><a href="#cb18-6"></a>  </span>
+<span id="cb18-7"><a href="#cb18-7"></a>  <span class="co"># Instructions to repeat ----</span></span>
+<span id="cb18-8"><a href="#cb18-8"></a>  tmp <span class="ot">&lt;-</span> sp_polygons[sp_polygons<span class="sc">$</span><span class="st">"binomial"</span> <span class="sc">==</span> sp_names[i], ]</span>
+<span id="cb18-9"><a href="#cb18-9"></a>  grd <span class="ot">&lt;-</span> <span class="fu">polygon_to_grid</span>(study_area, tmp)</span>
+<span id="cb18-10"><a href="#cb18-10"></a>  </span>
+<span id="cb18-11"><a href="#cb18-11"></a>  <span class="co"># Store result in the output ----</span></span>
+<span id="cb18-12"><a href="#cb18-12"></a>  grids[[i]] <span class="ot">&lt;-</span> grd</span>
+<span id="cb18-13"><a href="#cb18-13"></a></span>
+<span id="cb18-14"><a href="#cb18-14"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The output is a list of 40 <code>data.frame</code>.</p>
+<p><br></p>
+</section>
+<section id="non-parallel-lapply" class="level3">
+<h3 class="anchored" data-anchor-id="non-parallel-lapply">Non-parallel: <code>lapply()</code></h3>
+<p>Iterative computing is quite verbose and often time-consuming. Because <i class="fa-brands fa-r-project" aria-label="r-project"></i> is a functional programming language, we can wrap-up the body of the <code>for()</code> loop inside a function and apply this function over a vector (i.e.&nbsp;species names). Let’s illustrate this with the function <code>lapply()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># lapply way ----</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a>grids <span class="ot">&lt;-</span> <span class="fu">lapply</span>(sp_names, <span class="cf">function</span>(sp) {</span>
+<span id="cb19-3"><a href="#cb19-3"></a>  </span>
+<span id="cb19-4"><a href="#cb19-4"></a>  tmp <span class="ot">&lt;-</span> sp_polygons[sp_polygons<span class="sc">$</span><span class="st">"binomial"</span> <span class="sc">==</span> sp, ]</span>
+<span id="cb19-5"><a href="#cb19-5"></a>  grd <span class="ot">&lt;-</span> <span class="fu">polygon_to_grid</span>(study_area, tmp)</span>
+<span id="cb19-6"><a href="#cb19-6"></a>  grd</span>
+<span id="cb19-7"><a href="#cb19-7"></a></span>
+<span id="cb19-8"><a href="#cb19-8"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The function <code>lapply()</code> also returns a list of 40 <code>data.frame</code>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+The <code>purrr</code> package
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <a href="https://purrr.tidyverse.org/"><code>purrr</code></a> package provides an alternative to the <code>apply()</code> function family in base <i class="fa-brands fa-r-project" aria-label="r-project"></i>. For instance:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="co"># purrr way ----</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a>grids <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map</span>(sp_names, <span class="cf">function</span>(sp) {</span>
+<span id="cb20-3"><a href="#cb20-3"></a>  </span>
+<span id="cb20-4"><a href="#cb20-4"></a>  tmp <span class="ot">&lt;-</span> sp_polygons[sp_polygons<span class="sc">$</span><span class="st">"binomial"</span> <span class="sc">==</span> sp, ]</span>
+<span id="cb20-5"><a href="#cb20-5"></a>  grd <span class="ot">&lt;-</span> <span class="fu">polygon_to_grid</span>(study_area, tmp)</span>
+<span id="cb20-6"><a href="#cb20-6"></a>  grd</span>
+<span id="cb20-7"><a href="#cb20-7"></a></span>
+<span id="cb20-8"><a href="#cb20-8"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>map()</code> function of the <code>purrr</code> package returns the same output as <code>lapply()</code>.</p>
+</div>
+</div>
+<p>These three approaches work in a sequential way. It’s time to parallel our code to boost performance.</p>
+<p><br></p>
+</section>
+<section id="forking-mclapply" class="level3">
+<h3 class="anchored" data-anchor-id="forking-mclapply">Forking: <code>mclapply()</code></h3>
+<p>The <code>parallel</code> package provides the function <code>mclapply()</code>, a parallelized version of <code>lapply()</code>. Note that this function relies on the forking approach and doesn’t work on Windows.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># Required packages ----</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb21-3"><a href="#cb21-3"></a></span>
+<span id="cb21-4"><a href="#cb21-4"></a><span class="co"># Let's use 10 threads ----</span></span>
+<span id="cb21-5"><a href="#cb21-5"></a>n_cores <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb21-6"><a href="#cb21-6"></a></span>
+<span id="cb21-7"><a href="#cb21-7"></a><span class="co"># mclapply way ----</span></span>
+<span id="cb21-8"><a href="#cb21-8"></a>grids <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(sp_names, <span class="cf">function</span>(sp) {</span>
+<span id="cb21-9"><a href="#cb21-9"></a>  </span>
+<span id="cb21-10"><a href="#cb21-10"></a>  tmp <span class="ot">&lt;-</span> sp_polygons[sp_polygons<span class="sc">$</span><span class="st">"binomial"</span> <span class="sc">==</span> sp, ]</span>
+<span id="cb21-11"><a href="#cb21-11"></a>  grd <span class="ot">&lt;-</span> <span class="fu">polygon_to_grid</span>(study_area, tmp)</span>
+<span id="cb21-12"><a href="#cb21-12"></a>  grd</span>
+<span id="cb21-13"><a href="#cb21-13"></a></span>
+<span id="cb21-14"><a href="#cb21-14"></a>}, <span class="at">mc.cores =</span> n_cores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The argument <code>mc.cores</code> is used to indicate the number of threads to use. The <code>mclapply()</code> will always return a list (as <code>lapply()</code>).</p>
+<p><i class="fa-solid fa-hand-point-right" aria-label="hand-point-right"></i>&nbsp; If you are on Unix-based systems (GNU/Linux or macOS), you should use the <strong>forking</strong> approach.</p>
+<p><br></p>
+</section>
+<section id="socket-parlapply" class="level3">
+<h3 class="anchored" data-anchor-id="socket-parlapply">Socket: <code>parLapply()</code></h3>
+<p>The <strong>socket</strong> approach is available for all operating systems (including Windows). The <code>parLapply()</code> function is the equivalent to the <code>mclapply()</code> but additional actions are required to parallelize code under the socket approach:</p>
+<ul>
+<li>Create a socket with the required number of threads with <code>makeCluster()</code></li>
+<li>Transfer the environment: packages with <code>clusterEvalQ()</code> and variables/functions in memory with <code>clusterExport()</code></li>
+<li>Stop the socket at the end of the parallel computation with <code>stopCluster()</code></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="co"># Required packages ----</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb22-3"><a href="#cb22-3"></a></span>
+<span id="cb22-4"><a href="#cb22-4"></a><span class="co"># Let's use 10 threads ----</span></span>
+<span id="cb22-5"><a href="#cb22-5"></a>n_cores <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb22-6"><a href="#cb22-6"></a></span>
+<span id="cb22-7"><a href="#cb22-7"></a><span class="co"># Create a socket w/ 5 threads ----</span></span>
+<span id="cb22-8"><a href="#cb22-8"></a>cluster <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(<span class="at">spec =</span> n_cores)</span>
+<span id="cb22-9"><a href="#cb22-9"></a></span>
+<span id="cb22-10"><a href="#cb22-10"></a><span class="co"># Attach packages in each session ----</span></span>
+<span id="cb22-11"><a href="#cb22-11"></a><span class="fu">clusterEvalQ</span>(<span class="at">cl   =</span> cluster, </span>
+<span id="cb22-12"><a href="#cb22-12"></a>             <span class="at">expr =</span> { </span>
+<span id="cb22-13"><a href="#cb22-13"></a>  <span class="fu">library</span>(sf) </span>
+<span id="cb22-14"><a href="#cb22-14"></a>})</span>
+<span id="cb22-15"><a href="#cb22-15"></a></span>
+<span id="cb22-16"><a href="#cb22-16"></a><span class="co"># Transfer data &amp; functions to each session ----</span></span>
+<span id="cb22-17"><a href="#cb22-17"></a><span class="fu">clusterExport</span>(<span class="at">cl      =</span> cluster, </span>
+<span id="cb22-18"><a href="#cb22-18"></a>              <span class="at">varlist =</span> <span class="fu">c</span>(<span class="st">"sp_names"</span>, <span class="st">"sp_polygons"</span>, <span class="st">"study_area"</span>, </span>
+<span id="cb22-19"><a href="#cb22-19"></a>                          <span class="st">"polygon_to_grid"</span>),</span>
+<span id="cb22-20"><a href="#cb22-20"></a>              <span class="at">envir   =</span> <span class="fu">environment</span>())</span>
+<span id="cb22-21"><a href="#cb22-21"></a></span>
+<span id="cb22-22"><a href="#cb22-22"></a><span class="co"># Parallel computing ----</span></span>
+<span id="cb22-23"><a href="#cb22-23"></a>grids <span class="ot">&lt;-</span> <span class="fu">parLapply</span>(<span class="at">cl =</span> cluster, <span class="at">X =</span> sp_names, <span class="cf">function</span>(sp) {</span>
+<span id="cb22-24"><a href="#cb22-24"></a>  </span>
+<span id="cb22-25"><a href="#cb22-25"></a>  tmp <span class="ot">&lt;-</span> sp_polygons[sp_polygons<span class="sc">$</span><span class="st">"binomial"</span> <span class="sc">==</span> sp, ]</span>
+<span id="cb22-26"><a href="#cb22-26"></a>  grd <span class="ot">&lt;-</span> <span class="fu">polygon_to_grid</span>(study_area, tmp)</span>
+<span id="cb22-27"><a href="#cb22-27"></a>  grd</span>
+<span id="cb22-28"><a href="#cb22-28"></a>  </span>
+<span id="cb22-29"><a href="#cb22-29"></a>})</span>
+<span id="cb22-30"><a href="#cb22-30"></a></span>
+<span id="cb22-31"><a href="#cb22-31"></a><span class="co"># Stop socket ----</span></span>
+<span id="cb22-32"><a href="#cb22-32"></a><span class="fu">stopCluster</span>(cluster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>parLapply()</code> also returns a list of 40 <code>data.frame</code>.</p>
+<p><br></p>
+</section>
+<section id="socket-foreach" class="level3">
+<h3 class="anchored" data-anchor-id="socket-foreach">Socket: <code>foreach()</code></h3>
+<p>Instead of the <code>parLapply()</code> you can use the <code>foreach()</code> function of the <code>foreach</code> package. But before parallelizing the code, you will need to register the socket with the <code>registerDoParallel()</code> function of the package <code>doParallel</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="co"># Required packages ----</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb23-3"><a href="#cb23-3"></a><span class="fu">library</span>(foreach)</span>
+<span id="cb23-4"><a href="#cb23-4"></a><span class="fu">library</span>(doParallel)</span>
+<span id="cb23-5"><a href="#cb23-5"></a></span>
+<span id="cb23-6"><a href="#cb23-6"></a><span class="co"># Let's use 10 threads ----</span></span>
+<span id="cb23-7"><a href="#cb23-7"></a>n_cores <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb23-8"><a href="#cb23-8"></a></span>
+<span id="cb23-9"><a href="#cb23-9"></a><span class="co"># Create a socket w/ 5 threads ----</span></span>
+<span id="cb23-10"><a href="#cb23-10"></a>cluster <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(<span class="at">spec =</span> n_cores)</span>
+<span id="cb23-11"><a href="#cb23-11"></a></span>
+<span id="cb23-12"><a href="#cb23-12"></a><span class="co"># Attach packages in each session ----</span></span>
+<span id="cb23-13"><a href="#cb23-13"></a><span class="fu">clusterEvalQ</span>(<span class="at">cl   =</span> cluster, </span>
+<span id="cb23-14"><a href="#cb23-14"></a>             <span class="at">expr =</span> { </span>
+<span id="cb23-15"><a href="#cb23-15"></a>  <span class="fu">library</span>(sf) </span>
+<span id="cb23-16"><a href="#cb23-16"></a>})</span>
+<span id="cb23-17"><a href="#cb23-17"></a></span>
+<span id="cb23-18"><a href="#cb23-18"></a><span class="co"># Transfer data &amp; functions to each session ----</span></span>
+<span id="cb23-19"><a href="#cb23-19"></a><span class="fu">clusterExport</span>(<span class="at">cl      =</span> cluster, </span>
+<span id="cb23-20"><a href="#cb23-20"></a>              <span class="at">varlist =</span> <span class="fu">c</span>(<span class="st">"sp_names"</span>, <span class="st">"sp_polygons"</span>, <span class="st">"study_area"</span>, </span>
+<span id="cb23-21"><a href="#cb23-21"></a>                          <span class="st">"polygon_to_grid"</span>),</span>
+<span id="cb23-22"><a href="#cb23-22"></a>              <span class="at">envir   =</span> <span class="fu">environment</span>())</span>
+<span id="cb23-23"><a href="#cb23-23"></a></span>
+<span id="cb23-24"><a href="#cb23-24"></a><span class="co"># Register socket ----</span></span>
+<span id="cb23-25"><a href="#cb23-25"></a><span class="fu">registerDoParallel</span>(cluster)</span>
+<span id="cb23-26"><a href="#cb23-26"></a></span>
+<span id="cb23-27"><a href="#cb23-27"></a><span class="co"># Parallel computing ----</span></span>
+<span id="cb23-28"><a href="#cb23-28"></a>grids <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">i =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(sp_names), <span class="at">.combine =</span> list) <span class="sc">%dopar%</span> {</span>
+<span id="cb23-29"><a href="#cb23-29"></a>  </span>
+<span id="cb23-30"><a href="#cb23-30"></a>  tmp <span class="ot">&lt;-</span> sp_polygons[sp_polygons<span class="sc">$</span><span class="st">"binomial"</span> <span class="sc">==</span> sp_names[i], ]</span>
+<span id="cb23-31"><a href="#cb23-31"></a>  grd <span class="ot">&lt;-</span> <span class="fu">polygon_to_grid</span>(study_area, tmp)</span>
+<span id="cb23-32"><a href="#cb23-32"></a>  grd</span>
+<span id="cb23-33"><a href="#cb23-33"></a>}</span>
+<span id="cb23-34"><a href="#cb23-34"></a></span>
+<span id="cb23-35"><a href="#cb23-35"></a><span class="co"># Stop socket ----</span></span>
+<span id="cb23-36"><a href="#cb23-36"></a><span class="fu">stopCluster</span>(cluster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The argument <code>.combine</code> of the <code>foreach()</code> function can be used to specify how the individual results are combined together. By default the function returns a <code>list</code>.</p>
+<p><br></p>
+</section>
+<section id="benchmark" class="level3">
+<h3 class="anchored" data-anchor-id="benchmark">Benchmark</h3>
+<p>Let’s compare the speed of each methods with the <code>system.time()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="co"># Required packages ----</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb24-3"><a href="#cb24-3"></a><span class="fu">library</span>(foreach)</span>
+<span id="cb24-4"><a href="#cb24-4"></a><span class="fu">library</span>(doParallel)</span>
+<span id="cb24-5"><a href="#cb24-5"></a></span>
+<span id="cb24-6"><a href="#cb24-6"></a><span class="co"># Let's use 10 threads ----</span></span>
+<span id="cb24-7"><a href="#cb24-7"></a>n_cores <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb24-8"><a href="#cb24-8"></a></span>
+<span id="cb24-9"><a href="#cb24-9"></a><span class="co"># for loop ----</span></span>
+<span id="cb24-10"><a href="#cb24-10"></a>for_loop <span class="ot">&lt;-</span> <span class="fu">system.time</span>({</span>
+<span id="cb24-11"><a href="#cb24-11"></a>  grids <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">"list"</span>, <span class="at">length =</span> <span class="fu">length</span>(sp_names))</span>
+<span id="cb24-12"><a href="#cb24-12"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(sp_names)) {</span>
+<span id="cb24-13"><a href="#cb24-13"></a>    tmp <span class="ot">&lt;-</span> sp_polygons[sp_polygons<span class="sc">$</span><span class="st">"binomial"</span> <span class="sc">==</span> sp_names[i], ]</span>
+<span id="cb24-14"><a href="#cb24-14"></a>    grids[[i]] <span class="ot">&lt;-</span> <span class="fu">polygon_to_grid</span>(study_area, tmp)</span>
+<span id="cb24-15"><a href="#cb24-15"></a>  }</span>
+<span id="cb24-16"><a href="#cb24-16"></a>})</span>
+<span id="cb24-17"><a href="#cb24-17"></a></span>
+<span id="cb24-18"><a href="#cb24-18"></a></span>
+<span id="cb24-19"><a href="#cb24-19"></a><span class="co"># lapply way ----</span></span>
+<span id="cb24-20"><a href="#cb24-20"></a>lapply_way <span class="ot">&lt;-</span> <span class="fu">system.time</span>({</span>
+<span id="cb24-21"><a href="#cb24-21"></a>  <span class="fu">lapply</span>(sp_names, <span class="cf">function</span>(sp) {</span>
+<span id="cb24-22"><a href="#cb24-22"></a>    tmp <span class="ot">&lt;-</span> sp_polygons[sp_polygons<span class="sc">$</span><span class="st">"binomial"</span> <span class="sc">==</span> sp, ]</span>
+<span id="cb24-23"><a href="#cb24-23"></a>    <span class="fu">polygon_to_grid</span>(study_area, tmp)</span>
+<span id="cb24-24"><a href="#cb24-24"></a>  })</span>
+<span id="cb24-25"><a href="#cb24-25"></a>})</span>
+<span id="cb24-26"><a href="#cb24-26"></a></span>
+<span id="cb24-27"><a href="#cb24-27"></a></span>
+<span id="cb24-28"><a href="#cb24-28"></a><span class="co"># purrr way ----</span></span>
+<span id="cb24-29"><a href="#cb24-29"></a>purrr_way <span class="ot">&lt;-</span> <span class="fu">system.time</span>({</span>
+<span id="cb24-30"><a href="#cb24-30"></a>  purrr<span class="sc">::</span><span class="fu">map</span>(sp_names, <span class="cf">function</span>(sp) {</span>
+<span id="cb24-31"><a href="#cb24-31"></a>    tmp <span class="ot">&lt;-</span> sp_polygons[sp_polygons<span class="sc">$</span><span class="st">"binomial"</span> <span class="sc">==</span> sp, ]</span>
+<span id="cb24-32"><a href="#cb24-32"></a>    <span class="fu">polygon_to_grid</span>(study_area, tmp)</span>
+<span id="cb24-33"><a href="#cb24-33"></a>  })</span>
+<span id="cb24-34"><a href="#cb24-34"></a>})</span>
+<span id="cb24-35"><a href="#cb24-35"></a></span>
+<span id="cb24-36"><a href="#cb24-36"></a></span>
+<span id="cb24-37"><a href="#cb24-37"></a><span class="co"># mclapply way ----</span></span>
+<span id="cb24-38"><a href="#cb24-38"></a>mclapply_way <span class="ot">&lt;-</span> <span class="fu">system.time</span>({</span>
+<span id="cb24-39"><a href="#cb24-39"></a>  <span class="fu">mclapply</span>(sp_names, <span class="cf">function</span>(sp) {</span>
+<span id="cb24-40"><a href="#cb24-40"></a>    tmp <span class="ot">&lt;-</span> sp_polygons[sp_polygons<span class="sc">$</span><span class="st">"binomial"</span> <span class="sc">==</span> sp, ]</span>
+<span id="cb24-41"><a href="#cb24-41"></a>    <span class="fu">polygon_to_grid</span>(study_area, tmp)</span>
+<span id="cb24-42"><a href="#cb24-42"></a>  }, </span>
+<span id="cb24-43"><a href="#cb24-43"></a>  <span class="at">mc.cores =</span> n_cores)</span>
+<span id="cb24-44"><a href="#cb24-44"></a>})</span>
+<span id="cb24-45"><a href="#cb24-45"></a></span>
+<span id="cb24-46"><a href="#cb24-46"></a></span>
+<span id="cb24-47"><a href="#cb24-47"></a><span class="co"># parlapply way ----</span></span>
+<span id="cb24-48"><a href="#cb24-48"></a>parlapply_way <span class="ot">&lt;-</span> <span class="fu">system.time</span>({</span>
+<span id="cb24-49"><a href="#cb24-49"></a>  cluster <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(<span class="at">spec =</span> n_cores)</span>
+<span id="cb24-50"><a href="#cb24-50"></a>  <span class="fu">clusterEvalQ</span>(<span class="at">cl =</span> cluster, <span class="at">expr =</span> { <span class="fu">library</span>(sf) })</span>
+<span id="cb24-51"><a href="#cb24-51"></a>  <span class="fu">clusterExport</span>(<span class="at">cl      =</span> cluster, </span>
+<span id="cb24-52"><a href="#cb24-52"></a>                <span class="at">varlist =</span> <span class="fu">c</span>(<span class="st">"sp_names"</span>, <span class="st">"sp_polygons"</span>, </span>
+<span id="cb24-53"><a href="#cb24-53"></a>                            <span class="st">"study_area"</span>, <span class="st">"polygon_to_grid"</span>),</span>
+<span id="cb24-54"><a href="#cb24-54"></a>                <span class="at">envir   =</span> <span class="fu">environment</span>())</span>
+<span id="cb24-55"><a href="#cb24-55"></a>  <span class="fu">parLapply</span>(<span class="at">cl =</span> cluster, sp_names, <span class="cf">function</span>(sp) {</span>
+<span id="cb24-56"><a href="#cb24-56"></a>    tmp <span class="ot">&lt;-</span> sp_polygons[sp_polygons<span class="sc">$</span><span class="st">"binomial"</span> <span class="sc">==</span> sp, ]</span>
+<span id="cb24-57"><a href="#cb24-57"></a>    <span class="fu">polygon_to_grid</span>(study_area, tmp)</span>
+<span id="cb24-58"><a href="#cb24-58"></a>  })</span>
+<span id="cb24-59"><a href="#cb24-59"></a>  <span class="fu">stopCluster</span>(cluster)</span>
+<span id="cb24-60"><a href="#cb24-60"></a>})</span>
+<span id="cb24-61"><a href="#cb24-61"></a></span>
+<span id="cb24-62"><a href="#cb24-62"></a></span>
+<span id="cb24-63"><a href="#cb24-63"></a><span class="co"># foreach way ----</span></span>
+<span id="cb24-64"><a href="#cb24-64"></a>foreach_way <span class="ot">&lt;-</span> <span class="fu">system.time</span>({</span>
+<span id="cb24-65"><a href="#cb24-65"></a>  cluster <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(<span class="at">spec =</span> n_cores)</span>
+<span id="cb24-66"><a href="#cb24-66"></a>  <span class="fu">clusterEvalQ</span>(<span class="at">cl =</span> cluster, <span class="at">expr =</span> { <span class="fu">library</span>(sf) })</span>
+<span id="cb24-67"><a href="#cb24-67"></a>  <span class="fu">clusterExport</span>(<span class="at">cl      =</span> cluster, </span>
+<span id="cb24-68"><a href="#cb24-68"></a>                <span class="at">varlist =</span> <span class="fu">c</span>(<span class="st">"sp_names"</span>, <span class="st">"sp_polygons"</span>, <span class="st">"study_area"</span>, </span>
+<span id="cb24-69"><a href="#cb24-69"></a>                            <span class="st">"polygon_to_grid"</span>),</span>
+<span id="cb24-70"><a href="#cb24-70"></a>                <span class="at">envir   =</span> <span class="fu">environment</span>())</span>
+<span id="cb24-71"><a href="#cb24-71"></a>  <span class="fu">registerDoParallel</span>(cluster)</span>
+<span id="cb24-72"><a href="#cb24-72"></a>  <span class="fu">foreach</span>(<span class="at">i =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(sp_names), <span class="at">.combine =</span> list) <span class="sc">%dopar%</span> {</span>
+<span id="cb24-73"><a href="#cb24-73"></a>    tmp <span class="ot">&lt;-</span> sp_polygons[sp_polygons<span class="sc">$</span><span class="st">"binomial"</span> <span class="sc">==</span> sp_names[i], ]</span>
+<span id="cb24-74"><a href="#cb24-74"></a>    <span class="fu">polygon_to_grid</span>(study_area, tmp)</span>
+<span id="cb24-75"><a href="#cb24-75"></a>  }</span>
+<span id="cb24-76"><a href="#cb24-76"></a>  <span class="fu">stopCluster</span>(cluster)</span>
+<span id="cb24-77"><a href="#cb24-77"></a>})</span>
+<span id="cb24-78"><a href="#cb24-78"></a></span>
+<span id="cb24-79"><a href="#cb24-79"></a></span>
+<span id="cb24-80"><a href="#cb24-80"></a><span class="co"># Benchmark ----</span></span>
+<span id="cb24-81"><a href="#cb24-81"></a><span class="fu">rbind</span>(for_loop, lapply_way, purrr_way, </span>
+<span id="cb24-82"><a href="#cb24-82"></a>      mclapply_way, parlapply_way, foreach_way)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>              elapsed
+for_loop       12.488
+lapply_way     12.369
+purrr_way      12.367
+foreach_way     3.650
+parlapply_way   3.348
+mclapply_way    2.246</code></pre>
+<p>As we can see, parallelizing portions of code is very efficient. In this example, both <strong>fork</strong> and <strong>socket</strong> approaches are quite fast. But differences in performance may appear depending on your code (and your available memory).</p>
+<p><br></p>
+</section>
+<section id="bonus-aggregate-outputs" class="level3">
+<h3 class="anchored" data-anchor-id="bonus-aggregate-outputs">Bonus: aggregate outputs</h3>
+<p>Finally, let’s aggregate all <code>data.frame</code> stored in the <code>list</code> into a single spatial object.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># Parallel computing (forking) ----</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a>grids <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">mclapply</span>(sp_names, <span class="cf">function</span>(sp) {</span>
+<span id="cb26-3"><a href="#cb26-3"></a>  </span>
+<span id="cb26-4"><a href="#cb26-4"></a>  tmp <span class="ot">&lt;-</span> sp_polygons[sp_polygons<span class="sc">$</span><span class="st">"binomial"</span> <span class="sc">==</span> sp, ]</span>
+<span id="cb26-5"><a href="#cb26-5"></a>  <span class="fu">polygon_to_grid</span>(study_area, tmp)</span>
+<span id="cb26-6"><a href="#cb26-6"></a>  </span>
+<span id="cb26-7"><a href="#cb26-7"></a>}, <span class="at">mc.cores =</span> n_cores)</span>
+<span id="cb26-8"><a href="#cb26-8"></a></span>
+<span id="cb26-9"><a href="#cb26-9"></a><span class="co"># Aggregation ----</span></span>
+<span id="cb26-10"><a href="#cb26-10"></a>grids <span class="ot">&lt;-</span> <span class="fu">do.call</span>(cbind, grids)</span>
+<span id="cb26-11"><a href="#cb26-11"></a></span>
+<span id="cb26-12"><a href="#cb26-12"></a><span class="co"># Keep only species columns ----</span></span>
+<span id="cb26-13"><a href="#cb26-13"></a>grids <span class="ot">&lt;-</span> grids[ , <span class="fu">which</span>(<span class="fu">colnames</span>(grids) <span class="sc">!=</span> <span class="st">"id"</span>)]</span>
+<span id="cb26-14"><a href="#cb26-14"></a></span>
+<span id="cb26-15"><a href="#cb26-15"></a><span class="co"># Convert to spatial object ----</span></span>
+<span id="cb26-16"><a href="#cb26-16"></a>sf<span class="sc">::</span><span class="fu">st_geometry</span>(grids) <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_geometry</span>(study_area)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+</section>
+<section id="to-go-further" class="level3">
+<h3 class="anchored" data-anchor-id="to-go-further">To go further</h3>
+<ul>
+<li>Introduction to parallel computing with R - <a href="https://rawgit.com/PPgp/useR2017public/master/tutorial.html">link</a></li>
+<li>Calcul parallèle avec R [in French] - <a href="https://regnault.pages.math.cnrs.fr/meroo/src/quarto/calc_paral_R.html">link</a></li>
+<li>Boosting R performance with parallel processing package <code>snow</code> - <a href="https://sabarevictor.medium.com/boosting-r-performance-with-parallel-processing-pacakge-snow-d638b7a6a37d">link</a></li>
+<li><code>future</code>: Unified parallel and distributed processing in R for everyone - <a href="https://future.futureverse.org/">link</a></li>
+<li>Quick introduction to parallel computing in R - <a href="https://nceas.github.io/oss-lessons/parallel-computing-in-r/parallel-computing-in-r.html">link</a></li>
+<li>Paralléliser R [in French] - <a href="https://ericmarcon.github.io/travailleR/chap-utiliseR.html#sec:parallel">link</a></li>
+<li>Parallel computation - <a href="https://bookdown.org/rdpeng/rprogdatascience/parallel-computation.html">link</a></li>
+</ul>
+
+
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p><a href="https://en.wikipedia.org/wiki/Central_processing_unit" class="uri">https://en.wikipedia.org/wiki/Central_processing_unit</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/frbcesab\.github\.io\/tips-and-tricks");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="frbcesab/tips-and-tricks" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© CC-By <a href="https://www.fondationbiodiversite.fr/en/about-the-foundation/le-cesab/">FRB-CESAB</a></p>
+</div>   
+    <div class="nav-footer-center">
+<p>Code source available on <a href="https://github.com/frbcesab/tips-and-tricks/"><i class="fa-brands fa-github" aria-label="github"></i></a></p>
+</div>
+    <div class="nav-footer-right">
+<p>Built with <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

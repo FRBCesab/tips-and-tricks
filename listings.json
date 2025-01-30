@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/2025-01-28-parallel-computing-in-r/index.html",
       "/posts/2024-12-17-deploying-a-website-with-github-pages/index.html",
       "/posts/2024-11-19-the-apply-function-family/index.html",
       "/posts/2024-09-24-research-compendium/index.html",

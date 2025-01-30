@@ -10,7 +10,20 @@
 <atom:link href="https://frbcesab.github.io/tips-and-tricks/index.xml" rel="self" type="application/rss+xml"/>
 <description>Tips and tricks</description>
 <generator>quarto-1.6.40</generator>
-<lastBuildDate>Tue, 17 Dec 2024 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 28 Jan 2025 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Parallel Computing in R</title>
+  <dc:creator>Nicolas Casajus</dc:creator>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2025-01-28-parallel-computing-in-r/</link>
+  <description><![CDATA[ Traditionally, when we work with <i class="fa-brands fa-r-project" aria-label="r-project"></i> we use the <strong>sequential computing</strong> approach where instructions are processed one at a time, with each subsequent instruction waiting for the previous one to complete. It typically uses a <strong>single processor</strong>, which can result in <strong>lower performance</strong> and higher processor workload. The primary drawback of sequential computing is that it can be <strong>time-consuming</strong>, as only one instruction is executed at any given moment. ]]></description>
+  <category>r</category>
+  <category>parallel-computing</category>
+  <category>spatial</category>
+  <category>optimization</category>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2025-01-28-parallel-computing-in-r/</guid>
+  <pubDate>Tue, 28 Jan 2025 00:00:00 GMT</pubDate>
+  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2025-01-28-parallel-computing-in-r" medium="image"/>
+</item>
 <item>
   <title>Deploying a website with GitHub Pages</title>
   <dc:creator>Nicolas Casajus</dc:creator>
