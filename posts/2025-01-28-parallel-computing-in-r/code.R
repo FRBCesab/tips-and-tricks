@@ -16,9 +16,9 @@ sp_polygons <- sf::st_read(file.path(path, "data", "species_polygons.gpkg"))
 
 ## Subset one species ----
 
-species <- "Curruca cantillans"
+species <- "species_22"
 
-sub_polygons <- sp_polygons[sp_polygons$"blife_binomial" == species, ]
+sub_polygons <- sp_polygons[sp_polygons$"binomial" == species, ]
 
 
 ## Map layers ----
@@ -33,7 +33,7 @@ ggplot() +
 
 ## Extract species names ----
 
-sp_names <- unique(sp_polygons$"blife_binomial")
+sp_names <- unique(sp_polygons$"binomial")
 sp_names <- sort(sp_names)
 
 length(sp_names)
@@ -43,7 +43,7 @@ length(sp_names)
 
 polygon_to_grid <- function(grid, polygon) {
 
-  species <- unique(polygon$"blife_binomial")
+  species <- unique(polygon$"binomial")
   species <- gsub(" ", "_", species) |> 
     tolower()
   
@@ -63,11 +63,11 @@ polygon_to_grid <- function(grid, polygon) {
 sp_grid <- polygon_to_grid(study_area, sub_polygons)
 sf::st_geometry(sp_grid) <- sf::st_geometry(study_area)
 
-sp_grid$"curruca_cantillans" <- as.factor(sp_grid$"curruca_cantillans")
+sp_grid$"species_22" <- as.factor(sp_grid$"species_22")
 
 ggplot() +
   theme_bw() +
-  geom_sf(data = sp_grid, aes(fill = curruca_cantillans)) +
+  geom_sf(data = sp_grid, aes(fill = species_22)) +
   scale_fill_manual(values = c("0" = "#FFFFFF", "1" = "#9F0000")) +
   geom_sf(data = sub_polygons, col = "#000000", fill = NA, linewidth = 0.5)
 
@@ -80,7 +80,7 @@ for_bm <- system.time({
   
   for (i in 1:length(sp_names)) {
     
-    sub_polygons <- sp_polygons[sp_polygons$"blife_binomial" == sp_names[i], ]
+    sub_polygons <- sp_polygons[sp_polygons$"binomial" == sp_names[i], ]
     
     grids[[i]] <- polygon_to_grid(study_area, sub_polygons)
   }
@@ -93,7 +93,7 @@ lapply_bm <- system.time({
 
   grids <- lapply(1:length(sp_names), function(i) {
   
-    sub_polygons <- sp_polygons[sp_polygons$"blife_binomial" == sp_names[i], ]
+    sub_polygons <- sp_polygons[sp_polygons$"binomial" == sp_names[i], ]
     polygon_to_grid(study_area, sub_polygons)
   })
 })
@@ -106,7 +106,7 @@ mclapply_bm <- system.time({
 
   grids <- parallel::mclapply(1:length(sp_names), function(i) {
     
-    sub_polygons <- sp_polygons[sp_polygons$"blife_binomial" == sp_names[i], ]
+    sub_polygons <- sp_polygons[sp_polygons$"binomial" == sp_names[i], ]
     polygon_to_grid(study_area, sub_polygons)
   
   }, mc.cores = 15)
@@ -127,7 +127,7 @@ parlapply_bm <- system.time({
   
   grids <- parallel::parLapply(X = 1:length(sp_names), fun = function(i) {
     
-    sub_polygons <- sp_polygons[sp_polygons$"blife_binomial" == sp_names[i], ]
+    sub_polygons <- sp_polygons[sp_polygons$"binomial" == sp_names[i], ]
     polygon_to_grid(study_area, sub_polygons)
     
   }, cl = cl)
@@ -153,7 +153,7 @@ foreach_bm <- system.time({
   
   grids <- foreach(i = 1:length(sp_names)) %dopar% {
     
-    sub_polygons <- sp_polygons[sp_polygons$"blife_binomial" == sp_names[i], ]
+    sub_polygons <- sp_polygons[sp_polygons$"binomial" == sp_names[i], ]
     polygon_to_grid(study_area, sub_polygons)
   }
   
@@ -174,7 +174,7 @@ rbind(for_bm,
 
 grids <- parallel::mclapply(1:length(sp_names), function(i) {
   
-  sub_polygons <- sp_polygons[sp_polygons$"blife_binomial" == sp_names[i], ]
+  sub_polygons <- sp_polygons[sp_polygons$"binomial" == sp_names[i], ]
   polygon_to_grid(study_area, sub_polygons)
   
 }, mc.cores = 15)
