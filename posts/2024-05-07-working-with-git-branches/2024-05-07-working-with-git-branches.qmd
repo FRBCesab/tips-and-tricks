@@ -1,0 +1,12 @@
+---
+title: "Working with git branches"
+author: "Nicolas Casajus"
+date: "2024-05-07"
+categories: [git, git-branch, git-checkout, git-merge]
+image: ""
+toc: true
+draft: false
+code-overflow: scroll
+---
+
+Post content...
