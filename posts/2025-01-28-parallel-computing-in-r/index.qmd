@@ -1,0 +1,698 @@
+---
+title: "Parallel Computing in R"
+author: "Nicolas Casajus"
+date: "2025-01-28"
+categories: [r, parallel-computing, spatial, optimization]
+image: ""
+toc: true
+draft: false
+lightbox: true
+code-overflow: scroll
+---
+
+
+## Introduction
+
+Traditionally, when we work with {{< fa brands r-project >}} we use the **sequential computing** approach where instructions are processed one at a time, with each subsequent instruction waiting for the previous one to complete. It typically uses a **single processor**, which can result in **lower performance** and higher processor workload. The primary drawback of sequential computing is that it can be **time-consuming**, as only one instruction is executed at any given moment.
+
+**Parallel computing** was introduced to overcome these limitations. In this approach, multiple instructions or processes are executed concurrently. By running tasks simultaneously, parallel computing **saves time** and is capable of **solving larger problems**. It uses **multiple high-performance processors**, which results in a lower workload for each processor.
+
+
+<br/>
+
+### What is a CPU?
+
+The **Central Processing Unit** (**CPU**), also called processor, is a piece of computer hardware (electronic circuitry) that executes instructions, such as arithmetic, logic, controlling, and input/output (I/O) operations[^wiki]. In other words, it is the brain of the computer.
+
+Modern CPUs consist of several units, named (**physical**) **cores** (multi-core processors). These cores can be **multithreaded**. This means that these cores can provide multiple threads of execution in parallel (usually up to 2). Threads are also known as **logical cores**. 
+
+[^wiki]: <https://en.wikipedia.org/wiki/Central_processing_unit>
+
+<br/>
+
+::::{.columns}
+:::{.column width=30%}
+![](cpu.png){width=90%}
+:::
+:::{.column width=70%}
+In this example, the CPU (in brown) contains 4 cores (in blue and green):
+
+- 2 single-threading cores (in blue)
+- 2 multi-threading cores (in green)
+
+Six threads (logical cores) are available for parallel computing.
+:::
+::::
+
+::: {.callout-note}
+For instance, my [Lenovo P14s Gen 3](https://www.lenovo.com/fr/fr/p/laptops/thinkpad/thinkpadp/thinkpad-p14s-gen-3-(14-inch-intel)/len101t0011) is shipped with the [Intel&reg; Core&trade; i7-1280P processor](https://www.intel.com/content/www/us/en/products/sku/226253/intel-core-i71280p-processor-24m-cache-up-to-4-80-ghz/specifications.html). It is made up of **6 multi-threading cores** (2 threads per core) and **8 single-threading cores**. Parallel computation can use **20 threads**.
+:::
+
+```{r}
+#| label: 'how-many-cores'
+#| echo: true
+#| eval: false
+
+# How many logical cores are available on my computer?
+parallel::detectCores(logical = TRUE)
+## [1] 20
+```
+
+
+<br/>
+
+### Parallel computing
+
+Here we will focus on the [**Embarrassingly parallel computing paradigm**](https://en.wikipedia.org/wiki/Embarrassingly_parallel). In this paradigm, a problem can be split into multiple independent pieces. The pieces of the problem are executed simultaneously as they don't have to communicate with each other (except at the end when all outputs are assembled).
+
+
+::: {.callout-important}
+## Hidden parallel tasks
+
+Many {{< fa brands r-project >}} packages (and system libraries) include built-in parallel computing that operates behind the scenes. This **hidden parallel computing** won't interfere with your work and will actually enhance computational efficiency. However, it's still a good idea to be aware of it, as it could impact other tasks (and users) using the same machine.
+:::
+
+{{< fa hand-point-right >}}&nbsp; **Data parallel computing** involves splitting a large dataset into smaller segments and performing the same operation on each segment simultaneously. This approach is especially useful for tasks where the same computation must be applied to multiple data points (e.g. large data processing, simulations, machine learning, image and video processing).
+
+
+Many {{< fa brands r-project >}} packages implement high-performance and parallel computing (see this [CRAN Task View](https://cran.r-project.org/web/views/HighPerformanceComputing.html)).
+
+The `parallel` package in {{< fa brands r-project >}} implements two types of parallel computing:
+
+- **Shared memory parallelization** (or **`FORK`**): Each parallel thread is essentially a full copy of the master process, along with the shared environment, including objects and variables defined before the parallel threads are launched. This makes it run efficiently, especially when handling large datasets. However, a key limitation is that the approach does not work on Windows systems.
+- **Distributed memory parallelization** (or **`SOCKET`**): Each thread operates independently, without sharing objects or variables, which must be explicitly passed from the master process. As a result, it tends to run slower due to the overhead of communication. This approach is compatible with all operating systems.
+
+|                     | Forking          | Socket                   |
+|:--------------------|:-----------------|:--------------------------|
+| **Operating system** | {{< fa brands apple >}} &nbsp; {{< fa brands ubuntu >}} | {{< fa brands windows >}} &nbsp; {{< fa brands apple >}} &nbsp; {{< fa brands ubuntu >}} |
+| **Environment**      | Common to all sessions<br/>(time saving) | Unique to each session<br/>(transfer variables, functions & packages)     |
+| **Usage**            | Very easy | More difficult<br/>(configure cluster & environment) |
+
+: Table: Comparison of two parallel computing approaches
+
+:::{.small}
+_Source (in French): <https://regnault.pages.math.cnrs.fr/meroo/src/quarto/calc_paral_R.html>_
+:::
+
+Let's explore these two approaches with a case study.
+
+
+<br/>
+
+
+
+
+## Case study
+
+{{< fa hand-point-right >}}&nbsp; **Objective**: We want to intersect the spatial distribution of 40 species on a spatial grid (defining the Western Palearctic region) to create a matrix with grid cells in row and the presence/absence of each species in column.
+
+The workflow is the following:
+
+1. Import study area (grid)
+2. Import species spatial distributions (polygons)
+3. Subset polygons for species X
+4. Intersect polygons X with the grid
+5. Assemble occurrences of all species
+
+Steps 3-4 must be repeated for each species and therefore can be parallelized.
+
+
+<br/>
+
+### Import data
+
+Let's import the study area, a regular spatial grid (`sf` `POLYGONS`) defined in the WGS84 system and delimiting the Western Palearctic region.
+
+```{r}
+#| label: "disable-s2"
+#| echo: false
+#| eval: true
+#| message: false
+
+sf::sf_use_s2(FALSE)
+```
+
+
+```{r}
+#| label: "import-data-fake-1"
+#| echo: true
+#| eval: false
+
+# Import study area ----
+study_area  <- sf::st_read(file.path("data", "study_area.gpkg"))
+study_area
+```
+
+
+```{r}
+#| label: "import-data-1"
+#| echo: false
+#| eval: true
+
+# Import study area (spatial polygon) ----
+study_area <- sf::st_read(file.path("data", "study_area.gpkg"), 
+                          quiet = TRUE)
+study_area
+```
+
+
+
+```{r}
+#| label: "map-area"
+#| echo: true
+#| eval: true
+
+# Attach ggplot2 ----
+library("ggplot2")
+
+# Map study area ----
+ggplot() +
+  theme_bw() +
+  theme(text = element_text(family = "serif")) +
+  geom_sf(data = study_area)
+```
+
+Now let's import the bird spatial distribution layer (`sf` `POLYGONS`) also defined in the WGS84 system.
+
+```{r}
+#| label: "import-data-fake-2"
+#| echo: true
+#| eval: false
+
+# Import species distribution ----
+sp_polygons <- sf::st_read(file.path("data", "species_polygons.gpkg"))
+sp_polygons
+```
+
+```{r}
+#| label: "import-data-2"
+#| echo: false
+#| eval: true
+
+# Import species distribution (spatial polygon) ----
+sp_polygons <- sf::st_read(file.path("data", "species_polygons.gpkg"), 
+                           quiet = TRUE)
+sp_polygons
+```
+
+<br/>
+
+### Extract species names
+
+Let's extract the name of the 40 species (used later for parallel computing).
+
+```{r}
+#| label: "get-species-names"
+#| echo: true
+#| eval: true
+
+# Extract species names ----
+sp_names <- unique(sp_polygons$"binomial")
+sp_names <- sort(sp_names)
+sp_names
+```
+
+<br/>
+
+### Explore data
+
+We will select polygons for **species_22** and map layers.
+
+
+```{r}
+#| label: "subset-data"
+#| echo: true
+#| eval: true
+
+# Subset one species ----
+species      <- "species_22"
+sub_polygons <- sp_polygons[sp_polygons$"binomial" == species, ]
+sub_polygons
+```
+
+```{r}
+#| label: "map-data"
+#| echo: true
+#| eval: true
+
+# Map layers ----
+ggplot() +
+  theme_bw() +
+  theme(text = element_text(family = "serif")) +
+  geom_sf(data = study_area) +
+  geom_sf(data = sub_polygons, 
+          fill = "#4F000088", 
+          col  = "#4F0000FF")
+```
+
+
+
+<br/>
+
+### Define main function
+
+Now let's define a function that will report the occurrence of one species on the grid (step 4 of the workflow).
+
+```{r}
+#| label: "define-main-function"
+#| echo: true
+#| eval: true
+
+# Function to rasterize ----
+polygon_to_grid <- function(grid, polygon) {
+
+  ## Clean species name ----
+  species <- unique(polygon$"binomial")
+  species <- gsub(" ", "_", species) |> 
+    tolower()
+  
+  ## Intersect layers ----
+  cells <- sf::st_intersects(grid, polygon, sparse = FALSE)
+  cells <- apply(cells, 1, any)
+  cells <- which(cells)
+  
+  ## Create presence/absence column ----
+  grid[     , species] <- 0
+  grid[cells, species] <- 1
+  
+  ## Remove spatial information ----
+  sf::st_drop_geometry(grid)
+}
+```
+
+This function returns a `data.frame` with two columns: the identifier of the cell and the presence/absence of the species.
+
+<br/>
+
+### Test main function
+
+Let's try this function with the distribution of _Curruca cantillans_.
+
+```{r}
+#| label: "rasterize"
+#| echo: true
+#| eval: true
+
+# Rasterize species polygons -----
+sp_grid <- polygon_to_grid(study_area, sub_polygons)
+
+head(sp_grid)
+```
+
+
+```{r}
+#| label: "map-grid"
+#| echo: true
+#| eval: true
+
+# Add geometry ----
+sf::st_geometry(sp_grid) <- sf::st_geometry(study_area)
+
+# Convert occurrence to factor ----
+sp_grid$"species_22" <- as.factor(sp_grid$"species_22")
+
+# Map result ----
+ggplot() +
+  theme_bw() +
+  theme(text = element_text(family = "serif"), legend.position = "none") +
+  geom_sf(data    = sp_grid, 
+          mapping = aes(fill = species_22)) +
+  scale_fill_manual(values = c("0" = "#FFFFFFFF", 
+                               "1" = "#9F0000FF"))
+```
+
+
+Our workflow is ready for one species. Now we have to apply this function on each species. Let's have a look at different approaches.
+
+
+<br/>
+
+### Non-parallel: `for()` loop
+
+One way of repeating a task is the **iteration**. Let's walk over species with the `for()` loop.
+
+```{r}
+#| label: "for-loop"
+#| echo: true
+#| eval: false
+
+# Create the output (list of 40 empty elements) ----
+grids <- vector(mode = "list", length = length(sp_names))
+
+# Define the sequence to loop on ----
+for (i in 1:length(sp_names)) {
+  
+  # Instructions to repeat ----
+  tmp <- sp_polygons[sp_polygons$"binomial" == sp_names[i], ]
+  grd <- polygon_to_grid(study_area, tmp)
+  
+  # Store result in the output ----
+  grids[[i]] <- grd
+
+}
+```
+
+The output is a list of 40 `data.frame`.
+
+
+<br/>
+
+### Non-parallel: `lapply()`
+
+Iterative computing is quite verbose and often time-consuming. Because {{< fa brands r-project >}} is a functional programming language, we can wrap-up the body of the `for()` loop inside a function and apply this function over a vector (i.e. species names). Let's illustrate this with the function `lapply()`.
+
+
+```{r}
+#| label: "lapply-way"
+#| echo: true
+#| eval: false
+
+# lapply way ----
+grids <- lapply(sp_names, function(sp) {
+  
+  tmp <- sp_polygons[sp_polygons$"binomial" == sp, ]
+  grd <- polygon_to_grid(study_area, tmp)
+  grd
+
+})
+```
+
+The function `lapply()` also returns a list of 40 `data.frame`.
+
+
+::: {.callout-tip}
+## The `purrr` package
+
+The [`purrr`](https://purrr.tidyverse.org/) package provides an alternative to the `apply()` function family in base {{< fa brands r-project >}}. For instance:
+
+```{r}
+#| label: "purrr-way"
+#| echo: true
+#| eval: false
+
+# purrr way ----
+grids <- purrr::map(sp_names, function(sp) {
+  
+  tmp <- sp_polygons[sp_polygons$"binomial" == sp, ]
+  grd <- polygon_to_grid(study_area, tmp)
+  grd
+
+})
+```
+
+The `map()` function of the `purrr` package returns the same output as `lapply()`.
+:::
+
+These three approaches work in a sequential way. It's time to parallel our code to boost performance.
+
+
+<br/>
+
+### Forking: `mclapply()`
+
+The `parallel` package provides the function `mclapply()`, a parallelized version of `lapply()`. Note that this function relies on the forking approach and doesn't work on Windows.
+
+```{r}
+#| label: "mclapply-way"
+#| echo: true
+#| eval: false
+
+# Required packages ----
+library(parallel)
+
+# Let's use 10 threads ----
+n_cores <- 10
+
+# mclapply way ----
+grids <- mclapply(sp_names, function(sp) {
+  
+  tmp <- sp_polygons[sp_polygons$"binomial" == sp, ]
+  grd <- polygon_to_grid(study_area, tmp)
+  grd
+
+}, mc.cores = n_cores)
+```
+
+The argument `mc.cores` is used to indicate the number of threads to use.
+The `mclapply()` will always return a list (as `lapply()`).
+
+
+{{< fa hand-point-right >}}&nbsp; If you are on Unix-based systems (GNU/Linux or macOS), you should use the **forking** approach.
+
+
+<br/>
+
+### Socket: `parLapply()`
+
+The **socket** approach is available for all operating systems (including Windows). The `parLapply()` function is the equivalent to the `mclapply()` but additional actions are required to parallelize code under the socket approach:
+
+- Create a socket with the required number of threads with `makeCluster()`
+- Transfer the environment: packages with `clusterEvalQ()` and variables/functions in memory with `clusterExport()`
+- Stop the socket at the end of the parallel computation with `stopCluster()`
+
+
+```{r}
+#| label: "parlapply-way"
+#| echo: true
+#| eval: false
+
+# Required packages ----
+library(parallel)
+
+# Let's use 10 threads ----
+n_cores <- 10
+
+# Create a socket w/ 5 threads ----
+cluster <- makeCluster(spec = n_cores)
+
+# Attach packages in each session ----
+clusterEvalQ(cl   = cluster, 
+             expr = { 
+  library(sf) 
+})
+
+# Transfer data & functions to each session ----
+clusterExport(cl      = cluster, 
+              varlist = c("sp_names", "sp_polygons", "study_area", 
+                          "polygon_to_grid"),
+              envir   = environment())
+
+# Parallel computing ----
+grids <- parLapply(cl = cluster, X = sp_names, function(sp) {
+  
+  tmp <- sp_polygons[sp_polygons$"binomial" == sp, ]
+  grd <- polygon_to_grid(study_area, tmp)
+  grd
+  
+})
+
+# Stop socket ----
+stopCluster(cluster)
+```
+
+The `parLapply()` also returns a list of 40 `data.frame`.
+
+
+
+<br/>
+
+### Socket: `foreach()`
+
+Instead of the `parLapply()` you can use the `foreach()` function of the `foreach` package. But before parallelizing the code, you will need to register the socket with the `registerDoParallel()` function of the package `doParallel`.
+
+```{r}
+#| label: "foreach-way"
+#| echo: true
+#| eval: false
+
+# Required packages ----
+library(parallel)
+library(foreach)
+library(doParallel)
+
+# Let's use 10 threads ----
+n_cores <- 10
+
+# Create a socket w/ 5 threads ----
+cluster <- makeCluster(spec = n_cores)
+
+# Attach packages in each session ----
+clusterEvalQ(cl   = cluster, 
+             expr = { 
+  library(sf) 
+})
+
+# Transfer data & functions to each session ----
+clusterExport(cl      = cluster, 
+              varlist = c("sp_names", "sp_polygons", "study_area", 
+                          "polygon_to_grid"),
+              envir   = environment())
+
+# Register socket ----
+registerDoParallel(cluster)
+
+# Parallel computing ----
+grids <- foreach(i = 1:length(sp_names), .combine = list) %dopar% {
+  
+  tmp <- sp_polygons[sp_polygons$"binomial" == sp_names[i], ]
+  grd <- polygon_to_grid(study_area, tmp)
+  grd
+}
+
+# Stop socket ----
+stopCluster(cluster)
+```
+
+The argument `.combine` of the `foreach()` function can be used to specify how the individual results are combined together. By default the function returns a `list`.
+
+
+
+<br/>
+
+### Benchmark
+
+Let's compare the speed of each methods with the `system.time()` function.
+
+
+```{r}
+#| label: "benchmark"
+#| echo: true
+#| eval: false
+
+# Required packages ----
+library(parallel)
+library(foreach)
+library(doParallel)
+
+# Let's use 10 threads ----
+n_cores <- 10
+
+# for loop ----
+for_loop <- system.time({
+  grids <- vector(mode = "list", length = length(sp_names))
+  for (i in 1:length(sp_names)) {
+    tmp <- sp_polygons[sp_polygons$"binomial" == sp_names[i], ]
+    grids[[i]] <- polygon_to_grid(study_area, tmp)
+  }
+})
+
+
+# lapply way ----
+lapply_way <- system.time({
+  lapply(sp_names, function(sp) {
+    tmp <- sp_polygons[sp_polygons$"binomial" == sp, ]
+    polygon_to_grid(study_area, tmp)
+  })
+})
+
+
+# purrr way ----
+purrr_way <- system.time({
+  purrr::map(sp_names, function(sp) {
+    tmp <- sp_polygons[sp_polygons$"binomial" == sp, ]
+    polygon_to_grid(study_area, tmp)
+  })
+})
+
+
+# mclapply way ----
+mclapply_way <- system.time({
+  mclapply(sp_names, function(sp) {
+    tmp <- sp_polygons[sp_polygons$"binomial" == sp, ]
+    polygon_to_grid(study_area, tmp)
+  }, 
+  mc.cores = n_cores)
+})
+
+
+# parlapply way ----
+parlapply_way <- system.time({
+  cluster <- makeCluster(spec = n_cores)
+  clusterEvalQ(cl = cluster, expr = { library(sf) })
+  clusterExport(cl      = cluster, 
+                varlist = c("sp_names", "sp_polygons", 
+                            "study_area", "polygon_to_grid"),
+                envir   = environment())
+  parLapply(cl = cluster, sp_names, function(sp) {
+    tmp <- sp_polygons[sp_polygons$"binomial" == sp, ]
+    polygon_to_grid(study_area, tmp)
+  })
+  stopCluster(cluster)
+})
+
+
+# foreach way ----
+foreach_way <- system.time({
+  cluster <- makeCluster(spec = n_cores)
+  clusterEvalQ(cl = cluster, expr = { library(sf) })
+  clusterExport(cl      = cluster, 
+                varlist = c("sp_names", "sp_polygons", "study_area", 
+                            "polygon_to_grid"),
+                envir   = environment())
+  registerDoParallel(cluster)
+  foreach(i = 1:length(sp_names), .combine = list) %dopar% {
+    tmp <- sp_polygons[sp_polygons$"binomial" == sp_names[i], ]
+    polygon_to_grid(study_area, tmp)
+  }
+  stopCluster(cluster)
+})
+
+
+# Benchmark ----
+rbind(for_loop, lapply_way, purrr_way, 
+      mclapply_way, parlapply_way, foreach_way)
+```
+
+```
+              elapsed
+for_loop       12.488
+lapply_way     12.369
+purrr_way      12.367
+foreach_way     3.650
+parlapply_way   3.348
+mclapply_way    2.246
+```
+
+As we can see, parallelizing portions of code is very efficient. In this example, both **fork** and **socket** approaches are quite fast. But differences in performance may appear depending on your code (and your available memory).
+
+<br/>
+
+### Bonus: aggregate outputs
+
+Finally, let's aggregate all `data.frame` stored in the `list` into a single spatial object.
+
+```{r}
+#| label: "aggregate-forking"
+#| echo: true
+#| eval: false
+
+# Parallel computing (forking) ----
+grids <- parallel::mclapply(sp_names, function(sp) {
+  
+  tmp <- sp_polygons[sp_polygons$"binomial" == sp, ]
+  polygon_to_grid(study_area, tmp)
+  
+}, mc.cores = n_cores)
+
+# Aggregation ----
+grids <- do.call(cbind, grids)
+
+# Keep only species columns ----
+grids <- grids[ , which(colnames(grids) != "id")]
+
+# Convert to spatial object ----
+sf::st_geometry(grids) <- sf::st_geometry(study_area)
+```
+
+
+<br/>
+
+### To go further
+
+- Introduction to parallel computing with R - [link](https://rawgit.com/PPgp/useR2017public/master/tutorial.html)
+- Calcul parallèle avec R [in French] - [link](https://regnault.pages.math.cnrs.fr/meroo/src/quarto/calc_paral_R.html)
+- Boosting R performance with parallel processing package `snow` - [link](https://sabarevictor.medium.com/boosting-r-performance-with-parallel-processing-pacakge-snow-d638b7a6a37d)
+- `future`: Unified parallel and distributed processing in R for everyone - [link](https://future.futureverse.org/)
+- Quick introduction to parallel computing in R - [link](https://nceas.github.io/oss-lessons/parallel-computing-in-r/parallel-computing-in-r.html)
+- Paralléliser R [in French] - [link](https://ericmarcon.github.io/travailleR/chap-utiliseR.html#sec:parallel)
+- Parallel computation -  [link](https://bookdown.org/rdpeng/rprogdatascience/parallel-computation.html)
