@@ -1,1 +1,106 @@
+---
+title: "Geek meeting: efficient computations"
+output: html_document
+date: "2025-04-22"
+author: Michela Busana
+---
 
+
+# Some packages
+
+
+
+```{r, echo = FALSE, results=FALSE, message=FALSE}
+library(data.table)
+library(collapse)
+library(kit)
+library(Rfast)
+library(arrow)
+library(fastverse)
+library(arrow)
+library(microbenchmark)
+
+```
+List of R packages that could help speeding up your computations:
+
+*  [data.table](https://cran.r-project.org/web/packages/data.table/data.table.pdf)
+
+*  [collapse](https://cran.r-project.org/web/packages/collapse/vignettes/collapse_documentation.html)
+
+*  [collapse cheahsheet](https://raw.githubusercontent.com/SebKrantz/collapse/master/misc/collapse%20cheat%20sheet/collapse_cheat_sheet.pdf)
+
+*  [Rfast](https://cran.r-project.org/web/packages/Rfast/Rfast.pdf)
+
+*  [arrow](https://cran.r-project.org/web/packages/arrow/arrow.pdf)
+
+*  [fastverse](https://fastverse.github.io/fastverse/)
+
+*  [kit](https://cran.r-project.org/web/packages/kit/kit.pdf)
+
+*  [qs](https://cran.r-project.org/web/packages/qs/qs.pdf)
+
+*  [QS2](https://cran.r-project.org/web/packages/qs2/qs2.pdf)
+
+*  [gdalutilities](https://cran.r-project.org/web/packages/gdalUtilities/gdalUtilities.pdf)
+
+
+# An example of collapse and data.table
+
+
+```{r}
+dt = data.table(a=rnorm(1000), b = sample(letters[1:3], size=1000, replace = T), c = sample(1:3, size= 1000, replace = T))
+
+cols = c("a", "b")
+dt[, ..cols]
+```
+
+```{r}
+microbenchmark::microbenchmark(dt[, gmean := collapse::fmean(a), by = c("b", "c")],
+                               dt[, gmean := collapse::fmean(a), by = .(b, c)],
+ dt[, gmean := mean(a), by = .(b, c)])
+```
+
+[comparison data.table tidyverse](https://jtr13.github.io/cc21fall2/comparison-among-base-r-tidyverse-and-datatable.html)
+
+[another comparison](https://gabrielcp.medium.com/manipulating-data-in-r-a-brief-benchmark-report-6ee070e94159)
+
+[French blog: data.table versus tidyverse](https://blog.statoscop.fr/comparaisons-base-dplyr-datatable.html)
+
+
+# unique
+
+
+[collapse and kit funique benchmark](https://stackoverflow.com/questions/36953026/what-is-the-fastest-way-to-get-a-vector-of-sorted-unique-values-from-a-data-tabl) 
+
+```{r}
+microbenchmark::microbenchmark(collapse::funique(dt), kit::funique(dt), unique(dt))
+               
+```
+
+# merge
+ 
+ 
+```{r}
+dt1 = data.table(a=rnorm(1000), b = sample(letters, size=1000, replace = T))
+dt2 = data.table( b = sample(letters, size=100, replace = T), c = sample(1:3, size= 100, replace = T))
+df1 = as.data.frame(dt1)
+df2 = as.data.frame(dt2)
+
+microbenchmark::microbenchmark(merge(dt1, dt2, by = "b", all = T, allow.cartesian = T), merge(df1, df2, by = "b", all = T))
+```
+
+# miscellaneous
+
+[collapse and fastverse](https://www.r-bloggers.com/2023/04/collapse-and-the-fastverse-reflections-on-the-past-present-and-future/)
+
+
+[comparison arrow data.table etc](https://ursalabs.org/blog/2021-r-benchmarks-part-1/)
+
+
+[feather files in arrow](https://arrow.apache.org/docs/python/feather.html)
+
+
+[comparing file formats](https://bawaji94.medium.com/feather-vs-parquet-vs-csv-vs-jay-55206a9a09b0)
+
+
+[Gdal versus terra](https://kadyb.github.io/geotips/html/07_GDAL.html)
