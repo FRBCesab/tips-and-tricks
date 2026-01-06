@@ -1,0 +1,13 @@
+---
+title: "Occupancy models in R"
+author: "Lisa Nicvert"
+date: "2026-01-06"
+categories: [r, statistics, occupancy]
+image: ""
+toc: true
+draft: false
+lightbox: true
+code-overflow: scroll
+---
+
+Post content...
