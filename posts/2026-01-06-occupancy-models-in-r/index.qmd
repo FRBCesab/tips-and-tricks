@@ -8,6 +8,73 @@ toc: true
 draft: false
 lightbox: true
 code-overflow: scroll
+bibliography: references.bib
 ---
 
-Post content...
+## Introduction
+
+> Question. Why do we talk out loud when we know we're alone? Conjecture. Because we know we're not.
+>
+> -- *The Twelfth Doctor, Doctor Who (Series 8, Episode 4: "Listen")*
+
+It's not because you didn't see something that this thing wasn't present. This is the concept behind occupancy models: our observations aren't a direct representation of reality, but merely of what we can detect.
+
+Occupancy models were first published in 2002 [@mackenzie2002] in the context of species occurrence modelling. Many extensions of occupancy have been proposed since, allowing to take into account multiple species, explicitly model occupancy dynamics, or a continuous detection process. In this blog post, we will only go over the simple occupancy model described by @mackenzie2002.
+
+## Simple occupancy model
+
+The occupancy model is a hierarchical model, i.e. a model with two stages, to distinguish the real and the observed state.
+
+The _true_ presence or absence of a species in a given site $i = 1, 2, ..., M$ is noted $z_i$. The _observed_ presence or absence, for a given visit $j$, is noted $y_{ij}$. Then, the occupancy model for a given site $i$ is written as:
+
+$$
+y_{ij} \sim Bern(z_i~p)
+$$
+- if the species is really present in site $i$ ($z_i = 1$), then it is detected with probability $p$ according to a Bernoulli trial.
+- if the species is absent in site $i$ ($z_i = 0$), then we assume that it cannot be detected (no false detection).
+
+
+In the occupancy framework, $z_i$ itself is governed by a Bernoulli trial of probability $\psi$.
+
+$$
+z_i \sim Bern(\psi)
+$$
+$\psi$ is called the *occupancy probability*: most of the times, when dealing with occupancy, that's the quantity we're really interested in.
+
+## Simulate occupancy
+
+Occupancy models are really easy to simulate: here is a sample code to simulate data under a simple occupancy model with constant occupancy $\psi$ and detection probability $p$, across $M$ sites.
+
+```{r}
+set.seed(42)
+
+M <- 50 # number of sites
+p <- 0.2 # detection probability
+psi <- 0.8 # occupancy
+
+# Simulate a number of visits for each site
+nvisit <- rpois(n = M, lambda = 3)
+
+# Initialize vectors
+z <- vector(mode = "numeric", length = M)
+y <- vector(mode = "list", length = M)
+
+for (i in 1:M) { # for each site
+  # Simulate true presence/absence at site i
+  zi <- rbinom(n = 1, size = 1, prob = psi)
+  
+  # Simulate observed presence/absence at site i for all visits
+  yij <- rbinom(n = nvisit[i], 
+                size = 1, prob = p*zi)
+  
+  z[i] <- zi
+  y[[i]] <- yij
+}
+```
+
+In this simulation, the true proportion of occupied sites is `r sum(z)/M` (which is very close to the occupancy $\psi = $ `r psi`). The proportion of sites that we _detect_ as occupied (what is called the _naive occupancy_), however, is under-estimated: it is `r sum(sapply(y, function(yi) any(yi != 0)))/M`.
+
+```{r}
+sum(z)/M # True proportion of occupied sites
+sum(sapply(y, function(yi) any(yi != 0)))/M # Proportion of sites with at least one detection
+```
