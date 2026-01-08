@@ -20,20 +20,22 @@ bibliography: references.bib
 
 It's not because you didn't see something that this thing wasn't present. This is the concept behind occupancy models: our observations aren't a direct representation of reality, but merely of what we can detect.
 
-Occupancy models were first published in 2002 [@mackenzie2002] in the context of species occurrence modelling. Many extensions of occupancy have been proposed since, allowing to take into account multiple species, explicitly model occupancy dynamics, or a continuous detection process. In this blog post, we will only go over the simple occupancy model described by @mackenzie2002.
+![Present ($z_i = 1$), but not detected ($y_i = 0$). _Photo by Caroline Kirk ([source](https://www.independent.co.uk/news/uk/wildlife-photographer-owl-camera-image-b1818585.html))_](bird.png)
+
+Occupancy models were first published by @mackenzie2002 in the context of species occurrence modelling. Many extensions of occupancy have been proposed since, allowing to explicitly model occupancy dynamics [@mackenzie_estimating_2003], take into account multiple species [@rota_multispecies_2016], or a continuous detection process [@mackenzie_estimating_2003]. This blog post only goes over the original simple occupancy model.
 
 ## Simple occupancy model
 
-The occupancy model is a hierarchical model, i.e. a model with two stages, to distinguish the real and the observed state.
+To discriminate between the real and the observed states, occupancy models have one parameter for each of these states. The *true* presence or absence of a species in a given site $i$ is noted $z_i$. The *observed* presence or absence at site $i$ for a given visit $j$ is noted $y_{ij}$. 
 
-The *true* presence or absence of a species in a given site $i = 1, 2, ..., M$ is noted $z_i$. The *observed* presence or absence, for a given visit $j$, is noted $y_{ij}$. Then, the occupancy model for a given site $i$ is written as:
+Then, the occupancy model for a given site $i$ is written as:
 
 $$
 y_{ij} \sim Bern(z_i~p)
 $$ 
 
-- if the species is really present in site $i$ ($z_i = 1$), then it is detected with probability $p$ according to a Bernoulli trial. 
-- if the species is absent in site $i$ ($z_i = 0$), then we assume that it cannot be detected (no false detection).
+- if the species is really present in site $i$ ($z_i = 1$), then it is detected ($y_{ij} = 1$) with probability $p$ according to a Bernoulli trial. 
+- if the species is absent in site $i$ ($z_i = 0$), then we assume that it cannot be detected ($y_{ij}$ has to be zero) (no false detection).
 
 In the occupancy framework, $z_i$ itself is governed by a Bernoulli trial of probability $\psi$.
 
@@ -91,17 +93,17 @@ sum(sapply(y, function(yi) any(yi != 0)))/M
 
 ## Inferring occupancy models in R
 
-Now the real interest of occupancy models is, of course, to analyse a dataset of species detections. Inferring parameters from data is possible, under three main conditions:
+Now the real interest of occupancy models is, of course, to analyse species detections datasets. Inferring parameters from data is possible, under three main conditions:
 
 -   you have repeated visits. This is an crucial point which allows parameter identifiability.
--   the occupancy you measure is constant for all visits (closure assumption): therefore, the site must not change status across the study period[^1].
--   there are no false detections. The model automatically assumes that a detection event means that the site is really occupied. False detections might induce a positive bias in your estimates.
+-   the site remains occupied or unoccupied during the entire study period (closure assumption)[^1].
+-   there are no false detections. The model automatically assumes that a detection event means that the site is really occupied, and false detections might induce a positive bias in occupancy estimates.
 
 [^1]: In practice, this assumption is often violated in studies using occupancy models: this has been discussed extensively in the literature (see for example @valente2024), and authors have proposed to critically evaluate whether the closure assumption is met to interpret the inferred occupancy.
 
-There are lots of strategies to infer occupancy models in R: among the most popular occupancy packages are `unmarked` and `spOccupancy`. Many people will also use bayesian softwares like `JAGS` (e.g. with the R package `jagsUI` or `rjags`), `nimble` or `stan`(R packages`cmdstanr`or`rstan`).
+There are lots of strategies to infer occupancy models in R: among the most popular occupancy packages are `unmarked` and `spOccupancy`. Many people will also use bayesian softwares like `JAGS` (e.g. with the R package `jagsUI` or `rjags`), `nimble` or `Stan`(R packages`cmdstanr`or`rstan`).
 
-In this blogpost, we will focus on two of them: (1) `unmarked` and (2)`stan` (using the R interface package `cmdstanr`).
+This blogpost focuses on two of them: (1) `unmarked` and (2)`Stan` (using the R interface package `cmdstanr`).
 
 ### unmarked
 
@@ -173,22 +175,242 @@ psi_inf <- unmarked::predict(occ,
                              backTransform = TRUE,
                              newdata = data.frame(1))
 
-param_df <- data.frame(param = c("p", "p", "psi", "psi"),
-                       type = c("inferred", "true", "inferred", "true"),
-                       estimate = c(p_inf$Predicted, p,
-                                    psi_inf$Predicted, psi),
-                       min = c(p_inf$lower, NA,
-                               psi_inf$lower, NA),
-                       max = c(p_inf$upper, NA,
-                               psi_inf$upper, NA))
+umk_param_df <- data.frame(param = c("p", "p", "psi", "psi"),
+                           type = c("inferred", "true", "inferred", "true"),
+                           estimate = c(p_inf$Predicted, p,
+                                        psi_inf$Predicted, psi),
+                           min = c(p_inf$lower, NA,
+                                   psi_inf$lower, NA),
+                           max = c(p_inf$upper, NA,
+                                   psi_inf$upper, NA))
 
-ggplot(param_df) +
-  geom_errorbar(data = subset(param_df, type == "inferred"),
+ggplot(umk_param_df) +
+  geom_errorbar(data = subset(umk_param_df, type == "inferred"),
                 aes(xmin = min, xmax = max, y = param,
                     color = type)) +
   geom_point(aes(x = estimate, y = param,
                  color = type)) +
   theme_bw(base_size = 15) +
+  xlim(0, 1) +
   theme(axis.title = element_blank())
 ```
+### Stan
+
+Bayesian frameworks are also quite common for occupancy models, because they allow for more flexibility in the parameters specifications. Here for our simple model, this is not really necessary, but it is also worth using this simple setting to exemplify how it can be used.
+
+Here, we use `Stan` through the R package `cmdstanr`. `Stan` is a bayesian software using efficient MCMC samplers. The first is to format our data to be used by `Stan`. Fir that, we aggregate our visits to total number of detections, and save data parameters to a list named `dat`.
+
+```{r}
+# Format data for Stan
+n <- sapply(y, sum) # number of detections
+nvisit <- sapply(y, length) # number of visits
+
+# List of parameters for Stan
+dat <- list(M = M,
+            n = n,
+            nvisit = nvisit)
+```
+
+Then, we write the Stan code to infer our occupancy parameters to a file. Stan is a programming language in its own right: here, we will only go over the Stan syntax quickly, but more complete ressources exist in the Stan community.
+
+Stan code is organized in code blocks, which are indicated by opening and closing brackets as shown below (in Stan, comments are specified with a double backslash `//`).:
+
+```stan
+data {
+  // code block to define data variables
+}
+
+parameters {
+  // code block to define parameters
+}
+
+model {
+  // code block to infer parameters
+}
+```
+There are other optional code blocks (in fact, we will use one later), but all essential ones are shown above. 
+
+
+Let's start by defining variables in the data block.
+```stan
+data {
+  int<lower=1> M; // number of sites
+  array[M] int nvisit; // number of visits per sites-years
+  array[M] int<lower=0> n; // observations vector
+}
+```
+Stan variables are typed (i.e. we must define their type manually with the statements before variables names). Here, we only need the 3 variables that we specified on our data list above.
+
+Next, we define our parameters (i.e. the random variables we want to infer) in the parameters block.
+```stan
+parameters {
+  real psi_logit; // value of psi on the logit scale
+  real p_logit; // value of p on the logit scale
+}
+```
+Here, parameters are defined on the logit scale because inferring unbounded parameters is more efficient in Stan.
+
+The syntax of the model block is slightly more complex. There are 3 steps:
+
+- Define the parameters priors: here, we use flat normal priors centered on zero with a standard deviation of 3. This amounts to initializing the log-likelihood with a log-transformed normal density, which is what (`target += normal_lpdf(param | 0, 3)` does.
+- (Optional) Define intermediate variables. Here, we define `nvi` as a shortcut for the number of visits for site `i`.
+- Specify the model. This is where it requires a bit of work, because Stan cannot model discrete variables, so we have to update the log-likelihood manually instead. Fortunately, the log-likelihood is fairly easy to write with respect to $p$ and $\psi$. Here, we won't go into the details of these computations (but see @note-1 below).
+
+```stan
+model {
+  // Priors
+  target += normal_lpdf(psi_logit | 0, 3);
+  target += normal_lpdf(p_logit | 0, 3);
+
+  // Variables
+  int nvi;
+
+  // Occupancy model
+  for (i in 1:M) { // iterate over sites
+    nvi = nvisit[i]; // number of visits
+    if (n[i] > 0) { // the species was seen
+      // Update log-likelihood: species was detected | present
+      target += log_inv_logit(psi_logit) + binomial_logit_lpmf(n[i] | nvi, p_logit);
+    } else {
+      // Update log-likelihood: species was non-detected | present
+      // or non-detected | absent
+      target += log_sum_exp(log_inv_logit(psi_logit) + binomial_logit_lpmf(0 | nvi, p_logit), log1m_inv_logit(psi_logit));
+    }
+    
+  }
+}
+```
+
+::: {#note-1 .callout-note}
+## Log-likelihood computation
+To give a bit more context for the log-likelihood computations, we have two cases: 
+
+- Either the species was detected at least once (case `n[i] > 0`). In that case, we know that the species was present (no false detections). So the conditional probability that the species was seen $n$ times is the product of the occupancy probability $\psi$ and the Bernoulli density probability of $N = n$: 
+$$P(N = n | \{p, \psi\}) = \psi ~ \underbrace{\binom{nvisit}{n} p^{n} p^{nvisit - n}}_{\text{Binomial density probability}}$$
+In Stan, parameters are on the logit scale: `psi_logit` is first backtransformed with `log_inv_logit` and Stan uses the Binomial density probability on the logit scale with `binomial_logit_lpmf`. Finally, because log-likelihood is computed, by properties of the logarithm the multiplication is changed to an addition.
+
+- When the species was not seen (`else` block), we have two options. Either the species was present, but undetected; or it was absent. In that case, the conditional probability is the sum of these two events:
+$$P(N = 0 | \{p, \psi\}) = \underbrace{\psi ~ \binom{nvisit}{0} p^{0} p^{nvisit - 0}}_{\text{present, undetected}} + \underbrace{(1 - \psi)}_{\text{absent}}$$
+In Stan, `log_sum_exp` is an efficient way to compute a logarithm of the sum above, and `log1m_inv_logit(psi_logit)` returns $1 - \psi$.
+
+More details on log-likelihood computation can be found in [this blog post](https://htmlpreview.github.io/?https://github.com/bbennie/StanOccupancyModelTutorials/blob/master/OccupancyStanIntroduction.html) or in chapter 2.4.6 of _Applied Hierarchical Modeling in Ecology_.
+:::
+
+The final (and optional) code block we use here is a generated quantities block. It allows to precompute $p$ and $\psi$ on the natural scale.
+```stan
+generated quantities {
+  real<lower=0,upper=1> p = inv_logit(p_logit);
+  real<lower=0, upper=1> psi = inv_logit(psi_logit);
+}
+```
+
+The final stan code looks like this:
+```stan
+data {
+  int<lower=1> M; // number of sites
+  array[M] int nvisit; // number of visits per sites-years
+  array[M] int<lower=0> n; // observations vector
+}
+
+parameters {
+  real psi_logit; // value of psi on the logit scale
+  real p_logit; // value of p on the logit scale
+}
+
+model {
+  // Priors
+  target += normal_lpdf(psi_logit | 0, 3);
+  target += normal_lpdf(p_logit | 0, 3);
+
+  // Variables
+  int nvi;
+
+  // Occupancy model
+  for (i in 1:M) { // iterate over sites
+    nvi = nvisit[i]; // number of visits
+    if (n[i] > 0) { // the species was seen
+      // Update log-likelihood: species was detected | present
+      target += log_inv_logit(psi_logit) + binomial_logit_lpmf(n[i] | nvi, p_logit);
+    } else {
+      // Update log-likelihood: species was non-detected | present
+      // or non-detected | absent
+      target += log_sum_exp(log_inv_logit(psi_logit) + binomial_logit_lpmf(0 | nvi, p_logit), log1m_inv_logit(psi_logit));
+    }
+    
+  }
+}
+
+generated quantities {
+  real<lower=0,upper=1> p = inv_logit(p_logit);
+  real<lower=0, upper=1> psi = inv_logit(psi_logit);
+}
+```
+
+Now, we just have to infer the code from R. The first step is to compile the Stan model with `cmdstan_model`.
+
+```{r}
+#| echo: false
+
+library(here)
+
+post_folder <- here("posts", "2026-01-06-occupancy-models-in-r")
+stan_file <- file.path(post_folder, "model.stan")
+```
+
+We assume the Stan code above is stored in a file, and its path is in `stan_file`. The following code compiles the model from the text file.
+
+```{r}
+library(cmdstanr)
+
+model <- cmdstanr::cmdstan_model(stan_file = stan_file)
+```
+
+We can finally perform the inference with the `sample` function. We need to give this function our data list, the number of burn-in iterations (`warmup`), the number of iterations after warmup (`iter_sampling`) and the number of chains and their parallelisation (`chains` and `parallel_chains`).
+
+```{r}
+stanfit <- model$sample(data = dat,
+                        iter_warmup = 200,
+                        iter_sampling = 500,
+                        chains = 4,
+                        parallel_chains = 4)
+```
+
+We can inspect the inferred values with the `summary` function. 
+
+```{r}
+(stan_inf <- stanfit$summary())
+```
+
+The summary gives information about the log-posterior likelihood (`lp__`) and all inferred parameters. Summary statistics are given, as well as a few diagnostic parameters like Gelman's $\hat{R}$ and statistics relative to effective sample sizes (ESS).
+
+Again, the inferred parameters are quite close to the truth:
+
+```{r}
+#| code-fold: true
+#| fig-width: 7
+#| fig-height: 4
+
+library(ggplot2)
+
+stan_param_df <- data.frame(param = c("p", "p", "psi", "psi"),
+                            type = c("inferred", "true", "inferred", "true"),
+                            estimate = c(stan_inf$mean[stan_inf$variable == "p"], p,
+                                         stan_inf$mean[stan_inf$variable == "psi"], psi),
+                            min = c(stan_inf$q5[stan_inf$variable == "p"], NA,
+                                    stan_inf$q5[stan_inf$variable == "psi"], NA),
+                            max = c(stan_inf$q95[stan_inf$variable == "p"], NA,
+                                    stan_inf$q95[stan_inf$variable == "psi"], NA))
+
+ggplot(stan_param_df) +
+  geom_errorbar(data = subset(stan_param_df, type == "inferred"),
+                aes(xmin = min, xmax = max, y = param,
+                    color = type)) +
+  geom_point(aes(x = estimate, y = param,
+                 color = type)) +
+  theme_bw(base_size = 15) +
+  xlim(0, 1) +
+  theme(axis.title = element_blank())
+```
+
+## Conclusion
 
