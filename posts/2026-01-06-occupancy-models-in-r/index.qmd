@@ -11,11 +11,12 @@ code-overflow: scroll
 bibliography: references.bib
 ---
 
-## Introduction
-
 > Question. Why do we talk out loud when we know we're alone? Conjecture. Because we know we're not.
 >
 > -- *The Twelfth Doctor, Doctor Who (Series 8, Episode 4: "Listen")*
+
+
+## Introduction
 
 It's not because you didn't see something that this thing wasn't present. This is the concept behind occupancy models: our observations aren't a direct representation of reality, but merely of what we can detect.
 
@@ -29,17 +30,22 @@ The *true* presence or absence of a species in a given site $i = 1, 2, ..., M$ i
 
 $$
 y_{ij} \sim Bern(z_i~p)
-$$ - if the species is really present in site $i$ ($z_i = 1$), then it is detected with probability $p$ according to a Bernoulli trial. - if the species is absent in site $i$ ($z_i = 0$), then we assume that it cannot be detected (no false detection).
+$$ 
+
+- if the species is really present in site $i$ ($z_i = 1$), then it is detected with probability $p$ according to a Bernoulli trial. 
+- if the species is absent in site $i$ ($z_i = 0$), then we assume that it cannot be detected (no false detection).
 
 In the occupancy framework, $z_i$ itself is governed by a Bernoulli trial of probability $\psi$.
 
 $$
 z_i \sim Bern(\psi)
-$$ $\psi$ is called the *occupancy probability*: most of the times, when dealing with occupancy, that's the quantity we're really interested in.
+$$ 
+
+$\psi$ is called the *occupancy probability*: most of the times, when dealing with occupancy, that's the quantity we're really interested in.
 
 ## Simulate occupancy
 
-Occupancy models are really easy to simulate: here is a sample code to simulate data under a simple occupancy model with constant occupancy $\psi$ and detection probability $p$, across $M$ sites.
+Occupancy models are really easy to simulate: here is a sample R code to simulate data under a simple occupancy model.
 
 ```{r}
 set.seed(42)
@@ -69,26 +75,33 @@ for (i in 1:M) { # for each site
 }
 ```
 
-In this simulation, the true proportion of occupied sites is `r sum(z)/M` (which is very close to the occupancy \$\psi = \$ `r psi`). The proportion of sites that we *detect* as occupied (what is called the *naive occupancy*), however, is under-estimated: it is `r sum(sapply(y, function(yi) any(yi != 0)))/M`.
+In this simulation, the true proportion of occupied sites is `r sum(z)/M`. It is very close to the occupancy parameter $\psi = `r psi`$ (but it is not _exactly_ equal because of the stochastic nature of our model).
 
 ```{r}
-sum(z)/M # True proportion of occupied sites
-sum(sapply(y, function(yi) any(yi != 0)))/M # Proportion of sites with at least one detection
+# True proportion of occupied sites
+sum(z)/M
+```
+
+The proportion of sites that we *detect* as occupied (what is called the *naive occupancy*)  is `r sum(sapply(y, function(yi) any(yi != 0)))/M`, which wildly under-estimates $\psi$.
+
+```{r}
+# Proportion of sites with at least one detection
+sum(sapply(y, function(yi) any(yi != 0)))/M
 ```
 
 ## Inferring occupancy models in R
 
-Supposing you have detection data at hand, but you know detection is not perfect: can you recover the true occupancy? The answer is yes, under certain conditions and assumptions.
+Now the real interest of occupancy models is, of course, to analyse a dataset of species detections. Inferring parameters from data is possible, under three main conditions:
 
 -   you have repeated visits. This is an crucial point which allows parameter identifiability.
 -   the occupancy you measure is constant for all visits (closure assumption): therefore, the site must not change status across the study period[^1].
 -   there are no false detections. The model automatically assumes that a detection event means that the site is really occupied. False detections might induce a positive bias in your estimates.
 
-[^1]: In practice, this assumption is often violated in studies using occupancy models: this has been discussed extensively in the literature (see for example @valente2024), and authors have proposed to critically evaluate whether the closure assumption is met to accurately interpret the inferred occupancy.
+[^1]: In practice, this assumption is often violated in studies using occupancy models: this has been discussed extensively in the literature (see for example @valente2024), and authors have proposed to critically evaluate whether the closure assumption is met to interpret the inferred occupancy.
 
-There are lots of strategies to infer occupancy models in R: among the most popular occupancy packages are `unmarked` and `spOccupancy`. Many people will also use bayesian softwares like `JAGS` (e.g. with the R package `jagsUI` or ``` rjags``), ```nimble`or`stan`(R packages`cmdstanr`or`rstan\`).
+There are lots of strategies to infer occupancy models in R: among the most popular occupancy packages are `unmarked` and `spOccupancy`. Many people will also use bayesian softwares like `JAGS` (e.g. with the R package `jagsUI` or `rjags`), `nimble` or `stan`(R packages`cmdstanr`or`rstan`).
 
-In this blogpost, we will focus on two of them: `unmarked` and `stan` using the R interface package `cmdstanr`.
+In this blogpost, we will focus on two of them: (1) `unmarked` and (2)`stan` (using the R interface package `cmdstanr`).
 
 ### unmarked
 
@@ -99,39 +112,41 @@ First, we have to format the observed visits to an `unmarkedFrameOccu` object, a
 ```{r}
 library(unmarked)
 
-# Format list of observed detections y
+# Format the list of observed detections y
 max_visit <- max(sapply(y, length)) # get maximum number of detections
 
-# Get matrix of detections at each site
+# Transform y to matrix
 y_matrix <- matrix(data = NA,
                    nrow = M,
                    ncol = max_visit)
-for (i in 1:M) {
-  nvisit_i <- length(y[[i]])
-  y_matrix[i, 1:nvisit_i] <- y[[i]]
+for (i in 1:M) { # for each site
+  nvisit_i <- length(y[[i]]) # get number of visits
+  y_matrix[i, 1:nvisit_i] <- y[[i]] # fill n-th first rows with detection history
 }
 
-# Each row contains the detections at a site, filled with NAs for sites that have less visits than the most visited one
+# Each row contains the detections at a site, filled with NAs for 
+# sites that have less visits than the most visited one
 head(y_matrix, 3)
 
 # Cast y_matrix to unmarkedFrameOccu
 y_occu <- unmarked::unmarkedFrameOccu(y_matrix)
+head(y_occu, 3)
 ```
 
 In unmarked, the main function to infer parameters of a simpler occupancy model is `occu`. In its simplest form, it only needs two arguments: 
 
-- `formula`, which gives the formula for the logit of (1) the detection $p$ and (2) the occupancy $\psi$ parameters. Here, since occupancy and detection are constant, we will set formulas to `~1 ~1`.
-- `data`: an `unmarkedFrameOccu` object containing observed detections.
+- `formula`, which gives the formulas for the logit of $p$ and $\psi$. Here, since occupancy and detection are constant, we will set them to `~1 ~1`.
+- `data`: an `unmarkedFrameOccu` object containing observed detections (here, `y_occu`).
 
 ```{r}
 # Infer occupancy
 occ <- unmarked::occu(formula = ~1 ~1, 
                       data = y_occu)
 
-summary(occ)
 class(occ)
+summary(occ)
 ```
-The output of the model is an `unmarkedFitOccu` object. The summary gives us the parameter estimates on the logit scale (i.e. we get `\text{logit}(p)` and `\text{logit}(\psi)`), but we can get estimates on the natural scale with `backTransform`:
+The output of the model is an `unmarkedFitOccu` object. The summary gives us the parameter estimates on the logit scale (i.e. we get $\text{logit}(p)$ and $\text{logit}(\psi)$), but we can get estimates on the natural scale with `backTransform`:
 
 ```{r}
 # Get detection (p) on the natural scale
@@ -144,6 +159,9 @@ The agreement between true and inferred parameters is quite good (see figure bel
 
 ```{r}
 #| code-fold: true
+#| fig-width: 7
+#| fig-height: 4
+
 library(ggplot2)
 
 p_inf <- unmarked::predict(occ, 
@@ -170,7 +188,7 @@ ggplot(param_df) +
                     color = type)) +
   geom_point(aes(x = estimate, y = param,
                  color = type)) +
-  theme_bw() +
+  theme_bw(base_size = 15) +
   theme(axis.title = element_blank())
 ```
 
