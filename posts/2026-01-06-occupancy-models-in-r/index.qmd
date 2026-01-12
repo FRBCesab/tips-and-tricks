@@ -54,9 +54,9 @@ Occupancy models are really easy to simulate: here is a sample R code to simulat
 ```{r}
 set.seed(42)
 
-M <- 100 # number of sites
-p <- 0.4 # detection probability
-psi <- 0.8 # occupancy
+M <- 100 # Number of sites
+p <- 0.4 # Detection probability
+psi <- 0.8 # Occupancy
 
 # Simulate a number of visits for each site
 nvisit <- rpois(n = M, lambda = 3)
@@ -66,7 +66,7 @@ nvisit[nvisit == 0] <- 1 # Don't allow zero visits
 z <- vector(mode = "numeric", length = M)
 y <- vector(mode = "list", length = M)
 
-for (i in 1:M) { # for each site
+for (i in 1:M) { # For each site
   # Simulate true presence/absence at site i
   zi <- rbinom(n = 1, size = 1, prob = psi)
   
@@ -107,7 +107,7 @@ There are lots of strategies to infer occupancy models in R: among the most popu
 
 This blog post focuses on two of them: `unmarked` and Stan (using the R interface package `cmdstanr`).
 
-### unmarked
+### `unmarked`
 
 The R package [`unmarked`](https://rbchan.github.io/unmarked/) has functions  specifically designed for occupancy inference in R using maximum likelihood estimation (frequentist statistics).
 
@@ -117,15 +117,15 @@ First, we have to format the observed visits to an `unmarkedFrameOccu` object, a
 library(unmarked)
 
 # Format the list of observed detections y
-max_visit <- max(sapply(y, length)) # get maximum number of detections
+max_visit <- max(sapply(y, length)) # Get maximum number of detections
 
 # Transform y to matrix
 y_matrix <- matrix(data = NA,
                    nrow = M,
                    ncol = max_visit)
-for (i in 1:M) { # for each site
-  nvisit_i <- length(y[[i]]) # get number of visits
-  y_matrix[i, 1:nvisit_i] <- y[[i]] # fill n-th first rows with detection history
+for (i in 1:M) { # For each site
+  nvisit_i <- length(y[[i]]) # Get number of visits
+  y_matrix[i, 1:nvisit_i] <- y[[i]] # Fill n-th first rows with detection history
 }
 
 # Each row contains the detections at a site, filled with NAs for 
@@ -137,7 +137,7 @@ y_occu <- unmarked::unmarkedFrameOccu(y_matrix)
 head(y_occu, 3)
 ```
 
-In unmarked, the main function to infer parameters of a simpler occupancy model is `occu`, which uses a maximum likelihood estimator. In its simplest form, it only needs two arguments: 
+In `unmarked`, the main function to infer parameters of a simpler occupancy model is `occu`, which uses a maximum likelihood estimator. In its simplest form, it only needs two arguments: 
 
 - `formula`, which gives the formulas for the logit of $p$ and $\psi$. Here, since occupancy and detection are constant, we will set them to `~1 ~1`.
 - `data`: an `unmarkedFrameOccu` object containing observed detections (here, `y_occu`).
@@ -214,8 +214,8 @@ The first step is to format our data to be used by Stan. For that, we aggregate 
 
 ```{r}
 # Format data for Stan
-n <- sapply(y, sum) # number of detections
-nvisit <- sapply(y, length) # number of visits
+n <- sapply(y, sum) # Number of detections
+nvisit <- sapply(y, length) # Number of visits
 
 # List of parameters for Stan
 dat <- list(M = M,
@@ -230,15 +230,15 @@ Stan programs are organized in code blocks, which are indicated by opening and c
 
 ```stan
 data {
-  // code block to define data variables
+  // Code block to define data variables
 }
 
 parameters {
-  // code block to define parameters
+  // Code block to define parameters
 }
 
 model {
-  // code block to infer parameters
+  // Code block to infer parameters
 }
 ```
 Note that Stan comments are specified with a double backslash `//`.
@@ -248,17 +248,17 @@ There are other optional code blocks (in fact, we will use one later), but the m
 Let's start by defining variables in the data block. Stan variables are typed (i.e. we must define their type manually with the statements before variables names). Here, we only need the 3 variables that we specified on our data list above.
 ```stan
 data {
-  int<lower=1> M; // number of sites
-  array[M] int nvisit; // number of visits per sites-years
-  array[M] int<lower=0> n; // observations vector
+  int<lower=1> M; // Number of sites
+  array[M] int nvisit; // Number of visits per sites-years
+  array[M] int<lower=0> n; // Observations vector
 }
 ```
 
 Next, we define the parameters we want to infer in the parameters block. Here, they are defined on the logit scale because inferring unbounded parameters is more efficient in Stan.
 ```stan
 parameters {
-  real psi_logit; // value of psi on the logit scale
-  real p_logit; // value of p on the logit scale
+  real psi_logit; // Value of psi on the logit scale
+  real p_logit; // Value of p on the logit scale
 }
 ```
 
@@ -278,9 +278,9 @@ model {
   int nvi;
 
   // 3. Model specification
-  for (i in 1:M) { // iterate over sites
-    nvi = nvisit[i]; // number of visits
-    if (n[i] > 0) { // the species was seen
+  for (i in 1:M) { // Iterate over sites
+    nvi = nvisit[i]; // Number of visits
+    if (n[i] > 0) { // The species was seen
       // Update log-likelihood: species was detected | present
       target += log_inv_logit(psi_logit) + 
         binomial_logit_lpmf(n[i] | nvi, p_logit);
@@ -321,14 +321,14 @@ generated quantities {
 The final Stan code is summarised below:
 ```stan
 data {
-  int<lower=1> M; // number of sites
-  array[M] int nvisit; // number of visits per sites-years
-  array[M] int<lower=0> n; // observations vector
+  int<lower=1> M; // Number of sites
+  array[M] int nvisit; // Number of visits per sites-years
+  array[M] int<lower=0> n; // Observations vector
 }
 
 parameters {
-  real psi_logit; // value of psi on the logit scale
-  real p_logit; // value of p on the logit scale
+  real psi_logit; // Value of psi on the logit scale
+  real p_logit; // Value of p on the logit scale
 }
 
 model {
@@ -340,9 +340,9 @@ model {
   int nvi;
 
   // 3. Model specification
-  for (i in 1:M) { // iterate over sites
-    nvi = nvisit[i]; // number of visits
-    if (n[i] > 0) { // the species was seen
+  for (i in 1:M) { // Iterate over sites
+    nvi = nvisit[i]; // Number of visits
+    if (n[i] > 0) { // The species was seen
       // Update log-likelihood: species was detected | present
       target += log_inv_logit(psi_logit) + binomial_logit_lpmf(n[i] | nvi, p_logit);
     } else {
