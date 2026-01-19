@@ -9,8 +9,20 @@
 <link>https://frbcesab.github.io/tips-and-tricks/</link>
 <atom:link href="https://frbcesab.github.io/tips-and-tricks/index.xml" rel="self" type="application/rss+xml"/>
 <description>Tips and tricks</description>
-<generator>quarto-1.8.26</generator>
-<lastBuildDate>Tue, 28 Jan 2025 00:00:00 GMT</lastBuildDate>
+<generator>quarto-1.8.27</generator>
+<lastBuildDate>Tue, 06 Jan 2026 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Occupancy models in R</title>
+  <dc:creator>Lisa Nicvert</dc:creator>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2026-01-06-occupancy-models-in-r/</link>
+  <description><![CDATA[ Question. Why do we talk out loud when we know we’re alone? Conjecture. Because we know we’re not. ]]></description>
+  <category>r</category>
+  <category>statistics</category>
+  <category>occupancy</category>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2026-01-06-occupancy-models-in-r/</guid>
+  <pubDate>Tue, 06 Jan 2026 00:00:00 GMT</pubDate>
+  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2026-01-06-occupancy-models-in-r" medium="image"/>
+</item>
 <item>
   <title>Parallel Computing in R</title>
   <dc:creator>Nicolas Casajus</dc:creator>
