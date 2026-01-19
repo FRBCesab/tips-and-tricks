@@ -22,3 +22,6 @@ inst/doc
 _site/
 .Rbuildignore
 /.quarto/
+
+# Added for occupancy blogpost ----
+posts/2026-01-06-occupancy-models-in-r/model.exe
