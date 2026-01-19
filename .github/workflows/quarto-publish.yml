@@ -33,6 +33,23 @@ jobs:
             any::dplyr
             any::sf
             any::ggplot2
+            any::unmarked
+            any::posterior
+            any::checkmate
+
+      - name: Cache CmdStan
+        uses: actions/cache@v4
+        with:
+          path: ~/.cmdstan
+          key: cmdstan-${{ runner.os }}-v2
+
+      - name: Install cmdstanr
+        run: |
+          Rscript -e 'install.packages("cmdstanr", repos="https://mc-stan.org/r-packages/")'
+
+      - name: Install CmdStan
+        run: |
+          Rscript -e 'cmdstanr::install_cmdstan(cores = 2)'
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
