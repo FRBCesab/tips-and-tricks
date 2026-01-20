@@ -1,0 +1,15 @@
+{
+  "hash": "022cadfd8eb7f2028637608da9bfc20e",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Code snippets in RStudio\"\nauthor: \"Nicolas Casajus\"\ndate: \"2024-02-27\"\ncategories: [editor, shortcut, rstudio]\nimage: \"logo-r.png\"\n---\n\n## Using snippets\n\nA code snippet is a text shortcut that is used to insert a predefined chunk of code. It's like _super-completion_. The [RStudio IDE](https://posit.co/products/open-source/rstudio/) contains a lot of predefined code snippets. For instance:\n\n- `src` can be used to insert `source(\"file.R\")`\n- `lib` can be used to insert `library(package)`\n- `tapply` can be used to insert `tapply(vector, index, function)`\n\nTo use a snippet, enter the shortcut of the snippet (for example `src`) and press **`SHIFT`** **`+`** **`TAB`** to insert the corresponding chunk of code (for example `source(\"file.R\")`).\n\n\n::: {.callout-note}\nCode snippets are **language-specific** meaning that they will work only with the appropriate language.\nFor instance, in Markdown documents (`.md`, `.Rmd` and `.qmd` files), by using the snippet `![` (and **`SHIFT`** **`+`** **`TAB`**) you will write the markdown syntax to insert an image: `![label](location)`. This snippet won't work inside `.R` files.\n:::\n\n\n\n![Figure 1. How to use a snippet](demo-fun.gif){fig-align=\"center\" width=\"90%\"}\n\n\nUse the key **`TAB`** to navigate inside the code snippet. In the snippet `![label](location)`, `label` and `location` are two variables. Once the snippet is created the cursor is in `label`. Use **`TAB`** to go to `location`.\n\n\nYou will find a list of predefined snippets in `Tools > Edit Code Snippets...`\n\n\n## Customizing snippets\n\nYou can easily add your own code snippets by editing the code snippets editor in `Tools > Edit Code Snippets...`\n\n![Figure 2. RStudio code snippets](rstudio-snippets.png){fig-align=\"center\" width=\"90%\"}\n\nLet's add a snippet that will create a new code section for us:\n\n\n::: {.cell}\n\n```{.r .cell-code}\nsnippet sec\n\t## ${1:Title} ----\n\t\n\t${0}\n```\n:::\n\n\nThis snippet has two variables: `${1:Title}` and `${0}`.\n\nWhen we write `sec` and press **`SHIFT`** **`+`** **`TAB`** a new section will be created. The cursor will be on `Title` and after pressing **`TAB`** we go to the next line.\n\n![Figure 3. Custom snippet in action](demo-sec.gif){fig-align=\"center\" width=\"90%\"}\n\n\n\nWhen creating a new snippet, make sure to select the appropriate language (Figure 2).\n\n\n::: {.callout-tip}\n{{< fa hand-point-right >}}&nbsp; For further information visit this [article](https://support.posit.co/hc/en-us/articles/204463668-Code-Snippets-in-the-RStudio-IDE).\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
