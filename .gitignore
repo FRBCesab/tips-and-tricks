@@ -25,3 +25,6 @@ _site/
 
 # Added for occupancy blogpost ----
 posts/2026-01-06-occupancy-models-in-r/model.exe
+posts/2026-01-06-occupancy-models-in-r/model
+
+**/*.quarto_ipynb
