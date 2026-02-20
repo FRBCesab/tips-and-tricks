@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/2026-02-19-dags/index.html",
       "/posts/2026-01-06-occupancy-models-in-r/index.html",
       "/posts/2025-01-28-parallel-computing-in-r/index.html",
       "/posts/2024-12-17-deploying-a-website-with-github-pages/index.html",

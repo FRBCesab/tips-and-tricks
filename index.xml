@@ -10,7 +10,21 @@
 <atom:link href="https://frbcesab.github.io/tips-and-tricks/index.xml" rel="self" type="application/rss+xml"/>
 <description>Tips and tricks</description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Tue, 06 Jan 2026 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 19 Feb 2026 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>DAGs</title>
+  <dc:creator>Miriam Beck</dc:creator>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2026-02-19-dags/</link>
+  <description><![CDATA[ Directd Acyclic Graphs (=DAG), also referred to as ‘causal models’, are <i>graphical representations of the causal assumptions about a system</i>. Nodes represent the variables and arrows represent assumed direct causal effects between variables. A DAG does not encode effect sizes or functional forms (e.g.&nbsp;linear vs.&nbsp;non-linear, quadratic..). It specifies only the assumed causal structure: which variables directly affect which others, and which do not. Importantly, the absence of an arrow is itself an assumption. Of course, additional information (e.g.&nbsp;timing or effect shape) can be added once the basic structure is defined. ]]></description>
+  <category>causal inference</category>
+  <category>causality</category>
+  <category>DAGs</category>
+  <category>helper</category>
+  <category>tool</category>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2026-02-19-dags/</guid>
+  <pubDate>Thu, 19 Feb 2026 00:00:00 GMT</pubDate>
+  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2026-02-19-dags" medium="image"/>
+</item>
 <item>
   <title>Occupancy models in R</title>
   <dc:creator>Lisa Nicvert</dc:creator>
