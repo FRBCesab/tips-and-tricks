@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,6 +11,9 @@
 
 <title>Occupancy models in R – Tips and tricks</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -61,7 +64,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -90,15 +92,14 @@ div.csl-indent {
 <link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-5b411006c02ff6717a17d460af8e4cf1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-9536d806dcac4b7a4b33ef83a0c92b53.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-1c781ba67c9b54635d2c5d76a52ba49f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-5a98bf666f7cd11440c18e33899c2ada.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
@@ -133,7 +134,7 @@ div.csl-indent {
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -723,9 +724,9 @@ Note&nbsp;1: Log-posterior probability density computation
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-kery_applied_2016" class="csl-entry" role="listitem">
-Kéry, Marc, and J. Andrew Royle. 2016. <em>Applied Hierarchical Modeling in Ecology: Analysis of Distribution, Abundance and Species Richness in <span>R</span> and <span>BUGS</span></em>. Amsterdam; Boston: Elsevier/<span>AP</span>, Academic Press is an imprint of Elsevier.
+Kéry, Marc, and J. Andrew Royle. 2016. <em>Applied Hierarchical Modeling in Ecology: Analysis of Distribution, Abundance and Species Richness in <span>R</span> and <span>BUGS</span></em>. Elsevier/<span>AP</span>, Academic Press is an imprint of Elsevier.
 </div>
 <div id="ref-mackenzie_estimating_2003" class="csl-entry" role="listitem">
 MacKenzie, Darryl I., James D. Nichols, James E. Hines, Melinda G. Knutson, and Alan B. Franklin. 2003. <span>“Estimating Site Occupancy, Colonization, and Local Extinction When a Species Is Detected Imperfectly.”</span> <em>Ecology</em> 84 (8): 2200–2207. <a href="https://doi.org/10.1890/02-3090">https://doi.org/10.1890/02-3090</a>.
@@ -734,10 +735,10 @@ MacKenzie, Darryl I., James D. Nichols, James E. Hines, Melinda G. Knutson, and 
 MacKenzie, Darryl I., James D. Nichols, Gideon B. Lachman, Sam Droege, J. Andrew Royle, and Catherine A. Langtimm. 2002. <span>“Estimating Site Occupancy Rates When Detection Probabilities Are Less Than One.”</span> <em>Ecology</em> 83 (8): 2248–55. <a href="https://doi.org/10.1890/0012-9658(2002)083[2248:ESORWD]2.0.CO;2">https://doi.org/10.1890/0012-9658(2002)083[2248:ESORWD]2.0.CO;2</a>.
 </div>
 <div id="ref-rota_multispecies_2016" class="csl-entry" role="listitem">
-Rota, Christopher T., Marco A. R. Ferreira, Roland W. Kays, Tavis D. Forrester, Elizabeth L. Kalies, William J. McShea, Arielle W. Parsons, and Joshua J. Millspaugh. 2016. <span>“A Multispecies Occupancy Model for Two or More Interacting Species.”</span> <em>Methods in Ecology and Evolution</em> 7 (10): 1164–73. <a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/2041-210X.12587">https://onlinelibrary.wiley.com/doi/abs/10.1111/2041-210X.12587</a>.
+Rota, Christopher T., Marco A. R. Ferreira, Roland W. Kays, et al. 2016. <span>“A Multispecies Occupancy Model for Two or More Interacting Species.”</span> <em>Methods in Ecology and Evolution</em> 7 (10): 1164–73. <a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/2041-210X.12587">https://onlinelibrary.wiley.com/doi/abs/10.1111/2041-210X.12587</a>.
 </div>
 <div id="ref-valente2024" class="csl-entry" role="listitem">
-Valente, Jonathon J., Vitek Jirinec, and Matthias Leu. 2024. <span>“Thinking Beyond the Closure Assumption: Designing Surveys for Estimating Biological Truth with Occupancy Models.”</span> <em>Methods in Ecology and Evolution</em> 15 (12): 2289–2300. <a href="https://doi.org/10.1111/2041-210X.14439">https://doi.org/10.1111/2041-210X.14439</a>.
+Valente, Jonathon J., Vitek Jirinec, and Matthias Leu. 2024. <span>“Thinking Beyond the Closure Assumption: Designing Surveys for Estimating Biological Truth with Occupancy Models.”</span> <em>Methods in Ecology and Evolution</em> 15 (12): 2289–300. <a href="https://doi.org/10.1111/2041-210X.14439">https://doi.org/10.1111/2041-210X.14439</a>.
 </div>
 </div>
 </section>
@@ -755,7 +756,7 @@ Valente, Jonathon J., Vitek Jirinec, and Matthias Leu. 2024. <span>“Thinking B
 <div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>In practice, this assumption is often violated in studies using occupancy models: this has been discussed extensively in the literature (see for example <span class="citation" data-cites="valente2024">Valente, Jirinec, and Leu (<a href="#ref-valente2024" role="doc-biblioref">2024</a>)</span>), and authors have proposed to critically evaluate whether the closure assumption is met to interpret the inferred occupancy.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>In practice, this assumption is often violated in studies using occupancy models: this has been discussed extensively in the literature (see for example <span class="citation" data-cites="valente2024">Valente et al. (<a href="#ref-valente2024" role="doc-biblioref">2024</a>)</span>), and authors have proposed to critically evaluate whether the closure assumption is met to interpret the inferred occupancy.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

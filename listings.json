@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/2026-03-25-logging-in-r/index.html",
       "/posts/2026-02-19-dags/index.html",
       "/posts/2026-01-06-occupancy-models-in-r/index.html",
       "/posts/2025-01-28-parallel-computing-in-r/index.html",
@@ -13,8 +14,8 @@
       "/posts/2024-03-26-zsh-an-alternative-to-bash/index.html",
       "/posts/2024-03-12-storing-secrets-with-the-renviron-file/index.html",
       "/posts/2024-03-11-windows-and-the-home-directory/index.html",
-      "/posts/2024-02-27-code-snippets-in-rstudio/index.html",
-      "/posts/2024-02-27-rstudio-shortcuts-a-selection/index.html"
+      "/posts/2024-02-27-rstudio-shortcuts-a-selection/index.html",
+      "/posts/2024-02-27-code-snippets-in-rstudio/index.html"
     ]
   }
 ]
