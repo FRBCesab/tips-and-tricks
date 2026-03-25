@@ -2,13 +2,15 @@
 title: "Logging in R"
 author: "Lisa Nicvert"
 date: "2026-03-25"
-categories: [r, reproducibility]
+categories: [r, reproducibility, log]
 image: "images/logger.jpg"
 toc: true
 draft: false
 lightbox: true
 code-overflow: scroll
 ---
+
+*This post was originally published on [the author's blog](https://lisanicvert.github.io/posts/logging/).*
 
 ![A stack of logs by Walter Baxter, [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0) ([Link](https://commons.wikimedia.org/w/index.php?curid=144470224))](logger.jpg)
 
