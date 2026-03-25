@@ -1,0 +1,4 @@
+DEBUG [2026-03-25 09:00:18] Start script
+INFO [2026-03-25 09:00:18] res is forty-two
+WARN [2026-03-25 09:00:18] NAs introduced by coercion
+DEBUG [2026-03-25 09:00:18] End analyses
