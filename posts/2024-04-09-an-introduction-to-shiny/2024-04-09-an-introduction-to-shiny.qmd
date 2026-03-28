@@ -1,0 +1,39 @@
+---
+title: "An introduction to Shiny"
+author: "Nicolas Casajus"
+date: "2024-04-09"
+categories: [r, shiny, website, interactivity, 101]
+image: "logo-r.png"
+toc: true
+draft: false
+code-overflow: scroll
+---
+
+## Introduction
+
+...
+
+
+
+## App structure
+
+...
+
+
+
+## UI interface
+
+...
+
+
+
+## Server actions
+
+...
+
+
+
+## Resources
+
+...
+
