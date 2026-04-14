@@ -32,3 +32,11 @@ a.bouton:hover {
 .small {
   font-size: 0.8em;
 }
+
+code {
+  background-color: white !important;
+}
+
+pre.sourceCode code {
+  background-color: #2e3440 !important;
+}

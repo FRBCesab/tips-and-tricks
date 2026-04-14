@@ -1,0 +1,314 @@
+---
+title: "Logging in R"
+author: "Lisa Nicvert"
+date: "2026-03-25"
+categories: [r, reproducibility, log]
+image: "images/logger.jpg"
+toc: true
+draft: false
+lightbox: true
+code-overflow: scroll
+---
+
+*This post was originally published on [the author's blog](https://lisanicvert.github.io/posts/logging/).*
+
+![A stack of logs by Walter Baxter, [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0) ([Link](https://commons.wikimedia.org/w/index.php?curid=144470224))](logger.jpg)
+
+```{r}
+#| include: false
+
+set.seed(42)
+```
+
+## Introduction
+
+### What is logging?
+In computer science, **logging** is the practice of keeping track of some events occurring while the code runs[^1]. 
+
+[^1]: contrary to forestry, where it is the practice of cutting down trees.
+
+These outputs (called _logs_) are most often written to a text file (_logfile_), which has the .log extension by convention.
+
+### Why to log
+
+Logging allows to keep track of events in a permanent way that's not going to be erased (like console outputs) or forgotten (like your memory).
+
+
+I find logging particularly useful to keep track of:
+
+1. **Errors/warnings.** Sometimes, code can run in an unexpected manner, and logs are useful to determine why and how this happened.
+2. **Metadata about your environment/setup.** For example, I use it to record how long a bit of code ran, or which arguments I used.
+
+### When to log
+
+Logging is useful primarily for scripts that you don't monitor when they run, like scripts that are long to run, or a series of short, but numerous numerous scripts.
+
+## Logging in base R
+
+To write a logfile, the simplest option is just to use base R functions:
+
+```{r}
+# Create a log file and a file connection
+logfile <- tempfile(fileext = ".log")
+logfile_con <- file(logfile, open = "a")
+
+# Write things to the logger
+writeLines("Start analyses", con = logfile_con)
+res <- 40 + 2
+writeLines(paste("res is", res), con = logfile_con)
+writeLines("End analyses", con = logfile_con)
+close(logfile_con)
+```
+
+Let's inspect the logfile:
+```{r}
+# Show contents of the logfile
+cat(readLines(logfile), sep = "\n")
+```
+
+This approach is sometimes enough, but there are packages out there that allow to make things more flexible and easy for us on the user end.
+
+## The {logger} package
+
+One of them is {logger}. It is very complete and flexible, but at the same time I find it simple to use. This package allows you to:
+
+- define a [log level](https://daroczig.github.io/logger/reference/log_levels.html) for your messages (e.g. INFO, WARN, DEBUG)
+- prefix log messages with a predefined sequence (by default, log level and date)
+- log to different streams (file(s), console, and many others discussed below)
+- log errors, warnings and messages easily (see [below](#logging-warnings-errors-and-messages))
+
+## Basic logger
+
+The first step is to initialize the logger using the `log_appender` function. Here, we set the `appender` argument with an `appender_file()` function. The {logger} package also comes with many [other appenders](https://daroczig.github.io/logger/reference/index.html#appenders) allowing to log to console, Slack channel, Telegram group chat...
+
+We also define a logging level with `log_threshold(DEBUG)`. Here, all messages above the `DEBUG` level will be logged (see the list and order of levels [here](https://daroczig.github.io/logger/reference/log_levels.html)).
+
+```{r}
+#| message: false
+#| warning: false
+library(logger)
+
+# Create logger
+logfile <- tempfile(fileext = ".log")
+log_appender(appender = appender_file(file = logfile))
+# Set threshold level
+log_threshold(DEBUG)
+```
+
+Then, we can log messages with [logging functions](https://daroczig.github.io/logger/reference/log_level.html). Here, we use `log_debug` and `log_info` function to write to our logfile. Note that by default, {logger} uses the {glue} syntax to concatenate text and expressions (exemplified in `"res is {res}"`, where `{res}` is replaced with the variable value in the log).
+
+```{r}
+# Write things to the logger
+log_debug("Start script")
+res <- 40 + 2
+log_info("res is {res}")
+log_debug("End analyses")
+```
+
+Here is our logfile:
+```{r}
+#| echo: false
+# Show contents of the logfile
+cat(readLines(logfile), sep = "\n")
+```
+
+That's it for a basic logger! 
+
+### Setting logger level
+
+Now imagine we want a detailed logger in the testing phase, but when launching our final script we want to print only important stuff. This can be achieved by changing the log level.
+
+```{r}
+# Create a log file and a file connection
+logfile <- tempfile(fileext = ".log")
+log_appender(appender = appender_file(file = logfile))
+# Change log level to INFO
+log_threshold(INFO)
+
+# Write things to the logger
+log_debug("Start script")
+res <- 40 + 2
+log_info("res is {res}")
+log_debug("End analyses")
+```
+
+In the code above with a log level set to `INFO`, all `DEBUG` messages are omitted.
+
+```{r}
+#| echo: false
+# Show contents of the logfile
+cat(readLines(logfile), sep = "\n")
+```
+
+
+### Logging warnings, errors and messages
+
+Now a useful thing to log are errors, warnings and messages occurring during computations. Consider the code below:
+
+```{r}
+# Create a log file and a file connection
+logfile <- tempfile(fileext = ".log")
+log_appender(appender = appender_file(file = logfile))
+log_threshold(DEBUG)
+
+# Write things to the logger
+log_debug("Start script")
+res <- "forty-two"
+log_info("res is {res}")
+res <- as.numeric(res) # This produces a warning
+log_debug("End analyses")
+```
+
+Now, the certainly the logfile should show the warning?
+```{r}
+#| echo: false
+# Show contents of the logfile
+cat(readLines(logfile), sep = "\n")
+```
+
+... except it doesn't. The logger records only what we tell it to, so we need to explicitly ask to record warnings.
+
+To record warnings, we need to use `log_warnings()`[^2]:
+
+[^2]: note that the chunk below is not run interactively, because Quarto doesn't work with `log_warnings()`. That's also why I'm not writing to a tempfile here.
+
+```{r}
+#| include: false
+library(here)
+
+logfile <- here("posts", "2026-03-25-logging-in-r", "logfile.log")
+```
+
+```{r}
+#| eval: false
+
+# Create a file connection (assuming "logfile" is a valid path)
+log_appender(appender = appender_file(file = logfile))
+log_threshold(DEBUG)
+
+# Record errors in logger
+log_warnings()
+
+# Write things to the logger
+log_debug("Start script")
+res <- "forty-two"
+log_info("res is {res}")
+res <- as.numeric(res)
+log_debug("End analyses")
+```
+
+And now, our logger records the warnings.
+
+```{r}
+#| echo: false
+#| message: false
+
+# Show contents of the logfile
+library(here)
+logfile <- here("posts", "2026-03-25-logging-in-r", "logfile.log")
+cat(readLines(logfile), sep = "\n")
+```
+
+The same is true for errors and messages, which can be recorded with `log_messages()` and `log_errors()`.
+
+### Logging with parallel computing
+
+Another thing I find interesting with {logger} is that it's handy to keep track of what's happening in different parallel processes (see [this great blogpost](https://frbcesab.github.io/tips-and-tricks/posts/2025-01-28-parallel-computing-in-r/) for more explanations on parallel computing in R). Consider the parallel code below: starting from a list of species sightings, it computes the total number of sightings per species:
+
+```{r parallel-1}
+#| message: false
+# Parallel computing libraries
+library(parallel)
+library(foreach)
+library(doParallel)
+
+# Parallel computing setup
+n_cores <- 4
+cluster <- makeCluster(spec = n_cores)
+registerDoParallel(cluster)
+
+# Generate dummy dataset of species sightings
+species_counts <- lapply(1:4, 
+                         function(i) rbinom(10, size = 1, prob = 0.5))
+names(species_counts) <- c("Aeshna cyanea", "Anax imperator",
+                           "Calopteryx virgo", "Crocothemis erythraea")
+
+# Parallel loop
+res <- foreach(i = 1:4) %dopar% {
+    # Get species name
+    sp <- names(species_counts)[i]
+    # Get total count
+    res <- sum(species_counts[[i]])
+    # Return values
+    return(paste(sp, res))
+}
+stopCluster(cluster)
+
+# print the total count per species
+res
+```
+
+We can log parallel events by defining a logger in each parallel process:
+
+```{r parallel-2}
+#| output: false
+# Parallel computing setup
+cluster <- makeCluster(spec = n_cores)
+clusterEvalQ(cl = cluster, 
+             expr = {library(logger)})
+clusterExport(cl = cluster, 
+              varlist = c("log_appender", "appender_file", "log_info"))
+registerDoParallel(cluster)
+
+# Get temporary directory for logfiles
+# This ensures all logs are written to the same temp folder
+tmpdir <- tempdir()
+
+# Parallel loop
+res <- foreach(i = 1:4) %dopar% {
+    # Get species name
+    sp <- names(species_counts)[i]
+
+    # Create species logger
+    logfile <- file.path(tmpdir, paste0(sp, ".log"))
+    log_appender(appender = appender_file(file = logfile))
+
+    # Get and log total count
+    log_info("Logger for species {sp}")
+    res <- sum(species_counts[[i]])
+    log_info("Species count: {res}")
+
+    # Return values
+    return(paste(sp, res))
+}
+stopCluster(cluster)
+```
+
+Let's see what's in the logfiles:
+
+```{r}
+#| echo: false
+all_temp <- list.files(tempdir(), full.names = TRUE)
+logfiles <- grep(paste(names(species_counts), collapse = "|"), 
+                 all_temp, 
+                 value = TRUE)
+
+# Show contents of the logfile
+for (log in logfiles) {
+    print(paste("File", basename(log), "-----"))
+    cat(readLines(log), sep = "\n")
+    cat("\n")
+}
+```
+
+Amazing! Our outputs got copied to the files!
+
+## Conclusion
+
+Logging is a great way to improve the reproducibility of analyses, and the {logger} packages can really make logging easy. This post showcased some applications of the package, including logging warnings and using it with parallel computing, but many other uses are possible: check out the resources below to learn more!
+
+
+## Resources
+
+- {logger} package [documentation](https://daroczig.github.io/logger/index.html)
+- {logger} [presentation](https://www.youtube.com/watch?v=_rUuBbml9dU) at RStudio::conf 2020

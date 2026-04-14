@@ -58,7 +58,7 @@ Here is a list of the software required to contribute to this blog:
 In addition: 
 
 - Install the {{< fa brands r-project >}} packages [`cli`](https://cli.r-lib.org/), [`devtools`](https://devtools.r-lib.org/), and [`gert`](https://docs.ropensci.org/gert/).
-- Check your `git` configuration by reading this [dedicated page](https://frbcesab.github.io/rsetup/chapters/git.html).
+- Check your `git` configuration by reading this [dedicated page](https://frbcesab.github.io/rsetup/chapters/reproducible-research.html#git).
 
 
 ## Authoring
@@ -75,8 +75,7 @@ For example,
 #| eval: false
 
 ## Create a new post ----
-create_post(title = "Working with git branches", 
-            date  = "2024-05-07")
+create_post(title = "Working with git branches", date = "2024-05-07")
 ```
 
 
