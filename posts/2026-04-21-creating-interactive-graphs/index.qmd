@@ -54,7 +54,7 @@ We will use the Palmer's penguins dataset as illustrative example.
 ```{r}
 #| label: 'packages'
 #| eval: false
-pak::pkg_install(c("ggplot2", "plotly", "ggiraph", "palmerpenguins", "ggalluvial", "dplyr"))
+pak::pkg_install(c("ggplot2", "plotly", "ggiraph", "palmerpenguins", "ggalluvial", "bips-hb/ggiraphAlluvial", "dplyr"))
 ```
 
 <br/>
@@ -71,6 +71,7 @@ suppressWarnings({
   library(plotly)
   library(ggiraph)
   library(ggalluvial)
+  library(ggiraphAlluvial)
   library(dplyr)
 })
 ggplot2::theme_set(ggplot2::theme_minimal())
@@ -327,7 +328,7 @@ p3_py
 
 ## ggiraph
 
-The information we want to display on the boxpluts is not present in the original data: to choose the `tooltip`, we use `after_stat` which lets us access these values. The available values can be inspected by calling `layer_data` on our graph.
+The information we want to display on the boxplots is not present in the original data: to choose the `tooltip`, we use `after_stat` which lets us access these values. The available values can be inspected by calling `layer_data` on our graph.
 
 ```{r}
 g3_gi <- ggplot(
@@ -829,6 +830,7 @@ g10_gi <- ggplot(
   aes(x = species, y = flipper_length_mm, fill = sex, color = sex)) +
   geom_violin_interactive(
     alpha = 0.2, 
+    position = position_dodge(width = 0.9), # same for violin and boxplot
     aes(
       tooltip = paste0(
         "species: ", species,
@@ -836,6 +838,8 @@ g10_gi <- ggplot(
         )) +
   geom_boxplot_interactive(
     alpha = 0.2, 
+    width = 0.3, # make boxplot thinner than violin
+    position = position_dodge(width = 0.9), # same for violin and boxplot
     aes(
       tooltip = 
         after_stat({
@@ -858,7 +862,7 @@ girafe(g10_gi)
 
 In this case, plotly is much easier (or check out [ggalluvial](https://corybrunson.github.io/ggalluvial/articles/ggalluvial.html)).
 
-::: {.panel-tabset}
+:::: {.panel-tabset}
 
 ## plotly
 ```{r}
@@ -889,16 +893,20 @@ p10_py
 ```
 
 
-## ggplot
+## ggiraph
 
-Unfortunately, the interactive geometries corresponding to ggalluvial don't exist yet...
+The interactive geometries corresponding to ggalluvial don't exist in ggiraph yet: we use the [ggiraphAlluvial](https://github.com/bips-hb/ggiraphAlluvial) package:
+
+::: {.callout-important}
+There is an error in the legend caused by ggiraphAlluvial (colors aren't displayed).
+:::
 
 ```{r}
 # First transform the data
 penguins_alluvial <- penguins
 penguins_alluvial$year <- factor(penguins_alluvial$year)
 penguins_alluvial <- penguins_alluvial |> 
-  dplyr::count(island, sex, year, species, .drop = FALSE)
+  dplyr::count(island, sex, year, species)
 
 g10_gi <- ggplot(
   data = penguins_alluvial,
@@ -909,20 +917,28 @@ g10_gi <- ggplot(
     axis4 = year,
     y = n
     )) +
-    geom_alluvium(
-      aes(fill = species), 
-      aes.bind = "alluvia",
-      alpha = 0.8
-      ) +
-    geom_stratum(alpha = 0) +
-    geom_text_interactive(
-      stat = "stratum", 
+    ggiraphAlluvial::geom_flow_interactive(
       aes(
-        label = after_stat(stratum),
-        tooltip = after_stat(stratum)
-        )) +
-    scale_fill_manual(values = c("#1f77b4", "#2ca02c", "#ff7f0e"))
+        fill = species,
+        tooltip = after_stat({
+          paste0(
+            "from: ", .data$stratum,
+            "\ncount: ", .data$count
+          )}),
+        ), 
+      aes.bind = "flows"
+      ) +
+    ggiraphAlluvial::geom_stratum_interactive(
+      aes(tooltip = after_stat(stratum))
+      ) +
+    geom_text(
+      stat = "stratum", 
+      aes(label = after_stat(stratum))) +
+    scale_fill_manual(values = c(
+      "Adelie" = "#1f77b4", 
+      "Chinstrap" = "#2ca02c", 
+      "Gentoo" = "#ff7f0e"))
 
 girafe(g10_gi)
 ```
-:::
+::::
