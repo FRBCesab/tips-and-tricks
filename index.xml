@@ -9,8 +9,22 @@
 <link>https://frbcesab.github.io/tips-and-tricks/</link>
 <atom:link href="https://frbcesab.github.io/tips-and-tricks/index.xml" rel="self" type="application/rss+xml"/>
 <description>Tips and tricks</description>
-<generator>quarto-1.9.36</generator>
-<lastBuildDate>Wed, 25 Mar 2026 00:00:00 GMT</lastBuildDate>
+<generator>quarto-1.9.37</generator>
+<lastBuildDate>Tue, 21 Apr 2026 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Creating interactive graphs</title>
+  <dc:creator>Lisa Nicvert and Romain Frelat</dc:creator>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2026-04-21-creating-interactive-graphs/</link>
+  <description><![CDATA[ Interactive graphs are getting popular and easy to make in R. ]]></description>
+  <category>r</category>
+  <category>interactive graph</category>
+  <category>visualization</category>
+  <category>plotly</category>
+  <category>ggiraph</category>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2026-04-21-creating-interactive-graphs/</guid>
+  <pubDate>Tue, 21 Apr 2026 00:00:00 GMT</pubDate>
+  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2026-04-21-creating-interactive-graphs" medium="image"/>
+</item>
 <item>
   <title>Logging in R</title>
   <dc:creator>Lisa Nicvert</dc:creator>
@@ -170,18 +184,6 @@
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-03-11-windows-and-the-home-directory/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
 </item>
 <item>
-  <title>RStudio shortcuts: a selection</title>
-  <dc:creator>Nicolas Casajus</dc:creator>
-  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/</link>
-  <description><![CDATA[ This post lists useful shortcuts that will increase your productivity in using RStudio IDE. This subset is a subjective selection: for more shortcuts, press the combination <code>Alt + Shift + K</code>. ]]></description>
-  <category>editor</category>
-  <category>shortcut</category>
-  <category>rstudio</category>
-  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/</guid>
-  <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
-  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
-</item>
-<item>
   <title>Code snippets in RStudio</title>
   <dc:creator>Nicolas Casajus</dc:creator>
   <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/</link>
@@ -192,6 +194,18 @@
   <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/</guid>
   <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
   <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-code-snippets-in-rstudio/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
+</item>
+<item>
+  <title>RStudio shortcuts: a selection</title>
+  <dc:creator>Nicolas Casajus</dc:creator>
+  <link>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/</link>
+  <description><![CDATA[ This post lists useful shortcuts that will increase your productivity in using RStudio IDE. This subset is a subjective selection: for more shortcuts, press the combination <code>Alt + Shift + K</code>. ]]></description>
+  <category>editor</category>
+  <category>shortcut</category>
+  <category>rstudio</category>
+  <guid>https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/</guid>
+  <pubDate>Tue, 27 Feb 2024 00:00:00 GMT</pubDate>
+  <media:content url="https://frbcesab.github.io/tips-and-tricks/posts/2024-02-27-rstudio-shortcuts-a-selection/logo-r.png" medium="image" type="image/png" height="112" width="144"/>
 </item>
 </channel>
 </rss>
