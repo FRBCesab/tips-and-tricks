@@ -5,6 +5,7 @@ date: "2026-04-21"
 categories: [r, interactive graph, visualization, plotly, ggiraph]
 image: ""
 toc: true
+toc-expand: 4
 draft: false
 lightbox: true
 code-overflow: scroll
@@ -22,9 +23,9 @@ Here is a quick comparison of the respective advantages of static vs interactive
 
 |      Static         |  Interactive                 |
 |:--------------------|:-----------------------------|
+| printed document    | identifying outliers         |
+| getting feedback on draft  | large and complex graphs *     |
 | **publication**     | **exploration**              |
-| printed document    | identifying outliers |
-| getting feedback on draft  | large and complex graphs *              |
 
 
 <br>
@@ -43,41 +44,83 @@ In the following blog post, we will show in parallel three ways to produce inter
 2. native plotly
 3. ggiraph
 
-[plotly](https://plotly.com/r/) is a general javascript-based graphing library, which has extensions in [for several programming languages](https://plotly.com/graphing-libraries/). In R, there are two main ways to interact with plotly: via ggplot or via its R native syntax.
+[plotly](https://plotly.com/r/) is a general javascript-based graphing library, which has extensions in [for several programming languages](https://plotly.com/graphing-libraries/). In R, there are two main ways to interact with plotly: [via ggplot](https://plotly.com/ggplot2/) or [via its R native syntax](https://plotly.com/r/).
 
 [ggiraph](https://davidgohel.github.io/ggiraph/) is an extension of ggplot implementing additional `geom_` functions which make the corresponding plot element interactive (e.g. `geom_point` in base ggplot -> `geom_point_interactive` in ggiraph). Interactive geometries comes with a `tooltip` aesthetic, which allows to control the information displayed when the element is hovered.
 
 A comparison between plotly and ggiraph is also available [in the ggiraph book](https://www.ardata.fr/ggiraph-book/#how-does-it-compare-to-plotly).
 
-We will use the Palmer's penguins dataset as illustrative example.
+### Dataset
 
-```{r}
-#| label: 'packages'
-#| eval: false
-pak::pkg_install(c("ggplot2", "plotly", "ggiraph", "palmerpenguins", "ggalluvial", "bips-hb/ggiraphAlluvial", "dplyr"))
-```
+To illustrate to interactive graphs capabilities, we will use the [`palmerpenguins`](https://allisonhorst.github.io/palmerpenguins/articles/intro.html) package. It contains the `penguins` dataset with size measurements for three penguin species observed on three islands in the Palmer Archipelago, Antarctica.
+
+![Atwork by [Allison Horst](https://allisonhorst.com/)](palmer-penguins.png){width=60%}
+
+> These data were collected from 2007 and 2009 by Dr. Kristen Gorman and are released under the [CC0](https://creativecommons.org/public-domain/cc0/) license.
 
 <br/>
 
 ### Set-up
 
+#### Install the needed packages
+```{r}
+#| label: 'packages'
+#| eval: false
+if (!require("pak")) {
+  install.packages("pak")
+}
+
+needed_packages <- c(
+  "ggplot2",
+  "plotly",
+  "ggiraph",
+  "palmerpenguins", # example dataset
+  "dplyr", # data handling
+  "ggalluvial", # parallel plots with ggplot
+  "bips-hb/ggiraphAlluvial", # parallel plots with ggiraph
+  "easyalluvial", # fancy parallel plots
+  "parcats" # interactive easyalluvial
+)
+
+check_and_install <- function(x) {
+  if (!requireNamespace(x, quietly = TRUE)) {
+    pak::pkg_install(x)
+  }
+}
+
+invisible(lapply(needed_packages, check_and_install))
+
+```
+
+
+#### Load the packages and dataset
+
 ```{r}
 #| label: 'setup'
 #| warning: false
 
-suppressWarnings({
-  library(palmerpenguins)
-  library(ggplot2)
-  library(plotly)
-  library(ggiraph)
-  library(ggalluvial)
-  library(ggiraphAlluvial)
-  library(dplyr)
-})
+library(palmerpenguins)
+library(ggplot2)
+library(plotly)
+library(ggiraph)
+library(dplyr)
+library(ggalluvial)
+library(ggiraphAlluvial)
+library(easyalluvial)
+library(parcats)
+
 ggplot2::theme_set(ggplot2::theme_minimal())
 
+```
+
+
+#### Explore Palmer’s penguins dataset
+
+```{r}
 head(penguins)
 dim(penguins)
+
+# Create an ID with information to be shown on graphs
 penguins$ID <- paste(
   1:nrow(penguins),
   penguins$year,
@@ -87,8 +130,7 @@ penguins$ID <- paste(
 )
 
 # Remove missing values
-no_na <- apply(penguins, 1, function(x) !any(is.na(x)))
-penguins <- penguins[no_na,]
+penguins <- penguins[complete.cases(penguins), ]
 ```
 
 
@@ -150,7 +192,8 @@ g1_gi <- ggplot(
   geom_point_interactive(
     aes(
       color = species,
-      tooltip = ID
+      tooltip = ID,
+      # data_id = year
     )
   ) +
   scale_color_manual(values = c("darkorange", "purple", "cyan4")) +
@@ -160,7 +203,12 @@ g1_gi <- ggplot(
     color = "Penguin species"
   )
 
-girafe(ggobj = g1_gi)
+girafe(
+  ggobj = g1_gi,
+  options = list(
+    opts_zoom(max = 5)
+  )
+)
 ```
 
 ::: {.callout-tip title="Displaying the graph"}
@@ -172,6 +220,7 @@ ggiraph lets you choose how to render the graph:
 ```{r}
 g1_gi
 ```
+
 :::
 
 ::::
@@ -182,6 +231,8 @@ g1_gi
 ## ggplotly
 
 ```{r}
+#| warning: false
+
 g2 <- ggplot(
   data = penguins,
   aes(x = flipper_length_mm, y = body_mass_g)
@@ -251,8 +302,13 @@ In ggiraph, there is no native way to display information about different points
 model <- lm(body_mass_g ~ flipper_length_mm, data = penguins)
 coefs <- coef(model)
 formula_label <- paste0(
-  "y = ", round(coefs[2], 2), "x +", round(coefs[1], 2), "\n",
-  "R² = ", round(summary(model)$r.squared, 2)
+  "y = ",
+  round(coefs[2], 2),
+  "x +",
+  round(coefs[1], 2),
+  "\n",
+  "R² = ",
+  round(summary(model)$r.squared, 2)
 )
 
 g2_gi <- ggplot(
@@ -261,18 +317,25 @@ g2_gi <- ggplot(
 ) +
   geom_point_interactive(
     aes(
-      color = species, 
+      color = species,
       tooltip = paste(
-        "Flipper length (mm): ", flipper_length_mm, "\n",
-        "Body mass (g): ", body_mass_g, "\n",
-        "Species:", species
-      )), 
-      alpha = 0.8) +
+        "Flipper length (mm): ",
+        flipper_length_mm,
+        "\n",
+        "Body mass (g): ",
+        body_mass_g,
+        "\n",
+        "Species:",
+        species
+      )
+    ),
+    alpha = 0.8
+  ) +
   geom_smooth_interactive(
-    method = "lm", 
+    method = "lm",
     se = TRUE,
     aes(tooltip = formula_label)
-    ) +
+  ) +
   scale_color_manual(values = c("darkorange", "purple", "cyan4")) +
   labs(
     x = "Flipper length (mm)",
@@ -282,6 +345,7 @@ g2_gi <- ggplot(
 
 girafe(g2_gi)
 ```
+
 :::
 
 
@@ -336,19 +400,23 @@ g3_gi <- ggplot(
   aes(x = species, y = flipper_length_mm, color = species)
 ) +
   geom_boxplot_interactive(
-    width = 0.3, 
+    width = 0.3,
     show.legend = FALSE,
     aes(
       tooltip = after_stat({
         paste0(
-          "species: ", .data$color,
-          "\nq1: ", .data$lower,
-          "\nmedian: ", .data$middle,
-          "\nq3: ", .data$upper
+          "species: ",
+          .data$color,
+          "\nq1: ",
+          .data$lower,
+          "\nmedian: ",
+          .data$middle,
+          "\nq3: ",
+          .data$upper
         )
       })
     )
-    ) +
+  ) +
   scale_color_manual(values = c("darkorange", "purple", "cyan4")) +
   labs(x = "Species", y = "Flipper length (mm)")
 
@@ -356,6 +424,7 @@ g3_gi <- ggplot(
 # layer_data(g3_gi)
 girafe(g3_gi)
 ```
+
 :::
 
 
@@ -407,15 +476,18 @@ g4_gi <- ggplot(
 ) +
   geom_boxplot_interactive(
     aes(
-      tooltip = 
-        after_stat({
-          paste0(
-            "sex: ", .data$fill,
-            "\nq1: ", .data$lower,
-            "\nmedian: ", .data$middle,
-            "\nq3: ", .data$upper
-          )
-        })
+      tooltip = after_stat({
+        paste0(
+          "sex: ",
+          .data$fill,
+          "\nq1: ",
+          .data$lower,
+          "\nmedian: ",
+          .data$middle,
+          "\nq3: ",
+          .data$upper
+        )
+      })
     )
   ) +
   scale_fill_manual(values = c("darkorange", "cyan4")) +
@@ -423,6 +495,7 @@ g4_gi <- ggplot(
 
 girafe(g4_gi)
 ```
+
 :::
 
 
@@ -478,19 +551,27 @@ g5_gi <- ggplot(data = penguins, aes(x = flipper_length_mm, fill = species)) +
     alpha = 0.5,
     position = "identity",
     binwidth = 2,
-    aes(tooltip = after_stat({
-      paste0(
-        "species: ", .data$fill,
-        "\ncount: ", .data$count,
-        "\nFlipper length: ", .data$xmin, "-", .data$xmax
+    aes(
+      tooltip = after_stat({
+        paste0(
+          "species: ",
+          .data$fill,
+          "\ncount: ",
+          .data$count,
+          "\nFlipper length: ",
+          .data$xmin,
+          "-",
+          .data$xmax
         )
-    })) 
+      })
+    )
   ) +
   scale_fill_manual(values = c("darkorange", "purple", "cyan4")) +
   labs(x = "flipper length (mm)", y = "Frequency")
 
 girafe(g5_gi)
 ```
+
 :::
 
 ### Barplot
@@ -550,9 +631,12 @@ g6_gi <- ggplot(
   geom_bar_interactive(aes(
     tooltip = after_stat({
       paste0(
-        "species: ", .data$fill,
-        "\ncount: ", .data$count,
-        "\nyear: ", .data$x
+        "species: ",
+        .data$fill,
+        "\ncount: ",
+        .data$count,
+        "\nyear: ",
+        .data$x
       )
     })
   )) +
@@ -565,6 +649,7 @@ g6_gi <- ggplot(
 
 girafe(g6_gi)
 ```
+
 :::
 
 
@@ -574,7 +659,7 @@ girafe(g6_gi)
 - palmerpenguins R package - [link](https://allisonhorst.github.io/palmerpenguins/)
 - plotly [documentation](https://plotly.com/r/) and [book](https://plotly-r.com/) 
 - ggiraph [documentation](https://davidgohel.github.io/ggiraph/index.html) and [book](https://www.ardata.fr/ggiraph-book/)
-- ggplot documentation - [link](https://ggplot2-book.org/)
+- ggplot [documentation](https://ggplot2-book.org/) and its [integration with plotly]((https://plotly.com/ggplot2/))
 
 
 ## Other tips and tricks
@@ -600,7 +685,7 @@ htmlwidgets::saveWidget(girafe(g1_gi), "plot1_gi.html")
 ```
 
 ### Render large dataset
-If you have many data points, use WebGL which is a lot more efficient at rendering heavy dataset.
+If you have many data points, use [WebGL](https://www.khronos.org/webgl/) which is a lot more efficient at rendering heavy dataset.
 
 ```{r}
 plotly::toWebGL(p1_py)
@@ -624,14 +709,14 @@ By default, ggiraph displays only the saving and fullscreen icons (version 0.9.6
 
 ```{r}
 girafe(
-  g1_gi, 
+  g1_gi,
   options = list(
     opts_toolbar(
       saveaspng = FALSE, # don't show save PNG
       hidden = c("fullscreen") # hide fullscreen button
-      )
+    )
   )
-  )
+)
 ```
 
 More generally, the `girafe` function lets you customize interactive elements. See the [ggiraph documentation](https://www.ardata.fr/ggiraph-book/customize.html) for more information.
@@ -717,12 +802,17 @@ g8_gi <- ggplot(
     aes(
       color = sex,
       tooltip = paste0(
-        "species: ", species,
-        "\nsex: ", sex,
-        "\nbody mass: ", body_mass_g,
-        "\nflipper length: ", flipper_length_mm
+        "species: ",
+        species,
+        "\nsex: ",
+        sex,
+        "\nbody mass: ",
+        body_mass_g,
+        "\nflipper length: ",
+        flipper_length_mm
       )
-      )) +
+    )
+  ) +
   scale_color_manual(values = c("darkorange", "cyan4"), na.translate = FALSE) +
   labs(
     x = "Flipper length (mm)",
@@ -733,11 +823,13 @@ g8_gi <- ggplot(
 
 girafe(g8_gi)
 ```
+
 :::
 
 ### Multiple regressions
 
-It is also much simpler in ggplot
+To draw multiple regression, it is much simpler to use the native `ggplot` functions.
+
 
 ::: {.panel-tabset}
 
@@ -770,18 +862,23 @@ g9_gi <- ggplot(
     aes(
       color = species,
       tooltip = paste0(
-        "bill length: ", bill_length_mm,
-        "\nbill depth: ", bill_depth_mm,
-        "\nspecies: ", species
+        "bill length: ",
+        bill_length_mm,
+        "\nbill depth: ",
+        bill_depth_mm,
+        "\nspecies: ",
+        species
       )
-      ), 
-      alpha = 0.8) +
+    ),
+    alpha = 0.8
+  ) +
   geom_smooth_interactive(
-    method = "lm", se = FALSE, 
+    method = "lm",
+    se = FALSE,
     aes(
       color = species,
       tooltip = paste0("species: ", species)
-      )
+    )
   ) +
   scale_color_manual(values = c("darkorange", "purple", "cyan4")) +
   labs(
@@ -792,17 +889,20 @@ g9_gi <- ggplot(
 
 girafe(g9_gi)
 ```
+
 :::
 
 
 ### Violin plot
 
-In this case, plotly is much easier
+Violin plot are integrated natively in `plotly`.
 
 ::: {.panel-tabset}
 
 ## plotly
 ```{r}
+#| warning: false
+
 p10_py <- plot_ly(
   penguins,
   x = ~species,
@@ -827,40 +927,50 @@ p10_py
 ```{r}
 g10_gi <- ggplot(
   penguins,
-  aes(x = species, y = flipper_length_mm, fill = sex, color = sex)) +
+  aes(x = species, y = flipper_length_mm, fill = sex, color = sex)
+) +
   geom_violin_interactive(
-    alpha = 0.2, 
+    alpha = 0.2,
     position = position_dodge(width = 0.9), # same for violin and boxplot
     aes(
       tooltip = paste0(
-        "species: ", species,
-        "\nsex :", sex)
-        )) +
+        "species: ",
+        species,
+        "\nsex :",
+        sex
+      )
+    )
+  ) +
   geom_boxplot_interactive(
-    alpha = 0.2, 
+    alpha = 0.2,
     width = 0.3, # make boxplot thinner than violin
     position = position_dodge(width = 0.9), # same for violin and boxplot
     aes(
-      tooltip = 
-        after_stat({
-          paste0(
-            "sex: ", .data$fill,
-            "\nq1: ", .data$lower,
-            "\nmedian: ", .data$middle,
-            "\nq3: ", .data$upper
-          )
-        })
-    )) +
+      tooltip = after_stat({
+        paste0(
+          "sex: ",
+          .data$fill,
+          "\nq1: ",
+          .data$lower,
+          "\nmedian: ",
+          .data$middle,
+          "\nq3: ",
+          .data$upper
+        )
+      })
+    )
+  ) +
   scale_fill_manual(values = c("darkorange", "cyan4")) +
   scale_colour_manual(values = c("darkorange", "cyan4"))
 
 girafe(g10_gi)
 ```
+
 :::
 
 ### Parallel plot
 
-In this case, plotly is much easier (or check out [ggalluvial](https://corybrunson.github.io/ggalluvial/articles/ggalluvial.html)).
+In this case, plotly is much easier. But check out [ggalluvial](https://corybrunson.github.io/ggalluvial/articles/ggalluvial.html), [easyalluvial](https://erblast.github.io/easyalluvial/), and [parcats](https://erblast.github.io/parcats/). The package `parcats` offers the best looking interactive parallel plots.
 
 :::: {.panel-tabset}
 
@@ -905,40 +1015,119 @@ There is an error in the legend caused by ggiraphAlluvial (colors aren't display
 # First transform the data
 penguins_alluvial <- penguins
 penguins_alluvial$year <- factor(penguins_alluvial$year)
-penguins_alluvial <- penguins_alluvial |> 
+penguins_alluvial <- penguins_alluvial |>
   dplyr::count(island, sex, year, species)
 
 g10_gi <- ggplot(
   data = penguins_alluvial,
   aes(
-    axis1 = species, 
-    axis2 = island, 
-    axis3 = sex, 
+    axis1 = species,
+    axis2 = island,
+    axis3 = sex,
     axis4 = year,
     y = n
-    )) +
-    ggiraphAlluvial::geom_flow_interactive(
-      aes(
-        fill = species,
-        tooltip = after_stat({
-          paste0(
-            "from: ", .data$stratum,
-            "\ncount: ", .data$count
-          )}),
-        ), 
-      aes.bind = "flows"
-      ) +
-    ggiraphAlluvial::geom_stratum_interactive(
-      aes(tooltip = after_stat(stratum))
-      ) +
-    geom_text(
-      stat = "stratum", 
-      aes(label = after_stat(stratum))) +
-    scale_fill_manual(values = c(
-      "Adelie" = "#1f77b4", 
-      "Chinstrap" = "#2ca02c", 
-      "Gentoo" = "#ff7f0e"))
+  )
+) +
+  ggiraphAlluvial::geom_flow_interactive(
+    aes(
+      fill = species,
+      tooltip = after_stat({
+        paste0(
+          "from: ",
+          .data$stratum,
+          "\ncount: ",
+          .data$count
+        )
+      }),
+    ),
+    aes.bind = "flows"
+  ) +
+  ggiraphAlluvial::geom_stratum_interactive(
+    aes(tooltip = after_stat(stratum))
+  ) +
+  geom_text(
+    stat = "stratum",
+    aes(label = after_stat(stratum))
+  ) +
+  scale_fill_manual(
+    values = c(
+      "Adelie" = "#1f77b4",
+      "Chinstrap" = "#2ca02c",
+      "Gentoo" = "#ff7f0e"
+    )
+  )
 
 girafe(g10_gi)
 ```
+
+## parcats
+```{r}
+# Create dimensions (one per categorical variable)
+# select the column to be plotted
+df <- penguins[, c("species", "island", "sex", "year")]
+# transform numeric year into text
+df$year <- as.character(df$year)
+# create the static plot with easyalluvial
+p <- easyalluvial::alluvial_wide(
+  df,
+  col_vector_flow = c("#1f77b4", "#ff7f0e", "#2ca02c"),
+)
+# render as interactive graph
+parcats::parcats(
+  p,
+  marginal_histograms = FALSE,
+  hoveron = 'category',
+  hoverinfo = 'count',
+  data_input = df,
+)
+
+```
+
 ::::
+
+
+<!--
+```{r}
+library(patchwork)
+
+g11_gi <- ggplot(
+  data = penguins,
+  aes(x = flipper_length_mm, y = body_mass_g)
+) +
+  geom_point_interactive(
+    aes(
+      color = species,
+      tooltip = ID,
+      data_id = ID
+    )
+  ) +
+  scale_color_manual(values = c("darkorange", "purple", "cyan4")) +
+  labs(
+    x = "Flipper length (mm)",
+    y = "Body mass (g)",
+    color = "Penguin species"
+  )
+
+g12_gi <- ggplot(
+  data = penguins,
+  aes(x = bill_length_mm, y = bill_depth_mm)
+) +
+  geom_point_interactive(
+    aes(
+      color = species,
+      tooltip = ID,
+      data_id = ID
+    )
+  ) +
+  scale_color_manual(values = c("darkorange", "purple", "cyan4")) +
+  labs(
+    x = "Bill length (mm)",
+    y = "Bill depth (mm)",
+    color = "Penguin species",
+  )
+
+girafe(code = print(g11_gi + g12_gi))
+```
+
+-->
+
