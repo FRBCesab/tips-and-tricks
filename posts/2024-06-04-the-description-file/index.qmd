@@ -1,0 +1,13 @@
+---
+title: "The DESCRIPTION file"
+author: "Nicolas Casajus"
+date: "2024-06-04"
+categories: [r, compendium, package, project, description-file, reproducibility, documentation]
+image: ""
+toc: true
+draft: false
+lightbox: true
+code-overflow: scroll
+---
+
+Post content...
